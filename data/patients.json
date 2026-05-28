@@ -1,0 +1,192 @@
+[
+  {
+    "id": "p_001",
+    "name": "Jonathan Wick",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+    "currentAppointment": {
+      "time": "10:30 AM",
+      "visitReason": "Hypertension Check",
+      "priority": "High",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1974-09-02",
+      "gender": "Male",
+      "bloodType": "AB-",
+      "allergies": ["Sulfa Drugs", "Penicillin"],
+      "chronicConditions": ["Essential Hypertension", "Chronic Insomnia"],
+      "currentMedications": [
+        "Lisinopril 20mg (1x daily)",
+        "Amlodipine 5mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "145/92 mmHg",
+        "heartRate": "78 bpm",
+        "temperature": "36.7°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient presents for a routine follow-up on blood pressure management. Reports mild headaches in the morning. Adjusted Lisinopril dosage during last cycle. Monitor compliance."
+    }
+  },
+  {
+    "id": "p_002",
+    "name": "Sarah Connor",
+    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+    "currentAppointment": {
+      "time": "11:00 AM",
+      "visitReason": "Diabetes Follow-up",
+      "priority": "Normal",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1965-11-13",
+      "gender": "Female",
+      "bloodType": "O+",
+      "allergies": ["None Reported"],
+      "chronicConditions": ["Type 2 Diabetes Mellitus"],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)",
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "122/80 mmHg",
+        "heartRate": "72 bpm",
+        "temperature": "36.9°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Reviewing standard HbA1c lab trends. Patient states she is adhering strictly to a low-glycemic meal plan and regular cardiovascular exercise. Check capillary blood glucose levels pre-session."
+    }
+  },
+  {
+    "id": "p_003",
+    "name": "Michael Scott",
+    "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150",
+    "currentAppointment": {
+      "time": "11:30 AM",
+      "visitReason": "Annual Physical",
+      "priority": "Low",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1964-03-15",
+      "gender": "Male",
+      "bloodType": "A+",
+      "allergies": ["Seasonal Pollen"],
+      "chronicConditions": ["Mild Asthma (Exercise-induced)"],
+      "currentMedications": [
+        "Albuterol HFA Inhaler (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "118/75 mmHg",
+        "heartRate": "65 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "100%"
+      },
+      "recentNotes": "Scheduled for an annual preventive check-up. Needs standard comprehensive metabolic panel (CMP), lipid profile blood work ordered, and routine vision tracking update."
+    }
+  },
+  {
+    "id": "p_004",
+    "name": "Emily Chen",
+    "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150",
+    "currentAppointment": {
+      "time": "12:00 PM",
+      "visitReason": "Migraine Assessment",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1990-05-22",
+      "gender": "Female",
+      "bloodType": "B+",
+      "allergies": ["Latex"],
+      "chronicConditions": ["Chronic Migraine"],
+      "currentMedications": ["Sumatriptan 50mg (As needed)"],
+      "vitals": {
+        "bloodPressure": "110/70 mmHg",
+        "heartRate": "68 bpm",
+        "temperature": "36.8°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient experiencing increased frequency of migraines over the last month. Discuss potential preventative medications."
+    }
+  },
+  {
+    "id": "p_005",
+    "name": "David Miller",
+    "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150",
+    "currentAppointment": {
+      "time": "1:30 PM",
+      "visitReason": "Post-Op Follow-up",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1982-10-08",
+      "gender": "Male",
+      "bloodType": "O-",
+      "allergies": ["Ibuprofen"],
+      "chronicConditions": ["Osteoarthritis"],
+      "currentMedications": ["Acetaminophen 500mg (As needed)"],
+      "vitals": {
+        "bloodPressure": "130/85 mmHg",
+        "heartRate": "75 bpm",
+        "temperature": "37.0°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "2 weeks post arthroscopic knee surgery. Incisions healing well. Start physical therapy next week."
+    }
+  },
+  {
+    "id": "p_006",
+    "name": "Olivia Taylor",
+    "avatar": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150",
+    "currentAppointment": {
+      "time": "2:15 PM",
+      "visitReason": "Routine Prenatal Check",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1995-02-14",
+      "gender": "Female",
+      "bloodType": "A-",
+      "allergies": ["None Reported"],
+      "chronicConditions": [],
+      "currentMedications": ["Prenatal Vitamins (1x daily)"],
+      "vitals": {
+        "bloodPressure": "115/72 mmHg",
+        "heartRate": "82 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "100%"
+      },
+      "recentNotes": "24 weeks gestation. Fetal heart tones strong. Fundal height measures appropriate for gestational age."
+    }
+  },
+  {
+    "id": "p_007",
+    "name": "James Wilson",
+    "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150",
+    "currentAppointment": {
+      "time": "3:00 PM",
+      "visitReason": "Asthma Flare-up",
+      "priority": "High",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "2005-08-30",
+      "gender": "Male",
+      "bloodType": "AB+",
+      "allergies": ["Peanuts", "Dust Mites"],
+      "chronicConditions": ["Asthma"],
+      "currentMedications": ["Fluticasone inhaler (2x daily)", "Albuterol (As needed)"],
+      "vitals": {
+        "bloodPressure": "120/78 mmHg",
+        "heartRate": "88 bpm",
+        "temperature": "37.2°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Reporting increased wheezing and shortness of breath past 3 days. May need a short course of oral corticosteroids."
+    }
+  }
+]
