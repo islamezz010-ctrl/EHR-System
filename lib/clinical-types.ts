@@ -1,3 +1,4 @@
+import appointmentsJson from "@/data/appointments.json";
 import patientsJson from "@/data/patients.json";
 
 type BasePatient = (typeof patientsJson)[number];
@@ -36,78 +37,7 @@ export type Appointment = {
   status: AppointmentStatus;
 };
 
-export const INITIAL_APPOINTMENTS: Appointment[] = [
-  {
-    id: "apt_1",
-    time: "10:30 AM",
-    appointmentDateIso: "2026-05-28T10:30:00",
-    patient: "Jonathan Wick",
-    initials: "JW",
-    reason: "Hypertension Check",
-    priority: "High",
-    status: "In-Room",
-  },
-  {
-    id: "apt_2",
-    time: "11:00 AM",
-    appointmentDateIso: "2026-05-22T11:00:00",
-    patient: "Sarah Connor",
-    initials: "SC",
-    reason: "Diabetes Follow-up",
-    priority: "Normal",
-    status: "Waiting",
-  },
-  {
-    id: "apt_3",
-    time: "11:30 AM",
-    appointmentDateIso: "2026-05-15T11:30:00",
-    patient: "Michael Scott",
-    initials: "MS",
-    reason: "Annual Physical",
-    priority: "Low",
-    status: "Scheduled",
-  },
-  {
-    id: "apt_4",
-    time: "12:00 PM",
-    appointmentDateIso: "2026-04-28T12:00:00",
-    patient: "Emily Chen",
-    initials: "EC",
-    reason: "Migraine Assessment",
-    priority: "High",
-    status: "Waiting",
-  },
-  {
-    id: "apt_5",
-    time: "1:30 PM",
-    appointmentDateIso: "2026-04-10T13:30:00",
-    patient: "David Miller",
-    initials: "DM",
-    reason: "Post-Op Follow-up",
-    priority: "Normal",
-    status: "Scheduled",
-  },
-  {
-    id: "apt_6",
-    time: "2:15 PM",
-    appointmentDateIso: "2026-03-20T14:15:00",
-    patient: "Olivia Taylor",
-    initials: "OT",
-    reason: "Routine Prenatal Check",
-    priority: "Normal",
-    status: "Scheduled",
-  },
-  {
-    id: "apt_7",
-    time: "3:00 PM",
-    appointmentDateIso: "2026-03-05T15:00:00",
-    patient: "James Wilson",
-    initials: "JW",
-    reason: "Asthma Flare-up",
-    priority: "High",
-    status: "Scheduled",
-  },
-];
+export const INITIAL_APPOINTMENTS: Appointment[] = appointmentsJson as Appointment[];
 
 export type NewPatientInput = {
   name: string;

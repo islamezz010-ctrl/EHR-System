@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { useTheme } from "next-themes";
 import {
   Activity,
@@ -10,6 +11,7 @@ import {
   ChartNoAxesColumn,
   ChevronLeft,
   ChevronRight,
+  FileText,
   CircleDollarSign,
   ClipboardList,
   Receipt,
@@ -22,8 +24,6 @@ import {
   LogOut,
   MessageSquare,
   MoreVertical,
-  Reply,
-  Trash2,
   Pill,
   Search,
   Settings,
@@ -61,14 +61,28 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AddPatientForm } from "@/components/add-patient-form";
 import { PatientAnalytics } from "@/components/patient-analytics";
+import { DataTable } from "@/components/data-table";
 import { PatientBilling } from "@/components/patient-billing";
+import { PatientMedicalBills } from "@/components/patient-medical-bills";
+import { PatientMedicalRecords } from "@/components/patient-medical-records";
 import { PatientMedications } from "@/components/patient-medications";
+import { MessagesPanel } from "@/components/messages-panel";
+import { PatientProfile } from "@/components/patient-profile";
+import { SidebarNavGroup } from "@/components/sidebar-nav-group";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   INITIAL_BILLINGS,
   createBillingFromVisit,
   type BillingRecord,
 } from "@/lib/billing";
+import {
+  INITIAL_MEDICAL_BILLS,
+  type MedicalBillRecord,
+} from "@/lib/medical-bills";
+import {
+  INITIAL_MEDICAL_RECORDS,
+  type MedicalRecordEntry,
+} from "@/lib/medical-records";
 import {
   INITIAL_MEDICATIONS,
   type MedicationRecord,
@@ -85,14 +99,6 @@ import {
   getInitials,
   withDefaultContact,
 } from "@/lib/clinical-types";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import patientsData from "@/data/patients.json";
 
@@ -100,13 +106,30 @@ const navItems = [
   { label: "Dashboard", icon: LayoutDashboard },
   { label: "Appointment Queue", icon: ClipboardList },
   { label: "Clinical Workspace", icon: Stethoscope },
-  { label: "Patient Records", icon: UsersRound },
-  { label: "Medications", icon: Pill },
-  { label: "Add Patient", icon: UserPlus },
   { label: "Billing", icon: Receipt },
   { label: "Analytics", icon: ChartNoAxesColumn },
   { label: "Messages", icon: MessageSquare },
 ];
+
+const patientInfoNavItems = [
+  { label: "Profile", icon: UserRound },
+  { label: "Patient Records", icon: UsersRound },
+  { label: "Add Patient", icon: UserPlus },
+];
+
+const medicalInfoNavItems = [
+  { label: "Medications", icon: Pill },
+  { label: "Medical Records", icon: FileText },
+  { label: "Medical Bills", icon: Receipt },
+];
+
+const patientInfoTabLabels = new Set(
+  patientInfoNavItems.map((item) => item.label),
+);
+
+const medicalInfoTabLabels = new Set(
+  medicalInfoNavItems.map((item) => item.label),
+);
 
 const stats = [
   {
@@ -233,6 +256,107 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
     ...new Set(patients.map((p) => p.currentAppointment.status)),
   ];
 
+  const columns = useMemo<ColumnDef<Patient>[]>(
+    () => [
+      {
+        id: "patient",
+        header: "Patient",
+        cell: ({ row }) => {
+          const index = patients.findIndex((p) => p.id === row.original.id);
+          const color = avatarColors[index % avatarColors.length];
+          return (
+            <div className="flex items-center gap-3">
+              <span
+                className={cn(
+                  "grid size-9 shrink-0 place-items-center rounded-full text-xs font-bold dark:bg-opacity-20",
+                  color.bg,
+                  color.text,
+                )}
+              >
+                {getInitials(row.original.name)}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate font-medium text-gray-950 dark:text-gray-50">
+                  {row.original.name}
+                </p>
+                <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                  {row.original.medicalProfile.gender},{" "}
+                  {getAgeFromDob(row.original.medicalProfile.dateOfBirth)}y •{" "}
+                  {row.original.medicalProfile.bloodType}
+                </p>
+              </div>
+            </div>
+          );
+        },
+      },
+      {
+        id: "appointment",
+        header: "Appointment",
+        cell: ({ row }) => row.original.currentAppointment.time,
+      },
+      {
+        id: "visitReason",
+        header: "Visit Reason",
+        cell: ({ row }) => (
+          <span className="max-w-[160px] truncate">
+            {row.original.currentAppointment.visitReason}
+          </span>
+        ),
+      },
+      {
+        id: "priority",
+        header: "Priority",
+        cell: ({ row }) => (
+          <div className="flex items-center gap-2">
+            <PriorityDot priority={row.original.currentAppointment.priority} />
+            <span>{row.original.currentAppointment.priority}</span>
+          </div>
+        ),
+      },
+      {
+        id: "status",
+        header: "Status",
+        cell: ({ row }) => (
+          <StatusBadge status={row.original.currentAppointment.status} />
+        ),
+      },
+      {
+        id: "vitals",
+        header: "Key Vitals",
+        cell: ({ row }) => (
+          <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
+            <span className="flex items-center gap-1">
+              <Heart className="size-3 text-rose-400" />
+              {row.original.medicalProfile.vitals.heartRate}
+            </span>
+            <span className="flex items-center gap-1">
+              <Droplets className="size-3 text-blue-400" />
+              {row.original.medicalProfile.vitals.bloodPressure.split(" ")[0]}
+            </span>
+          </div>
+        ),
+      },
+      {
+        id: "actions",
+        header: () => <span className="block text-right">Actions</span>,
+        cell: ({ row }) => (
+          <div className="flex justify-end">
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
+              onClick={() => setSelectedPatient(row.original)}
+            >
+              <Eye className="size-4" />
+              View Profile
+            </Button>
+          </div>
+        ),
+      },
+    ],
+    [patients],
+  );
+
   return (
     <>
       <Card className="rounded-xl border-0 py-5 shadow-sm">
@@ -302,116 +426,12 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
           </CardAction>
         </CardHeader>
         <CardContent className="px-5">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-50 dark:bg-slate-800/40 hover:bg-gray-50 dark:hover:bg-slate-800/50">
-                <TableHead>Patient</TableHead>
-                <TableHead>Appointment</TableHead>
-                <TableHead>Visit Reason</TableHead>
-                <TableHead>Priority</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Key Vitals</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredPatients.length > 0 ? (
-                filteredPatients.map((patient, index) => {
-                  const color = avatarColors[index % avatarColors.length];
-                  return (
-                    <TableRow
-                      key={patient.id}
-                      className="group transition-colors hover:bg-gray-50/80 dark:hover:bg-gray-800/40 border-gray-100 dark:border-gray-850"
-                    >
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <span
-                            className={cn(
-                              "grid size-9 shrink-0 place-items-center rounded-full text-xs font-bold dark:bg-opacity-20",
-                              color.bg,
-                              color.text,
-                            )}
-                          >
-                            {getInitials(patient.name)}
-                          </span>
-                          <div className="min-w-0">
-                            <p className="truncate font-medium text-gray-950 dark:text-gray-50">
-                              {patient.name}
-                            </p>
-                            <p className="truncate text-xs text-gray-500 dark:text-gray-400">
-                              {patient.medicalProfile.gender},{" "}
-                              {getAgeFromDob(patient.medicalProfile.dateOfBirth)}y •{" "}
-                              {patient.medicalProfile.bloodType}
-                            </p>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-sm text-gray-700 dark:text-gray-300">
-                        {patient.currentAppointment.time}
-                      </TableCell>
-                      <TableCell className="max-w-[160px] truncate text-sm text-gray-700 dark:text-gray-300">
-                        {patient.currentAppointment.visitReason}
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <PriorityDot
-                            priority={patient.currentAppointment.priority}
-                          />
-                          <span className="text-sm text-gray-700 dark:text-gray-300">
-                            {patient.currentAppointment.priority}
-                          </span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <StatusBadge
-                          status={patient.currentAppointment.status}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
-                          <span className="flex items-center gap-1">
-                            <Heart className="size-3 text-rose-400" />
-                            {patient.medicalProfile.vitals.heartRate}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Droplets className="size-3 text-blue-400" />
-                            {patient.medicalProfile.vitals.bloodPressure.split(
-                              " ",
-                            )[0]}
-                          </span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex justify-end">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 opacity-80 transition-opacity group-hover:opacity-100"
-                            onClick={() => setSelectedPatient(patient)}
-                          >
-                            <Eye className="size-4" />
-                            View Profile
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={7}
-                    className="py-12 text-center text-gray-500"
-                  >
-                    <div className="flex flex-col items-center gap-2">
-                      <UsersRound className="size-8 text-gray-300" />
-                      <p>No patients found matching your search.</p>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          <DataTable
+            columns={columns}
+            data={filteredPatients}
+            searchValue={searchQuery}
+            emptyMessage="No patients found matching your search."
+          />
           <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4 text-sm text-gray-500">
             <span>
               Showing {filteredPatients.length} of {patients.length} patients
@@ -674,6 +694,73 @@ function AppointmentQueue({
     return result;
   }, [searchQuery, statusFilter, appointments]);
 
+  const columns = useMemo<ColumnDef<Appointment>[]>(
+    () => [
+      {
+        id: "select",
+        header: () => (
+          <span className="block size-4 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800" />
+        ),
+        cell: () => (
+          <span className="block size-4 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800" />
+        ),
+      },
+      { accessorKey: "time", header: "Time" },
+      {
+        id: "patient",
+        header: "Patient Name",
+        cell: ({ row }) => (
+          <div className="flex items-center gap-3">
+            <span className="grid size-7 place-items-center rounded-full bg-amber-100 dark:bg-amber-950/40 text-[10px] font-bold text-amber-800 dark:text-amber-400">
+              {row.original.initials}
+            </span>
+            <span className="text-gray-950 dark:text-gray-200">
+              {row.original.patient}
+            </span>
+          </div>
+        ),
+      },
+      { accessorKey: "reason", header: "Visit Reason" },
+      {
+        id: "priority",
+        header: "Priority",
+        cell: ({ row }) => (
+          <div className="flex items-center gap-2">
+            <PriorityDot priority={row.original.priority} />
+            {row.original.priority}
+          </div>
+        ),
+      },
+      {
+        id: "status",
+        header: "Status",
+        cell: ({ row }) => <StatusBadge status={row.original.status} />,
+      },
+      {
+        id: "actions",
+        header: () => <span className="block text-right">Actions</span>,
+        cell: ({ row }) => (
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
+              onClick={() => setSelectedAppointment(row.original)}
+            >
+              <ClipboardList className="size-4" />
+              View Record
+            </Button>
+            <Button size="sm" className="bg-teal-500 hover:bg-teal-600">
+              <UserRound className="size-4" />
+              Start Session
+            </Button>
+          </div>
+        ),
+      },
+    ],
+    [],
+  );
+
   return (
     <>
     <Card className="rounded-xl border-0 py-5 shadow-sm">
@@ -759,80 +846,12 @@ function AppointmentQueue({
         </CardAction>
       </CardHeader>
       <CardContent className="px-5">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-gray-50 dark:bg-slate-800/40 hover:bg-gray-50 dark:hover:bg-slate-800/50">
-              <TableHead className="w-10">
-                <span className="block size-4 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800" />
-              </TableHead>
-              <TableHead>Time</TableHead>
-              <TableHead>Patient Name</TableHead>
-              <TableHead>Visit Reason</TableHead>
-              <TableHead>Priority</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredAppointments.length > 0 ? (
-              filteredAppointments.map((appointment) => (
-                <TableRow key={appointment.id} className="border-gray-100 dark:border-gray-850">
-                  <TableCell>
-                    <span className="block size-4 rounded border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800" />
-                  </TableCell>
-                  <TableCell className="text-gray-750 dark:text-gray-300">{appointment.time}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <span className="grid size-7 place-items-center rounded-full bg-amber-100 dark:bg-amber-950/40 text-[10px] font-bold text-amber-800 dark:text-amber-400">
-                        {appointment.initials}
-                      </span>
-                      <span className="text-gray-950 dark:text-gray-200">{appointment.patient}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-gray-750 dark:text-gray-300">{appointment.reason}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2 text-gray-750 dark:text-gray-300">
-                      <PriorityDot priority={appointment.priority} />
-                      {appointment.priority}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <StatusBadge status={appointment.status} />
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
-                        onClick={() => setSelectedAppointment(appointment)}
-                      >
-                        <ClipboardList className="size-4" />
-                        View Record
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="bg-[#3d3bdc] hover:bg-[#3432c4]"
-                      >
-                        <UserRound className="size-4" />
-                        Start Session
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={7}
-                  className="py-8 text-center text-gray-500"
-                >
-                  No appointments found matching your search.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        <DataTable
+          columns={columns}
+          data={filteredAppointments}
+          searchValue={searchQuery}
+          emptyMessage="No appointments found matching your search."
+        />
       </CardContent>
     </Card>
 
@@ -913,282 +932,10 @@ function AppointmentQueue({
   );
 }
 
-type MessageItem = {
-  id: number;
-  patient: string;
-  initials: string;
-  avatarBg: string;
-  lastMessage: string;
-  time: string;
-  unread: number;
-};
-
-const initialMessages: MessageItem[] = [
-  {
-    id: 1,
-    patient: "Jonathan Wick",
-    initials: "JW",
-    avatarBg: "bg-violet-100 text-violet-700",
-    lastMessage:
-      "I've been taking the new dosage. My morning headaches are slightly better.",
-    time: "10:15 AM",
-    unread: 2,
-  },
-  {
-    id: 2,
-    patient: "Sarah Connor",
-    initials: "SC",
-    avatarBg: "bg-amber-100 text-amber-700",
-    lastMessage: "Are my HbA1c results available yet?",
-    time: "Yesterday",
-    unread: 1,
-  },
-  {
-    id: 3,
-    patient: "David Miller",
-    initials: "DM",
-    avatarBg: "bg-sky-100 text-sky-700",
-    lastMessage:
-      "The swelling has gone down significantly. Should I start PT?",
-    time: "Mon",
-    unread: 0,
-  },
-];
-
-function Messages({
-  onUnreadTotalChange,
-}: {
-  onUnreadTotalChange: (total: number) => void;
-}) {
-  const [messages, setMessages] = useState<MessageItem[]>(initialMessages);
-  const [showMessage, setShowMessage] = useState<MessageItem | null>(null);
-  const [replyMessage, setReplyMessage] = useState<MessageItem | null>(null);
-  const [replyText, setReplyText] = useState("");
-
-  const syncUnreadTotal = useCallback(
-    (list: MessageItem[]) => {
-      onUnreadTotalChange(list.reduce((sum, m) => sum + m.unread, 0));
-    },
-    [onUnreadTotalChange],
-  );
-
-  useEffect(() => {
-    syncUnreadTotal(messages);
-  }, [messages, syncUnreadTotal]);
-
-  const markAsRead = (id: number) => {
-    setMessages((prev) => {
-      const next = prev.map((m) =>
-        m.id === id ? { ...m, unread: 0 } : m,
-      );
-      return next;
-    });
-  };
-
-  const handleDelete = (id: number) => {
-    setMessages((prev) => {
-      const next = prev.filter((m) => m.id !== id);
-      return next;
-    });
-    if (showMessage?.id === id) setShowMessage(null);
-    if (replyMessage?.id === id) setReplyMessage(null);
-  };
-
-  const handleSendReply = () => {
-    if (!replyMessage || !replyText.trim()) return;
-    setMessages((prev) =>
-      prev.map((m) =>
-        m.id === replyMessage.id
-          ? { ...m, lastMessage: replyText.trim(), time: "Just now", unread: 0 }
-          : m,
-      ),
-    );
-    setReplyText("");
-    setReplyMessage(null);
-  };
-
-  return (
-    <>
-      <Card className="rounded-xl border-0 py-5 shadow-sm">
-        <CardHeader className="px-5">
-          <CardTitle className="text-lg font-semibold">Patient Messages</CardTitle>
-        </CardHeader>
-        <CardContent className="px-5">
-          <div className="space-y-3">
-            {messages.length > 0 ? (
-              messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className="flex items-center gap-4 rounded-lg border border-transparent p-3 transition-colors hover:border-border hover:bg-accent/50"
-                >
-                  <button
-                    type="button"
-                    className="flex min-w-0 flex-1 items-center gap-4 text-left cursor-pointer"
-                    onClick={() => {
-                      markAsRead(msg.id);
-                      setShowMessage(msg);
-                    }}
-                  >
-                    <span
-                      className={cn(
-                        "grid size-12 shrink-0 place-items-center rounded-full font-bold",
-                        msg.avatarBg,
-                      )}
-                    >
-                      {msg.initials}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="mb-1 flex items-center justify-between gap-2">
-                        <h4 className="truncate text-sm font-semibold">
-                          {msg.patient}
-                        </h4>
-                        <span className="shrink-0 text-xs text-muted-foreground">
-                          {msg.time}
-                        </span>
-                      </div>
-                      <p className="truncate text-sm text-muted-foreground">
-                        {msg.lastMessage}
-                      </p>
-                    </div>
-                    {msg.unread > 0 && (
-                      <Badge className="min-w-[20px] border-0 bg-primary px-2 text-center text-primary-foreground">
-                        {msg.unread}
-                      </Badge>
-                    )}
-                  </button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        aria-label={`Actions for ${msg.patient}`}
-                      >
-                        <MoreVertical className="size-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem
-                        onClick={() => {
-                          markAsRead(msg.id);
-                          setReplyMessage(msg);
-                        }}
-                      >
-                        <Reply className="size-4" />
-                        Reply
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => {
-                          markAsRead(msg.id);
-                          setShowMessage(msg);
-                        }}
-                      >
-                        <Eye className="size-4" />
-                        Show
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        variant="destructive"
-                        onClick={() => handleDelete(msg.id)}
-                      >
-                        <Trash2 className="size-4" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              ))
-            ) : (
-              <p className="py-8 text-center text-sm text-muted-foreground">
-                No messages yet.
-              </p>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      <Dialog
-        open={!!showMessage}
-        onOpenChange={(open) => !open && setShowMessage(null)}
-      >
-        <DialogContent className="sm:max-w-lg">
-          {showMessage && (
-            <>
-              <DialogHeader>
-                <DialogTitle>{showMessage.patient}</DialogTitle>
-                <DialogDescription>{showMessage.time}</DialogDescription>
-              </DialogHeader>
-              <p className="text-sm leading-relaxed">{showMessage.lastMessage}</p>
-              <div className="flex justify-end gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setShowMessage(null);
-                    setReplyMessage(showMessage);
-                  }}
-                >
-                  <Reply className="size-4" />
-                  Reply
-                </Button>
-                <Button
-                  variant="destructive"
-                  onClick={() => handleDelete(showMessage.id)}
-                >
-                  <Trash2 className="size-4" />
-                  Delete
-                </Button>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={!!replyMessage}
-        onOpenChange={(open) => {
-          if (!open) {
-            setReplyMessage(null);
-            setReplyText("");
-          }
-        }}
-      >
-        <DialogContent className="sm:max-w-lg">
-          {replyMessage && (
-            <>
-              <DialogHeader>
-                <DialogTitle>Reply to {replyMessage.patient}</DialogTitle>
-                <DialogDescription>
-                  Original: {replyMessage.lastMessage}
-                </DialogDescription>
-              </DialogHeader>
-              <textarea
-                className="min-h-28 w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
-                placeholder="Type your reply…"
-                value={replyText}
-                onChange={(e) => setReplyText(e.target.value)}
-              />
-              <div className="flex justify-end gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setReplyMessage(null);
-                    setReplyText("");
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleSendReply} disabled={!replyText.trim()}>
-                  Send Reply
-                </Button>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-    </>
-  );
-}
-
 export default function Home() {
   const [activeTab, setActiveTab] = useState("Dashboard");
+  const [patientInfoExpanded, setPatientInfoExpanded] = useState(true);
+  const [medicalInfoExpanded, setMedicalInfoExpanded] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
   const [activeMonth, setActiveMonth] = useState("Jun");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -1199,12 +946,28 @@ export default function Home() {
   );
   const [billings, setBillings] = useState<BillingRecord[]>(INITIAL_BILLINGS);
   const [medications] = useState<MedicationRecord[]>(INITIAL_MEDICATIONS);
+  const [medicalBills] = useState<MedicalBillRecord[]>(INITIAL_MEDICAL_BILLS);
+  const [medicalRecords] = useState<MedicalRecordEntry[]>(
+    INITIAL_MEDICAL_RECORDS,
+  );
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
   useEffect(() => {
     if (activeTab === "Messages") {
       setMessagesUnreadCount(0);
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (patientInfoTabLabels.has(activeTab)) {
+      setPatientInfoExpanded(true);
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    if (medicalInfoTabLabels.has(activeTab)) {
+      setMedicalInfoExpanded(true);
     }
   }, [activeTab]);
 
@@ -1310,6 +1073,39 @@ export default function Home() {
                     ) : null}
                   </button>
                 ))}
+
+                <SidebarNavGroup
+                  label="Patient Info"
+                  icon={UserRound}
+                  items={patientInfoNavItems}
+                  expanded={patientInfoExpanded}
+                  onToggle={() => setPatientInfoExpanded((open) => !open)}
+                  isCollapsed={isSidebarCollapsed}
+                  onExpandSidebar={() => {
+                    setIsSidebarCollapsed(false);
+                    setPatientInfoExpanded(true);
+                  }}
+                  activeTab={activeTab}
+                  onSelectTab={setActiveTab}
+                  activeTabLabels={patientInfoTabLabels}
+                />
+
+                <SidebarNavGroup
+                  label="Medical Info"
+                  icon={Pill}
+                  iconClassName="text-teal-600 dark:text-teal-400"
+                  items={medicalInfoNavItems}
+                  expanded={medicalInfoExpanded}
+                  onToggle={() => setMedicalInfoExpanded((open) => !open)}
+                  isCollapsed={isSidebarCollapsed}
+                  onExpandSidebar={() => {
+                    setIsSidebarCollapsed(false);
+                    setMedicalInfoExpanded(true);
+                  }}
+                  activeTab={activeTab}
+                  onSelectTab={setActiveTab}
+                  activeTabLabels={medicalInfoTabLabels}
+                />
               </div>
             </nav>
           </div>
@@ -1384,12 +1180,31 @@ export default function Home() {
           <div className="space-y-6 p-5 lg:p-8">
             {activeTab === "Appointment Queue" ? (
               <AppointmentQueue appointments={appointments} patients={patients} />
+            ) : activeTab === "Profile" ? (
+              <PatientProfile
+                patients={patients}
+                appointments={appointments}
+                medications={medications}
+                medicalBills={medicalBills}
+                medicalRecords={medicalRecords}
+                onNavigate={setActiveTab}
+              />
             ) : activeTab === "Patient Records" ? (
               <PatientRecords patients={patients} />
             ) : activeTab === "Medications" ? (
               <PatientMedications
                 patients={patients}
                 medications={medications}
+              />
+            ) : activeTab === "Medical Records" ? (
+              <PatientMedicalRecords
+                patients={patients}
+                records={medicalRecords}
+              />
+            ) : activeTab === "Medical Bills" ? (
+              <PatientMedicalBills
+                patients={patients}
+                bills={medicalBills}
               />
             ) : activeTab === "Add Patient" ? (
               <AddPatientForm onAdd={handleAddPatient} />
@@ -1401,7 +1216,7 @@ export default function Home() {
                 appointments={appointments}
               />
             ) : activeTab === "Messages" ? (
-              <Messages
+              <MessagesPanel
                 onUnreadTotalChange={(total) => {
                   if (activeTab === "Messages") return;
                   setMessagesUnreadCount(total);

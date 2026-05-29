@@ -13,8 +13,14 @@
       "dateOfBirth": "1974-09-02",
       "gender": "Male",
       "bloodType": "AB-",
-      "allergies": ["Sulfa Drugs", "Penicillin"],
-      "chronicConditions": ["Essential Hypertension", "Chronic Insomnia"],
+      "allergies": [
+        "Sulfa Drugs",
+        "Penicillin"
+      ],
+      "chronicConditions": [
+        "Essential Hypertension",
+        "Chronic Insomnia"
+      ],
       "currentMedications": [
         "Lisinopril 20mg (1x daily)",
         "Amlodipine 5mg (1x daily)"
@@ -42,8 +48,12 @@
       "dateOfBirth": "1965-11-13",
       "gender": "Female",
       "bloodType": "O+",
-      "allergies": ["None Reported"],
-      "chronicConditions": ["Type 2 Diabetes Mellitus"],
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
       "currentMedications": [
         "Metformin 1000mg (2x daily)",
         "Atorvastatin 10mg (1x daily)"
@@ -71,8 +81,12 @@
       "dateOfBirth": "1964-03-15",
       "gender": "Male",
       "bloodType": "A+",
-      "allergies": ["Seasonal Pollen"],
-      "chronicConditions": ["Mild Asthma (Exercise-induced)"],
+      "allergies": [
+        "Seasonal Pollen"
+      ],
+      "chronicConditions": [
+        "Mild Asthma (Exercise-induced)"
+      ],
       "currentMedications": [
         "Albuterol HFA Inhaler (As needed)"
       ],
@@ -99,9 +113,15 @@
       "dateOfBirth": "1990-05-22",
       "gender": "Female",
       "bloodType": "B+",
-      "allergies": ["Latex"],
-      "chronicConditions": ["Chronic Migraine"],
-      "currentMedications": ["Sumatriptan 50mg (As needed)"],
+      "allergies": [
+        "Latex"
+      ],
+      "chronicConditions": [
+        "Chronic Migraine"
+      ],
+      "currentMedications": [
+        "Sumatriptan 50mg (As needed)"
+      ],
       "vitals": {
         "bloodPressure": "110/70 mmHg",
         "heartRate": "68 bpm",
@@ -125,9 +145,15 @@
       "dateOfBirth": "1982-10-08",
       "gender": "Male",
       "bloodType": "O-",
-      "allergies": ["Ibuprofen"],
-      "chronicConditions": ["Osteoarthritis"],
-      "currentMedications": ["Acetaminophen 500mg (As needed)"],
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Osteoarthritis"
+      ],
+      "currentMedications": [
+        "Acetaminophen 500mg (As needed)"
+      ],
       "vitals": {
         "bloodPressure": "130/85 mmHg",
         "heartRate": "75 bpm",
@@ -151,9 +177,13 @@
       "dateOfBirth": "1995-02-14",
       "gender": "Female",
       "bloodType": "A-",
-      "allergies": ["None Reported"],
+      "allergies": [
+        "None Reported"
+      ],
       "chronicConditions": [],
-      "currentMedications": ["Prenatal Vitamins (1x daily)"],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
       "vitals": {
         "bloodPressure": "115/72 mmHg",
         "heartRate": "82 bpm",
@@ -177,9 +207,17 @@
       "dateOfBirth": "2005-08-30",
       "gender": "Male",
       "bloodType": "AB+",
-      "allergies": ["Peanuts", "Dust Mites"],
-      "chronicConditions": ["Asthma"],
-      "currentMedications": ["Fluticasone inhaler (2x daily)", "Albuterol (As needed)"],
+      "allergies": [
+        "Peanuts",
+        "Dust Mites"
+      ],
+      "chronicConditions": [
+        "Asthma"
+      ],
+      "currentMedications": [
+        "Fluticasone inhaler (2x daily)",
+        "Albuterol (As needed)"
+      ],
       "vitals": {
         "bloodPressure": "120/78 mmHg",
         "heartRate": "88 bpm",
@@ -187,6 +225,2025 @@
         "oxygenSaturation": "96%"
       },
       "recentNotes": "Reporting increased wheezing and shortness of breath past 3 days. May need a short course of oral corticosteroids."
+    }
+  },
+  {
+    "id": "p_008",
+    "name": "Avery Torres",
+    "avatar": "https://i.pravatar.cc/150?img=8",
+    "currentAppointment": {
+      "time": "11:45 AM",
+      "visitReason": "Annual Physical",
+      "priority": "Low",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1962-11-22",
+      "gender": "Male",
+      "bloodType": "O+",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "Anxiety Disorder"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "130/84 mmHg",
+        "heartRate": "90 bpm",
+        "temperature": "36.2°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for annual physical. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_009",
+    "name": "Victoria Edwards",
+    "avatar": "https://i.pravatar.cc/150?img=9",
+    "currentAppointment": {
+      "time": "2:30 PM",
+      "visitReason": "Cardiology Consult",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1946-10-23",
+      "gender": "Female",
+      "bloodType": "A-",
+      "allergies": [
+        "Shellfish"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "Lisinopril 20mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "132/71 mmHg",
+        "heartRate": "69 bpm",
+        "temperature": "37.0°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for cardiology consult. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_010",
+    "name": "Ava Collins",
+    "avatar": "https://i.pravatar.cc/150?img=10",
+    "currentAppointment": {
+      "time": "12:15 PM",
+      "visitReason": "Allergy Testing",
+      "priority": "Low",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1953-12-08",
+      "gender": "Female",
+      "bloodType": "A-",
+      "allergies": [
+        "Penicillin"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "135/78 mmHg",
+        "heartRate": "67 bpm",
+        "temperature": "36.7°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for allergy testing. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_011",
+    "name": "Gabriel Roberts",
+    "avatar": "https://i.pravatar.cc/150?img=11",
+    "currentAppointment": {
+      "time": "8:15 AM",
+      "visitReason": "Nutrition Counseling",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1950-04-17",
+      "gender": "Male",
+      "bloodType": "O+",
+      "allergies": [
+        "Shellfish"
+      ],
+      "chronicConditions": [
+        "Osteoarthritis"
+      ],
+      "currentMedications": [
+        "Albuterol HFA Inhaler (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "140/74 mmHg",
+        "heartRate": "89 bpm",
+        "temperature": "37.3°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for nutrition counseling. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_012",
+    "name": "Avery Martinez",
+    "avatar": "https://i.pravatar.cc/150?img=12",
+    "currentAppointment": {
+      "time": "4:00 PM",
+      "visitReason": "Nutrition Counseling",
+      "priority": "High",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1971-10-22",
+      "gender": "Male",
+      "bloodType": "B-",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "120/86 mmHg",
+        "heartRate": "88 bpm",
+        "temperature": "37.1°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for nutrition counseling. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_013",
+    "name": "Grayson Thompson",
+    "avatar": "https://i.pravatar.cc/150?img=13",
+    "currentAppointment": {
+      "time": "4:15 PM",
+      "visitReason": "Nutrition Counseling",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1967-09-08",
+      "gender": "Female",
+      "bloodType": "AB+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "140/77 mmHg",
+        "heartRate": "71 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for nutrition counseling. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_014",
+    "name": "Emma Bailey",
+    "avatar": "https://i.pravatar.cc/150?img=14",
+    "currentAppointment": {
+      "time": "8:30 AM",
+      "visitReason": "Diabetes Follow-up",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1970-06-20",
+      "gender": "Female",
+      "bloodType": "A+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Osteoarthritis"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "132/71 mmHg",
+        "heartRate": "92 bpm",
+        "temperature": "37.4°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for diabetes follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_015",
+    "name": "Grace Mitchell",
+    "avatar": "https://i.pravatar.cc/150?img=15",
+    "currentAppointment": {
+      "time": "2:00 PM",
+      "visitReason": "Chronic Pain Management",
+      "priority": "Low",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1952-08-13",
+      "gender": "Male",
+      "bloodType": "AB-",
+      "allergies": [
+        "Peanuts"
+      ],
+      "chronicConditions": [
+        "Essential Hypertension"
+      ],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "123/78 mmHg",
+        "heartRate": "89 bpm",
+        "temperature": "36.7°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for chronic pain management. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_016",
+    "name": "Wyatt Jackson",
+    "avatar": "https://i.pravatar.cc/150?img=16",
+    "currentAppointment": {
+      "time": "3:00 PM",
+      "visitReason": "Wellness Exam",
+      "priority": "High",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1995-07-14",
+      "gender": "Female",
+      "bloodType": "AB-",
+      "allergies": [
+        "Sulfa Drugs"
+      ],
+      "chronicConditions": [
+        "Hypothyroidism"
+      ],
+      "currentMedications": [
+        "Albuterol HFA Inhaler (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "106/78 mmHg",
+        "heartRate": "65 bpm",
+        "temperature": "36.3°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for wellness exam. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_017",
+    "name": "Isaac Diaz",
+    "avatar": "https://i.pravatar.cc/150?img=17",
+    "currentAppointment": {
+      "time": "9:15 AM",
+      "visitReason": "Migraine Assessment",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1954-05-07",
+      "gender": "Male",
+      "bloodType": "A+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Anxiety Disorder"
+      ],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "140/83 mmHg",
+        "heartRate": "69 bpm",
+        "temperature": "36.3°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for migraine assessment. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_018",
+    "name": "Ethan Robinson",
+    "avatar": "https://i.pravatar.cc/150?img=18",
+    "currentAppointment": {
+      "time": "8:45 AM",
+      "visitReason": "Orthopedic Evaluation",
+      "priority": "Low",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1975-10-17",
+      "gender": "Male",
+      "bloodType": "A+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "108/67 mmHg",
+        "heartRate": "65 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for orthopedic evaluation. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_019",
+    "name": "Sophia Cooper",
+    "avatar": "https://i.pravatar.cc/150?img=19",
+    "currentAppointment": {
+      "time": "2:30 PM",
+      "visitReason": "Nutrition Counseling",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1977-06-23",
+      "gender": "Female",
+      "bloodType": "AB+",
+      "allergies": [
+        "Sulfa Drugs"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "132/84 mmHg",
+        "heartRate": "75 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for nutrition counseling. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_020",
+    "name": "Emily Gonzalez",
+    "avatar": "https://i.pravatar.cc/150?img=20",
+    "currentAppointment": {
+      "time": "3:30 PM",
+      "visitReason": "Migraine Assessment",
+      "priority": "Normal",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1957-04-02",
+      "gender": "Male",
+      "bloodType": "O-",
+      "allergies": [
+        "Seasonal Pollen"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "120/75 mmHg",
+        "heartRate": "62 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for migraine assessment. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_021",
+    "name": "Scarlett Brown",
+    "avatar": "https://i.pravatar.cc/150?img=21",
+    "currentAppointment": {
+      "time": "3:00 PM",
+      "visitReason": "Routine Prenatal Check",
+      "priority": "Low",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1988-02-27",
+      "gender": "Female",
+      "bloodType": "A-",
+      "allergies": [
+        "Sulfa Drugs"
+      ],
+      "chronicConditions": [],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "132/65 mmHg",
+        "heartRate": "74 bpm",
+        "temperature": "36.3°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for routine prenatal check. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_022",
+    "name": "Chloe Adams",
+    "avatar": "https://i.pravatar.cc/150?img=22",
+    "currentAppointment": {
+      "time": "9:45 AM",
+      "visitReason": "Mental Health Review",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1978-07-20",
+      "gender": "Female",
+      "bloodType": "A-",
+      "allergies": [
+        "Seasonal Pollen"
+      ],
+      "chronicConditions": [
+        "Chronic Migraine"
+      ],
+      "currentMedications": [
+        "Albuterol HFA Inhaler (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "111/80 mmHg",
+        "heartRate": "72 bpm",
+        "temperature": "37.3°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for mental health review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_023",
+    "name": "Harper King",
+    "avatar": "https://i.pravatar.cc/150?img=23",
+    "currentAppointment": {
+      "time": "1:15 PM",
+      "visitReason": "Nutrition Counseling",
+      "priority": "Low",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1986-06-21",
+      "gender": "Male",
+      "bloodType": "AB-",
+      "allergies": [
+        "Seasonal Pollen"
+      ],
+      "chronicConditions": [
+        "Anxiety Disorder"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "130/78 mmHg",
+        "heartRate": "71 bpm",
+        "temperature": "36.8°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for nutrition counseling. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_024",
+    "name": "Lincoln Smith",
+    "avatar": "https://i.pravatar.cc/150?img=24",
+    "currentAppointment": {
+      "time": "1:15 PM",
+      "visitReason": "Asthma Flare-up",
+      "priority": "Low",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1990-11-11",
+      "gender": "Female",
+      "bloodType": "B-",
+      "allergies": [
+        "Penicillin"
+      ],
+      "chronicConditions": [
+        "GERD"
+      ],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "135/77 mmHg",
+        "heartRate": "92 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for asthma flare-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_025",
+    "name": "Jaxon Harris",
+    "avatar": "https://i.pravatar.cc/150?img=25",
+    "currentAppointment": {
+      "time": "4:45 PM",
+      "visitReason": "Post-Op Follow-up",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1974-03-24",
+      "gender": "Female",
+      "bloodType": "A+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "GERD"
+      ],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "134/69 mmHg",
+        "heartRate": "61 bpm",
+        "temperature": "36.3°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for post-op follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_026",
+    "name": "Emma Hernandez",
+    "avatar": "https://i.pravatar.cc/150?img=26",
+    "currentAppointment": {
+      "time": "9:30 AM",
+      "visitReason": "Lab Results Review",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1945-03-24",
+      "gender": "Female",
+      "bloodType": "A-",
+      "allergies": [
+        "Peanuts"
+      ],
+      "chronicConditions": [
+        "GERD"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "118/65 mmHg",
+        "heartRate": "60 bpm",
+        "temperature": "36.3°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for lab results review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_027",
+    "name": "Eleanor Walker",
+    "avatar": "https://i.pravatar.cc/150?img=27",
+    "currentAppointment": {
+      "time": "2:15 PM",
+      "visitReason": "Migraine Assessment",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1954-12-02",
+      "gender": "Non-binary",
+      "bloodType": "A+",
+      "allergies": [
+        "Pollen"
+      ],
+      "chronicConditions": [
+        "Asthma"
+      ],
+      "currentMedications": [
+        "Albuterol HFA Inhaler (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "141/67 mmHg",
+        "heartRate": "83 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for migraine assessment. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_028",
+    "name": "Avery Robinson",
+    "avatar": "https://i.pravatar.cc/150?img=28",
+    "currentAppointment": {
+      "time": "10:00 AM",
+      "visitReason": "Routine Prenatal Check",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1992-03-11",
+      "gender": "Non-binary",
+      "bloodType": "B-",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "124/88 mmHg",
+        "heartRate": "73 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for routine prenatal check. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_029",
+    "name": "Aurora Hill",
+    "avatar": "https://i.pravatar.cc/150?img=29",
+    "currentAppointment": {
+      "time": "9:45 AM",
+      "visitReason": "Asthma Flare-up",
+      "priority": "Low",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1964-06-20",
+      "gender": "Female",
+      "bloodType": "O+",
+      "allergies": [
+        "Pollen"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "Sumatriptan 50mg (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "139/80 mmHg",
+        "heartRate": "82 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for asthma flare-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_030",
+    "name": "Noah Flores",
+    "avatar": "https://i.pravatar.cc/150?img=30",
+    "currentAppointment": {
+      "time": "10:30 AM",
+      "visitReason": "Asthma Flare-up",
+      "priority": "Normal",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1950-03-10",
+      "gender": "Non-binary",
+      "bloodType": "AB+",
+      "allergies": [
+        "Sulfa Drugs"
+      ],
+      "chronicConditions": [
+        "Essential Hypertension"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "130/87 mmHg",
+        "heartRate": "61 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for asthma flare-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_031",
+    "name": "Natalie Moore",
+    "avatar": "https://i.pravatar.cc/150?img=31",
+    "currentAppointment": {
+      "time": "11:45 AM",
+      "visitReason": "Orthopedic Evaluation",
+      "priority": "Normal",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1964-11-04",
+      "gender": "Male",
+      "bloodType": "B+",
+      "allergies": [
+        "Shellfish"
+      ],
+      "chronicConditions": [
+        "GERD"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "138/86 mmHg",
+        "heartRate": "90 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for orthopedic evaluation. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_032",
+    "name": "Owen Green",
+    "avatar": "https://i.pravatar.cc/150?img=32",
+    "currentAppointment": {
+      "time": "1:15 PM",
+      "visitReason": "Nutrition Counseling",
+      "priority": "Normal",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1992-01-13",
+      "gender": "Non-binary",
+      "bloodType": "AB-",
+      "allergies": [
+        "Penicillin"
+      ],
+      "chronicConditions": [],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "112/74 mmHg",
+        "heartRate": "61 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for nutrition counseling. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_033",
+    "name": "Victoria Reed",
+    "avatar": "https://i.pravatar.cc/150?img=33",
+    "currentAppointment": {
+      "time": "8:30 AM",
+      "visitReason": "Mental Health Review",
+      "priority": "Normal",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1952-02-27",
+      "gender": "Female",
+      "bloodType": "O+",
+      "allergies": [
+        "Latex"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus",
+        "Hypertension"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "115/73 mmHg",
+        "heartRate": "94 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for mental health review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_034",
+    "name": "Jaxon Diaz",
+    "avatar": "https://i.pravatar.cc/150?img=34",
+    "currentAppointment": {
+      "time": "4:00 PM",
+      "visitReason": "Post-Op Follow-up",
+      "priority": "Normal",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1954-07-28",
+      "gender": "Male",
+      "bloodType": "AB-",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "GERD"
+      ],
+      "currentMedications": [
+        "Albuterol HFA Inhaler (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "108/78 mmHg",
+        "heartRate": "85 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for post-op follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_035",
+    "name": "Alexander Morris",
+    "avatar": "https://i.pravatar.cc/150?img=35",
+    "currentAppointment": {
+      "time": "8:30 AM",
+      "visitReason": "Asthma Flare-up",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1966-10-14",
+      "gender": "Female",
+      "bloodType": "O-",
+      "allergies": [
+        "Peanuts"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "Sumatriptan 50mg (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "119/89 mmHg",
+        "heartRate": "73 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for asthma flare-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_036",
+    "name": "Theodore Nguyen",
+    "avatar": "https://i.pravatar.cc/150?img=36",
+    "currentAppointment": {
+      "time": "1:15 PM",
+      "visitReason": "Wellness Exam",
+      "priority": "High",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1996-05-10",
+      "gender": "Female",
+      "bloodType": "O-",
+      "allergies": [
+        "Seasonal Pollen"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "140/85 mmHg",
+        "heartRate": "80 bpm",
+        "temperature": "37.3°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for wellness exam. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_037",
+    "name": "Evelyn Thomas",
+    "avatar": "https://i.pravatar.cc/150?img=37",
+    "currentAppointment": {
+      "time": "1:30 PM",
+      "visitReason": "Orthopedic Evaluation",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1970-09-25",
+      "gender": "Male",
+      "bloodType": "O-",
+      "allergies": [
+        "Peanuts"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "143/78 mmHg",
+        "heartRate": "61 bpm",
+        "temperature": "36.3°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for orthopedic evaluation. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_038",
+    "name": "Carter King",
+    "avatar": "https://i.pravatar.cc/150?img=38",
+    "currentAppointment": {
+      "time": "9:00 AM",
+      "visitReason": "Routine Prenatal Check",
+      "priority": "High",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1985-03-23",
+      "gender": "Female",
+      "bloodType": "O-",
+      "allergies": [
+        "Peanuts"
+      ],
+      "chronicConditions": [
+        "Essential Hypertension"
+      ],
+      "currentMedications": [
+        "Lisinopril 20mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "112/65 mmHg",
+        "heartRate": "85 bpm",
+        "temperature": "37.0°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for routine prenatal check. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_039",
+    "name": "Lincoln Jackson",
+    "avatar": "https://i.pravatar.cc/150?img=39",
+    "currentAppointment": {
+      "time": "11:15 AM",
+      "visitReason": "Physical Therapy Referral",
+      "priority": "High",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1949-03-20",
+      "gender": "Non-binary",
+      "bloodType": "AB-",
+      "allergies": [
+        "Sulfa Drugs"
+      ],
+      "chronicConditions": [
+        "Anxiety Disorder"
+      ],
+      "currentMedications": [
+        "Lisinopril 20mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "133/88 mmHg",
+        "heartRate": "63 bpm",
+        "temperature": "36.7°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for physical therapy referral. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_040",
+    "name": "Addison Lee",
+    "avatar": "https://i.pravatar.cc/150?img=40",
+    "currentAppointment": {
+      "time": "10:45 AM",
+      "visitReason": "Migraine Assessment",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1952-06-09",
+      "gender": "Female",
+      "bloodType": "AB+",
+      "allergies": [
+        "Penicillin"
+      ],
+      "chronicConditions": [
+        "Hypothyroidism"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "134/86 mmHg",
+        "heartRate": "89 bpm",
+        "temperature": "37.0°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for migraine assessment. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_041",
+    "name": "Camila Reyes",
+    "avatar": "https://i.pravatar.cc/150?img=41",
+    "currentAppointment": {
+      "time": "12:45 PM",
+      "visitReason": "Hypertension Check",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1969-01-06",
+      "gender": "Non-binary",
+      "bloodType": "O+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Chronic Migraine"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "125/78 mmHg",
+        "heartRate": "90 bpm",
+        "temperature": "36.8°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for hypertension check. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_042",
+    "name": "Victoria Young",
+    "avatar": "https://i.pravatar.cc/150?img=42",
+    "currentAppointment": {
+      "time": "12:00 PM",
+      "visitReason": "Diabetes Follow-up",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1989-04-21",
+      "gender": "Female",
+      "bloodType": "A+",
+      "allergies": [
+        "Latex"
+      ],
+      "chronicConditions": [
+        "Asthma"
+      ],
+      "currentMedications": [
+        "Sumatriptan 50mg (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "136/83 mmHg",
+        "heartRate": "86 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for diabetes follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_043",
+    "name": "Mason Sanchez",
+    "avatar": "https://i.pravatar.cc/150?img=43",
+    "currentAppointment": {
+      "time": "2:45 PM",
+      "visitReason": "Asthma Flare-up",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1951-03-21",
+      "gender": "Non-binary",
+      "bloodType": "A+",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "119/89 mmHg",
+        "heartRate": "60 bpm",
+        "temperature": "36.9°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for asthma flare-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_044",
+    "name": "Charlotte Parker",
+    "avatar": "https://i.pravatar.cc/150?img=44",
+    "currentAppointment": {
+      "time": "1:15 PM",
+      "visitReason": "Lab Results Review",
+      "priority": "Low",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1966-09-22",
+      "gender": "Female",
+      "bloodType": "B-",
+      "allergies": [
+        "Shellfish"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "Sumatriptan 50mg (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "117/67 mmHg",
+        "heartRate": "67 bpm",
+        "temperature": "37.2°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for lab results review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_045",
+    "name": "Emma Edwards",
+    "avatar": "https://i.pravatar.cc/150?img=45",
+    "currentAppointment": {
+      "time": "4:15 PM",
+      "visitReason": "Lab Results Review",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1947-09-18",
+      "gender": "Female",
+      "bloodType": "B+",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus",
+        "Hypertension"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "121/67 mmHg",
+        "heartRate": "70 bpm",
+        "temperature": "36.8°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for lab results review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_046",
+    "name": "Lincoln Murphy",
+    "avatar": "https://i.pravatar.cc/150?img=46",
+    "currentAppointment": {
+      "time": "8:30 AM",
+      "visitReason": "Post-Op Follow-up",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1998-02-18",
+      "gender": "Male",
+      "bloodType": "B-",
+      "allergies": [
+        "Seasonal Pollen"
+      ],
+      "chronicConditions": [
+        "Essential Hypertension"
+      ],
+      "currentMedications": [
+        "Lisinopril 20mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "144/78 mmHg",
+        "heartRate": "64 bpm",
+        "temperature": "37.3°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for post-op follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_047",
+    "name": "Sofia Rivera",
+    "avatar": "https://i.pravatar.cc/150?img=47",
+    "currentAppointment": {
+      "time": "9:00 AM",
+      "visitReason": "Vaccination Update",
+      "priority": "Normal",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1970-12-05",
+      "gender": "Male",
+      "bloodType": "AB+",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "Essential Hypertension"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "139/85 mmHg",
+        "heartRate": "74 bpm",
+        "temperature": "36.9°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for vaccination update. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_048",
+    "name": "Mia Miller",
+    "avatar": "https://i.pravatar.cc/150?img=48",
+    "currentAppointment": {
+      "time": "8:15 AM",
+      "visitReason": "Orthopedic Evaluation",
+      "priority": "Normal",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1998-01-09",
+      "gender": "Non-binary",
+      "bloodType": "AB-",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "117/67 mmHg",
+        "heartRate": "89 bpm",
+        "temperature": "37.3°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for orthopedic evaluation. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_049",
+    "name": "Eleanor Lee",
+    "avatar": "https://i.pravatar.cc/150?img=49",
+    "currentAppointment": {
+      "time": "8:45 AM",
+      "visitReason": "Orthopedic Evaluation",
+      "priority": "Low",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1975-11-02",
+      "gender": "Non-binary",
+      "bloodType": "O-",
+      "allergies": [
+        "Peanuts"
+      ],
+      "chronicConditions": [
+        "Chronic Migraine"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "124/89 mmHg",
+        "heartRate": "92 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for orthopedic evaluation. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_050",
+    "name": "Ella Roberts",
+    "avatar": "https://i.pravatar.cc/150?img=50",
+    "currentAppointment": {
+      "time": "9:15 AM",
+      "visitReason": "Post-Op Follow-up",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1975-01-17",
+      "gender": "Non-binary",
+      "bloodType": "A+",
+      "allergies": [
+        "Pollen"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus",
+        "Hypertension"
+      ],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "106/72 mmHg",
+        "heartRate": "78 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for post-op follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_051",
+    "name": "Carter Thompson",
+    "avatar": "https://i.pravatar.cc/150?img=51",
+    "currentAppointment": {
+      "time": "8:30 AM",
+      "visitReason": "Annual Physical",
+      "priority": "Low",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1975-12-07",
+      "gender": "Male",
+      "bloodType": "B+",
+      "allergies": [
+        "Latex"
+      ],
+      "chronicConditions": [
+        "Asthma"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "105/86 mmHg",
+        "heartRate": "70 bpm",
+        "temperature": "36.8°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for annual physical. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_052",
+    "name": "Grace Cooper",
+    "avatar": "https://i.pravatar.cc/150?img=52",
+    "currentAppointment": {
+      "time": "2:15 PM",
+      "visitReason": "Lab Results Review",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1971-09-20",
+      "gender": "Non-binary",
+      "bloodType": "A-",
+      "allergies": [
+        "Peanuts"
+      ],
+      "chronicConditions": [
+        "Asthma"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "117/74 mmHg",
+        "heartRate": "61 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for lab results review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_053",
+    "name": "David Sanchez",
+    "avatar": "https://i.pravatar.cc/150?img=53",
+    "currentAppointment": {
+      "time": "11:30 AM",
+      "visitReason": "Annual Physical",
+      "priority": "High",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1996-08-09",
+      "gender": "Non-binary",
+      "bloodType": "A+",
+      "allergies": [
+        "Shellfish"
+      ],
+      "chronicConditions": [
+        "Hypothyroidism"
+      ],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "136/76 mmHg",
+        "heartRate": "85 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for annual physical. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_054",
+    "name": "Mason Edwards",
+    "avatar": "https://i.pravatar.cc/150?img=54",
+    "currentAppointment": {
+      "time": "2:15 PM",
+      "visitReason": "Sleep Study Follow-up",
+      "priority": "High",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1997-07-08",
+      "gender": "Female",
+      "bloodType": "AB-",
+      "allergies": [
+        "Pollen"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus",
+        "Hypertension"
+      ],
+      "currentMedications": [
+        "Prenatal Vitamins (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "105/80 mmHg",
+        "heartRate": "91 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for sleep study follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_055",
+    "name": "Alexander Peterson",
+    "avatar": "https://i.pravatar.cc/150?img=55",
+    "currentAppointment": {
+      "time": "4:30 PM",
+      "visitReason": "Sleep Study Follow-up",
+      "priority": "High",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1998-06-16",
+      "gender": "Non-binary",
+      "bloodType": "AB-",
+      "allergies": [
+        "Seasonal Pollen"
+      ],
+      "chronicConditions": [
+        "Essential Hypertension"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "123/74 mmHg",
+        "heartRate": "72 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for sleep study follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_056",
+    "name": "Evelyn Murphy",
+    "avatar": "https://i.pravatar.cc/150?img=56",
+    "currentAppointment": {
+      "time": "3:15 PM",
+      "visitReason": "Vaccination Update",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1991-08-16",
+      "gender": "Female",
+      "bloodType": "A+",
+      "allergies": [
+        "Latex"
+      ],
+      "chronicConditions": [],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "132/68 mmHg",
+        "heartRate": "64 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "97%"
+      },
+      "recentNotes": "Patient scheduled for vaccination update. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_057",
+    "name": "Grayson Ramirez",
+    "avatar": "https://i.pravatar.cc/150?img=57",
+    "currentAppointment": {
+      "time": "4:45 PM",
+      "visitReason": "Routine Prenatal Check",
+      "priority": "Low",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1977-05-18",
+      "gender": "Male",
+      "bloodType": "B+",
+      "allergies": [
+        "Shellfish"
+      ],
+      "chronicConditions": [
+        "Essential Hypertension"
+      ],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "138/65 mmHg",
+        "heartRate": "84 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for routine prenatal check. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_058",
+    "name": "Ethan Nguyen",
+    "avatar": "https://i.pravatar.cc/150?img=58",
+    "currentAppointment": {
+      "time": "1:30 PM",
+      "visitReason": "Medication Review",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1970-07-10",
+      "gender": "Male",
+      "bloodType": "B+",
+      "allergies": [
+        "Shellfish"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "115/75 mmHg",
+        "heartRate": "86 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for medication review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_059",
+    "name": "Aiden Edwards",
+    "avatar": "https://i.pravatar.cc/150?img=59",
+    "currentAppointment": {
+      "time": "4:30 PM",
+      "visitReason": "Dermatology Screening",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1964-08-13",
+      "gender": "Non-binary",
+      "bloodType": "A+",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [],
+      "currentMedications": [
+        "Lisinopril 20mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "134/88 mmHg",
+        "heartRate": "76 bpm",
+        "temperature": "37.0°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for dermatology screening. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_060",
+    "name": "Mia Adams",
+    "avatar": "https://i.pravatar.cc/150?img=60",
+    "currentAppointment": {
+      "time": "4:15 PM",
+      "visitReason": "Annual Physical",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1963-03-14",
+      "gender": "Female",
+      "bloodType": "B+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Asthma"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "143/75 mmHg",
+        "heartRate": "89 bpm",
+        "temperature": "37.3°C",
+        "oxygenSaturation": "95%"
+      },
+      "recentNotes": "Patient scheduled for annual physical. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_061",
+    "name": "Aria Torres",
+    "avatar": "https://i.pravatar.cc/150?img=61",
+    "currentAppointment": {
+      "time": "4:45 PM",
+      "visitReason": "Physical Therapy Referral",
+      "priority": "High",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1976-07-02",
+      "gender": "Female",
+      "bloodType": "O-",
+      "allergies": [
+        "Peanuts"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "Sumatriptan 50mg (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "116/85 mmHg",
+        "heartRate": "79 bpm",
+        "temperature": "36.2°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for physical therapy referral. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_062",
+    "name": "Chloe Scott",
+    "avatar": "https://i.pravatar.cc/150?img=62",
+    "currentAppointment": {
+      "time": "4:30 PM",
+      "visitReason": "Routine Prenatal Check",
+      "priority": "High",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1988-10-01",
+      "gender": "Female",
+      "bloodType": "B-",
+      "allergies": [
+        "Penicillin"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "Sumatriptan 50mg (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "128/83 mmHg",
+        "heartRate": "60 bpm",
+        "temperature": "37.1°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for routine prenatal check. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_063",
+    "name": "Luke Morris",
+    "avatar": "https://i.pravatar.cc/150?img=63",
+    "currentAppointment": {
+      "time": "2:00 PM",
+      "visitReason": "Diabetes Follow-up",
+      "priority": "Normal",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1991-12-02",
+      "gender": "Female",
+      "bloodType": "AB-",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Osteoarthritis"
+      ],
+      "currentMedications": [
+        "Lisinopril 20mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "121/68 mmHg",
+        "heartRate": "91 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for diabetes follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_064",
+    "name": "Victoria Davis",
+    "avatar": "https://i.pravatar.cc/150?img=64",
+    "currentAppointment": {
+      "time": "1:15 PM",
+      "visitReason": "Allergy Testing",
+      "priority": "High",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1970-05-04",
+      "gender": "Non-binary",
+      "bloodType": "A-",
+      "allergies": [
+        "Penicillin"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "Metformin 1000mg (2x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "134/69 mmHg",
+        "heartRate": "88 bpm",
+        "temperature": "37.2°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for allergy testing. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_065",
+    "name": "Layla Thomas",
+    "avatar": "https://i.pravatar.cc/150?img=65",
+    "currentAppointment": {
+      "time": "3:00 PM",
+      "visitReason": "Nutrition Counseling",
+      "priority": "Low",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1955-03-28",
+      "gender": "Female",
+      "bloodType": "AB-",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "116/89 mmHg",
+        "heartRate": "71 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for nutrition counseling. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_066",
+    "name": "Emily Walker",
+    "avatar": "https://i.pravatar.cc/150?img=66",
+    "currentAppointment": {
+      "time": "8:00 AM",
+      "visitReason": "Lab Results Review",
+      "priority": "Normal",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1955-01-11",
+      "gender": "Male",
+      "bloodType": "A+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Anxiety Disorder"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "118/75 mmHg",
+        "heartRate": "71 bpm",
+        "temperature": "36.4°C",
+        "oxygenSaturation": "99%"
+      },
+      "recentNotes": "Patient scheduled for lab results review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_067",
+    "name": "Mia Allen",
+    "avatar": "https://i.pravatar.cc/150?img=67",
+    "currentAppointment": {
+      "time": "12:45 PM",
+      "visitReason": "Lab Results Review",
+      "priority": "Normal",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1969-07-26",
+      "gender": "Female",
+      "bloodType": "A-",
+      "allergies": [
+        "None Reported"
+      ],
+      "chronicConditions": [
+        "GERD"
+      ],
+      "currentMedications": [
+        "Sumatriptan 50mg (As needed)"
+      ],
+      "vitals": {
+        "bloodPressure": "107/66 mmHg",
+        "heartRate": "94 bpm",
+        "temperature": "36.5°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for lab results review. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_068",
+    "name": "Lily Green",
+    "avatar": "https://i.pravatar.cc/150?img=68",
+    "currentAppointment": {
+      "time": "1:15 PM",
+      "visitReason": "Post-Op Follow-up",
+      "priority": "Low",
+      "status": "Scheduled"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1960-08-24",
+      "gender": "Male",
+      "bloodType": "B+",
+      "allergies": [
+        "Ibuprofen"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus",
+        "Hypertension"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "107/84 mmHg",
+        "heartRate": "87 bpm",
+        "temperature": "36.6°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for post-op follow-up. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_069",
+    "name": "Ethan Allen",
+    "avatar": "https://i.pravatar.cc/150?img=69",
+    "currentAppointment": {
+      "time": "10:15 AM",
+      "visitReason": "Routine Prenatal Check",
+      "priority": "Low",
+      "status": "In-Room"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1954-02-18",
+      "gender": "Female",
+      "bloodType": "O+",
+      "allergies": [
+        "Seasonal Pollen"
+      ],
+      "chronicConditions": [
+        "Asthma",
+        "Seasonal Allergies"
+      ],
+      "currentMedications": [
+        "Atorvastatin 10mg (1x daily)"
+      ],
+      "vitals": {
+        "bloodPressure": "126/76 mmHg",
+        "heartRate": "75 bpm",
+        "temperature": "37.3°C",
+        "oxygenSaturation": "96%"
+      },
+      "recentNotes": "Patient scheduled for routine prenatal check. Stable condition with ongoing monitoring recommended."
+    }
+  },
+  {
+    "id": "p_070",
+    "name": "Penelope Cooper",
+    "avatar": "https://i.pravatar.cc/150?img=70",
+    "currentAppointment": {
+      "time": "12:15 PM",
+      "visitReason": "Nutrition Counseling",
+      "priority": "High",
+      "status": "Waiting"
+    },
+    "medicalProfile": {
+      "dateOfBirth": "1948-07-03",
+      "gender": "Male",
+      "bloodType": "B-",
+      "allergies": [
+        "Penicillin"
+      ],
+      "chronicConditions": [
+        "Type 2 Diabetes Mellitus"
+      ],
+      "currentMedications": [
+        "None"
+      ],
+      "vitals": {
+        "bloodPressure": "120/68 mmHg",
+        "heartRate": "84 bpm",
+        "temperature": "36.3°C",
+        "oxygenSaturation": "98%"
+      },
+      "recentNotes": "Patient scheduled for nutrition counseling. Stable condition with ongoing monitoring recommended."
     }
   }
 ]

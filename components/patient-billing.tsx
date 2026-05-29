@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { CircleDollarSign, Search } from "lucide-react";
 
+import { DataTable } from "@/components/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,14 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import type { BillingRecord, BillingStatus } from "@/lib/billing";
 import { cn } from "@/lib/utils";
 
@@ -77,6 +71,54 @@ export function PatientBilling({ billings }: PatientBillingProps) {
     return { pending, overdue, paid };
   }, [billings]);
 
+  const columns = useMemo<ColumnDef<BillingRecord>[]>(
+    () => [
+      {
+        accessorKey: "patientName",
+        header: "Patient",
+        cell: ({ row }) => (
+          <span className="font-medium">{row.original.patientName}</span>
+        ),
+      },
+      {
+        accessorKey: "service",
+        header: "Service",
+        cell: ({ row }) => (
+          <span className="text-muted-foreground">{row.original.service}</span>
+        ),
+      },
+      { accessorKey: "date", header: "Date" },
+      {
+        accessorKey: "amount",
+        header: "Amount",
+        cell: ({ row }) => (
+          <span className="font-semibold">
+            {formatCurrency(row.original.amount)}
+          </span>
+        ),
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => (
+          <BillingStatusBadge status={row.original.status} />
+        ),
+      },
+      {
+        id: "actions",
+        header: () => <span className="block text-right">Actions</span>,
+        cell: () => (
+          <div className="text-right">
+            <Button variant="outline" size="sm">
+              View Invoice
+            </Button>
+          </div>
+        ),
+      },
+    ],
+    [],
+  );
+
   return (
     <div className="space-y-5">
       <section className="grid gap-4 md:grid-cols-3">
@@ -129,48 +171,12 @@ export function PatientBilling({ billings }: PatientBillingProps) {
           </div>
         </CardHeader>
         <CardContent className="px-5">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-muted/50 hover:bg-muted/50">
-                <TableHead>Patient</TableHead>
-                <TableHead>Service</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filtered.length > 0 ? (
-                filtered.map((bill) => (
-                  <TableRow key={bill.id}>
-                    <TableCell className="font-medium">{bill.patientName}</TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {bill.service}
-                    </TableCell>
-                    <TableCell>{bill.date}</TableCell>
-                    <TableCell className="font-semibold">
-                      {formatCurrency(bill.amount)}
-                    </TableCell>
-                    <TableCell>
-                      <BillingStatusBadge status={bill.status} />
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="outline" size="sm">
-                        View Invoice
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={6} className="py-10 text-center text-muted-foreground">
-                    No billing records found.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          <DataTable
+            columns={columns}
+            data={filtered}
+            searchValue={searchQuery}
+            emptyMessage="No billing records found."
+          />
         </CardContent>
       </Card>
     </div>

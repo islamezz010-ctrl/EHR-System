@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Pill, Search } from "lucide-react";
 
+import { DataTable } from "@/components/data-table";
 import {
   Card,
   CardContent,
@@ -11,14 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import type { Patient } from "@/lib/clinical-types";
 import {
   getMedicationsForPatient,
@@ -75,6 +69,27 @@ export function PatientMedications({
         m.dose.toLowerCase().includes(q),
     );
   }, [patientMedications, searchQuery]);
+
+  const columns = useMemo<ColumnDef<MedicationRecord>[]>(
+    () => [
+      {
+        accessorKey: "medicationName",
+        header: "Medication name",
+        cell: ({ row }) => (
+          <span className="font-medium">{row.original.medicationName}</span>
+        ),
+      },
+      { accessorKey: "dose", header: "Dose" },
+      { accessorKey: "frequency", header: "Frequency" },
+      { accessorKey: "quantity", header: "Quantity" },
+      { accessorKey: "refills", header: "Refills" },
+      { accessorKey: "condition", header: "Condition" },
+      { accessorKey: "provider", header: "Provider" },
+      { accessorKey: "prescribedBy", header: "Prescribed by" },
+      { accessorKey: "renewedBy", header: "Renewed by" },
+    ],
+    [],
+  );
 
   return (
     <div className="space-y-5">
@@ -141,72 +156,16 @@ export function PatientMedications({
             </p>
           ) : null}
 
-          <div className="overflow-x-auto rounded-lg border border-border">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/50 hover:bg-muted/50">
-                  <TableHead>Medication name</TableHead>
-                  <TableHead>Dose</TableHead>
-                  <TableHead>Frequency</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Refills</TableHead>
-                  <TableHead>Condition</TableHead>
-                  <TableHead>Provider</TableHead>
-                  <TableHead>Prescribed by</TableHead>
-                  <TableHead>Renewed by</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filtered.length > 0 ? (
-                  filtered.map((med) => (
-                    <TableRow key={med.id}>
-                      <TableCell className="font-medium whitespace-nowrap">
-                        {med.medicationName}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {med.dose}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {med.frequency}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {med.quantity}
-                      </TableCell>
-                      <TableCell>{med.refills}</TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {med.condition}
-                      </TableCell>
-                      <TableCell className="min-w-[140px]">
-                        {med.provider}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {med.prescribedBy}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {med.renewedBy}
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={9}
-                      className="py-12 text-center text-muted-foreground"
-                    >
-                      <div className="flex flex-col items-center gap-2">
-                        <Pill className="size-8 opacity-40" />
-                        <p>
-                          {selectedPatient
-                            ? "No medications match your search."
-                            : "No patients available."}
-                        </p>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
+          <DataTable
+            columns={columns}
+            data={filtered}
+            searchValue={searchQuery}
+            emptyMessage={
+              selectedPatient
+                ? "No medications match your search."
+                : "No patients available."
+            }
+          />
         </CardContent>
       </Card>
     </div>

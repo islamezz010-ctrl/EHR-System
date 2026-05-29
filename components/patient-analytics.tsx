@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChartNoAxesColumn, UsersRound } from "lucide-react";
+import { UsersRound } from "lucide-react";
 
-import { VisitorTrendChart } from "@/components/visitor-trend-chart";
+import { PatientsChart } from "@/components/patients-chart";
 import {
   Card,
   CardContent,
@@ -14,14 +14,16 @@ import { Input } from "@/components/ui/input";
 import type { Appointment, Patient } from "@/lib/clinical-types";
 import {
   type AnalyticsFilters,
-  aggregateVisitsByDay,
   buildVisitRecords,
   filterVisits,
   getDefaultDateRange,
   getUniqueGenders,
   getUniqueVisitReasons,
 } from "@/lib/analytics";
-import { cn } from "@/lib/utils";
+import {
+  getPatientsChartData,
+  type PatientsPeriod,
+} from "@/lib/patients-chart";
 
 type PatientAnalyticsProps = {
   patients: Patient[];
@@ -71,6 +73,8 @@ export function PatientAnalytics({
     gender: "all",
   }));
 
+  const [chartPeriod, setChartPeriod] = useState<PatientsPeriod>("Monthly");
+
   const visitReasons = useMemo(
     () => getUniqueVisitReasons(allVisits),
     [allVisits],
@@ -83,13 +87,8 @@ export function PatientAnalytics({
   );
 
   const chartData = useMemo(
-    () =>
-      aggregateVisitsByDay(
-        filteredVisits,
-        filters.dateFrom,
-        filters.dateTo,
-      ),
-    [filteredVisits, filters.dateFrom, filters.dateTo],
+    () => getPatientsChartData(filteredVisits, chartPeriod),
+    [filteredVisits, chartPeriod],
   );
 
   const updateFilter = <K extends keyof AnalyticsFilters>(
@@ -206,42 +205,11 @@ export function PatientAnalytics({
         </CardContent>
       </Card>
 
-      <Card className="rounded-xl border-0 py-5 shadow-sm">
-        <CardHeader className="px-5">
-          <CardTitle className="flex items-center gap-2 text-lg font-semibold">
-            <ChartNoAxesColumn className="size-5 text-primary" />
-            Visitor Trend
-          </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Move your cursor along the curve to see daily visitor counts
-          </p>
-        </CardHeader>
-        <CardContent className="px-5">
-          <VisitorTrendChart data={chartData} />
-          <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted-foreground">
-            <span
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1",
-              )}
-            >
-              <span className="size-2 rounded-full bg-primary" />
-              Daily visitors
-            </span>
-            <span>
-              Peak day:{" "}
-              <strong className="text-foreground">
-                {chartData.length > 0
-                  ? chartData.reduce(
-                      (best, point) =>
-                        point.count > best.count ? point : best,
-                      chartData[0],
-                    ).label
-                  : "—"}
-              </strong>
-            </span>
-          </div>
-        </CardContent>
-      </Card>
+      <PatientsChart
+        data={chartData}
+        period={chartPeriod}
+        onPeriodChange={setChartPeriod}
+      />
     </div>
   );
 }

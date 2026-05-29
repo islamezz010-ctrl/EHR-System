@@ -20,12 +20,6 @@ export type AnalyticsFilters = {
   gender: string;
 };
 
-export type ChartPoint = {
-  date: string;
-  label: string;
-  count: number;
-};
-
 export function buildVisitRecords(
   patients: Patient[],
   appointments: Appointment[],
@@ -104,66 +98,4 @@ export function filterVisits(
     }
     return true;
   });
-}
-
-export function aggregateVisitsByDay(
-  visits: VisitRecord[],
-  dateFrom: string,
-  dateTo: string,
-): ChartPoint[] {
-  const counts = new Map<string, number>();
-  for (const visit of visits) {
-    const day = visit.visitDateIso.slice(0, 10);
-    counts.set(day, (counts.get(day) ?? 0) + 1);
-  }
-
-  const points: ChartPoint[] = [];
-  const start = new Date(`${dateFrom}T00:00:00`);
-  const end = new Date(`${dateTo}T00:00:00`);
-
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
-    return [];
-  }
-
-  for (
-    let cursor = new Date(start);
-    cursor <= end;
-    cursor.setDate(cursor.getDate() + 1)
-  ) {
-    const key = cursor.toISOString().slice(0, 10);
-    points.push({
-      date: key,
-      label: cursor.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
-      count: counts.get(key) ?? 0,
-    });
-  }
-
-  return points;
-}
-
-/** Smooth SVG path through normalized chart coordinates (0–1). */
-export function buildSmoothPath(
-  points: { x: number; y: number }[],
-): string {
-  if (points.length === 0) return "";
-  if (points.length === 1) {
-    return `M ${points[0].x} ${points[0].y}`;
-  }
-
-  let path = `M ${points[0].x} ${points[0].y}`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[i - 1] ?? points[i];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[i + 2] ?? p2;
-    const cp1x = p1.x + (p2.x - p0.x) / 6;
-    const cp1y = p1.y + (p2.y - p0.y) / 6;
-    const cp2x = p2.x - (p3.x - p1.x) / 6;
-    const cp2y = p2.y - (p3.y - p1.y) / 6;
-    path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
-  }
-  return path;
 }
