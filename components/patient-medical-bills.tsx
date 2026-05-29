@@ -28,14 +28,7 @@ import {
   type MedicalBillRecord,
   type MedicalBillStatus,
 } from "@/lib/medical-bills";
-import { cn } from "@/lib/utils";
-
-function formatCurrency(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(amount);
-}
+import { cn, formatCurrency } from "@/lib/utils";
 
 function BillStatusBadge({
   status,
@@ -166,7 +159,9 @@ export function PatientMedicalBills({
         accessorKey: "visitType",
         header: "Visit type",
         cell: ({ row }) => (
-          <span className="text-muted-foreground">{row.original.visitType}</span>
+          <span className="text-muted-foreground">
+            {row.original.visitType}
+          </span>
         ),
       },
       { accessorKey: "date", header: "Date" },
@@ -264,9 +259,7 @@ export function PatientMedicalBills({
               <Receipt className="size-5" />
             </span>
             <div>
-              <p className="text-sm text-muted-foreground">
-                Insurance covered
-              </p>
+              <p className="text-sm text-muted-foreground">Insurance covered</p>
               <p className="text-xl font-bold">
                 {formatCurrency(summary.insuranceTotal)}
               </p>
@@ -404,7 +397,9 @@ export function PatientMedicalBills({
               />
 
               {selectedBill.amountDue > 0 ? (
-                <Button className="w-full">Pay {formatCurrency(selectedBill.amountDue)}</Button>
+                <Button className="w-full">
+                  Pay {formatCurrency(selectedBill.amountDue)}
+                </Button>
               ) : null}
             </>
           ) : null}

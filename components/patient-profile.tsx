@@ -5,6 +5,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import {
   Activity,
   CheckCircle2,
+  Droplet,
   Eye,
   FileBarChart,
   Pencil,
@@ -54,6 +55,7 @@ type PatientProfileProps = {
   medicalBills: MedicalBillRecord[];
   medicalRecords: MedicalRecordEntry[];
   onNavigate?: (tab: string) => void;
+  userRole?: string;
 };
 
 function InsuranceLabel({ label, value }: { label: string; value: string }) {
@@ -164,6 +166,7 @@ export function PatientProfile({
   medicalBills,
   medicalRecords,
   onNavigate,
+  userRole,
 }: PatientProfileProps) {
   const [selectedPatientId, setSelectedPatientId] = useState(
     patients[0]?.id ?? "",
@@ -325,24 +328,26 @@ export function PatientProfile({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
-            Patient profile
+            {userRole === "patient" ? "My Profile" : "Patient profile"}
           </h2>
           <p className="text-sm text-muted-foreground">
             Overview, visits, records, bills, and medications
           </p>
         </div>
-        <select
-          value={selectedPatientId}
-          onChange={(e) => setSelectedPatientId(e.target.value)}
-          className={selectClassName}
-          disabled={patients.length === 0}
-        >
-          {patients.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-        </select>
+        {userRole !== "patient" && (
+          <select
+            value={selectedPatientId}
+            onChange={(e) => setSelectedPatientId(e.target.value)}
+            className={selectClassName}
+            disabled={patients.length === 0}
+          >
+            {patients.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       <div className="grid gap-5 xl:grid-cols-[1fr_1.1fr]">
@@ -537,6 +542,55 @@ export function PatientProfile({
           </CardContent>
         </Card>
       </div>
+
+      {userRole === "patient" && (
+        <div className="grid gap-5 md:grid-cols-2">
+          <Card className="rounded-xl border border-slate-100 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-card">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  Hemoglobin
+                </p>
+                <h3 className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
+                  {healthMetrics.hemoglobin}
+                </h3>
+                <p className="text-xs text-emerald-650 dark:text-emerald-400">
+                  Normal Range (13.8 - 17.2 g/dL)
+                </p>
+              </div>
+              <div className="grid size-12 place-items-center rounded-lg bg-rose-50 text-rose-500 dark:bg-rose-950/30">
+                <Droplet className="size-6" />
+              </div>
+            </div>
+          </Card>
+
+          <Card className="rounded-xl border border-slate-100 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-card">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  Glucose Level
+                </p>
+                <h3 className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
+                  {healthMetrics.glucose}
+                </h3>
+                <p className={cn(
+                  "text-xs font-semibold",
+                  healthMetrics.glucose?.includes("118") 
+                    ? "text-amber-600 dark:text-amber-400" 
+                    : "text-emerald-600 dark:text-emerald-400"
+                )}>
+                  {healthMetrics.glucose?.includes("118")
+                    ? "Slightly Elevated (Target Fasting: < 100 mg/dL)"
+                    : "Normal Fasting (Target: 70 - 100 mg/dL)"}
+                </p>
+              </div>
+              <div className="grid size-12 place-items-center rounded-lg bg-amber-50 text-amber-500 dark:bg-amber-950/30">
+                <Activity className="size-6" />
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
 
       <div className="grid gap-5 lg:grid-cols-3">
         <ProfileTableCard

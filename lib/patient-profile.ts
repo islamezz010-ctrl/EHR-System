@@ -158,6 +158,8 @@ export type PatientHealthMetrics = {
   systolic: string;
   diastolic: string;
   smokingStatus: string;
+  hemoglobin?: string;
+  glucose?: string;
 };
 
 const PHARMACIES = [
@@ -242,6 +244,9 @@ export function getPatientHealthMetrics(
     patient.medicalProfile.vitals.bloodPressure,
   );
 
+  const hemoglobin = index % 3 === 0 ? "14.2 g/dL" : index % 3 === 1 ? "13.8 g/dL" : "15.1 g/dL";
+  const glucose = index % 2 === 0 ? "95 mg/dL" : "118 mg/dL";
+
   return {
     height,
     weight: `${weight} lbs`,
@@ -249,5 +254,7 @@ export function getPatientHealthMetrics(
     systolic: `${systolic} mmHg`,
     diastolic: `${diastolic} mmHg`,
     smokingStatus: index % 5 === 0 ? "Former" : "None",
+    hemoglobin,
+    glucose,
   };
 }

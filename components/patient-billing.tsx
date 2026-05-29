@@ -7,15 +7,10 @@ import { CircleDollarSign, Search } from "lucide-react";
 import { DataTable } from "@/components/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { BillingRecord, BillingStatus } from "@/lib/billing";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 
 function BillingStatusBadge({ status }: { status: BillingStatus }) {
   return (
@@ -23,21 +18,17 @@ function BillingStatusBadge({ status }: { status: BillingStatus }) {
       variant="outline"
       className={cn(
         "border-0",
-        status === "Paid" && "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400",
-        status === "Pending" && "bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400",
-        status === "Overdue" && "bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400",
+        status === "Paid" &&
+          "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400",
+        status === "Pending" &&
+          "bg-amber-100 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400",
+        status === "Overdue" &&
+          "bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400",
       )}
     >
       {status}
     </Badge>
   );
-}
-
-function formatCurrency(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(amount);
 }
 
 type PatientBillingProps = {
@@ -100,9 +91,7 @@ export function PatientBilling({ billings }: PatientBillingProps) {
       {
         accessorKey: "status",
         header: "Status",
-        cell: ({ row }) => (
-          <BillingStatusBadge status={row.original.status} />
-        ),
+        cell: ({ row }) => <BillingStatusBadge status={row.original.status} />,
       },
       {
         id: "actions",
@@ -129,7 +118,9 @@ export function PatientBilling({ billings }: PatientBillingProps) {
             </span>
             <div>
               <p className="text-sm text-muted-foreground">Pending</p>
-              <p className="text-xl font-bold">{formatCurrency(totals.pending)}</p>
+              <p className="text-xl font-bold">
+                {formatCurrency(totals.pending)}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -140,7 +131,9 @@ export function PatientBilling({ billings }: PatientBillingProps) {
             </span>
             <div>
               <p className="text-sm text-muted-foreground">Overdue</p>
-              <p className="text-xl font-bold">{formatCurrency(totals.overdue)}</p>
+              <p className="text-xl font-bold">
+                {formatCurrency(totals.overdue)}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -159,7 +152,9 @@ export function PatientBilling({ billings }: PatientBillingProps) {
 
       <Card className="rounded-xl border-0 py-5 shadow-sm">
         <CardHeader className="gap-4 px-5 md:grid-cols-[1fr_auto]">
-          <CardTitle className="text-lg font-semibold">Patient Billing</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            Patient Billing
+          </CardTitle>
           <div className="relative w-full md:w-64">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
