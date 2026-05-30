@@ -123,3 +123,43 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* Custom scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(220 9% 70%) transparent;
+}
+
+.dark * {
+  scrollbar-color: hsl(217 20% 30%) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(220 9% 70%);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(217 20% 30%);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(220 9% 55%);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(217 20% 42%);
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}

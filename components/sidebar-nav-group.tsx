@@ -96,8 +96,28 @@ export function SidebarNavGroup({
         </div>
       ) : null}
 
+      {expanded && isCollapsed ? (
+        <div className="mt-1 space-y-0.5 border-l-2 border-gray-200 dark:border-gray-700 ml-5 pl-2 lg:hidden">
+          {items.map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              onClick={() => onSelectTab(item.label)}
+              className={cn(
+                "flex h-10 w-full items-center gap-3 rounded-md px-3 text-left text-sm font-medium text-gray-500 dark:text-gray-400 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-950 dark:hover:text-gray-100 cursor-pointer",
+                activeTab === item.label &&
+                  "bg-gray-100 dark:bg-gray-800 text-gray-950 dark:text-gray-100",
+              )}
+            >
+              <item.icon className="size-4 shrink-0" />
+              <span className="truncate">{item.label}</span>
+            </button>
+          ))}
+        </div>
+      ) : null}
+
       {isCollapsed ? (
-        <div className="mt-1 space-y-0.5">
+        <div className="mt-1 hidden space-y-0.5 lg:block">
           {items.map((item) => (
             <button
               key={item.label}

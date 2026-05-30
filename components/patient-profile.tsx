@@ -350,154 +350,105 @@ export function PatientProfile({
         )}
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[1fr_1.1fr]">
-        <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-md dark:border-slate-800 dark:bg-card">
-          <CardContent className="flex gap-0 p-0">
-            <div className="flex w-36 shrink-0 flex-col justify-center gap-3 border-r border-slate-100 bg-slate-50/50 px-4 py-6 dark:border-slate-800 dark:bg-slate-900/30">
-              <InsuranceLabel
-                label="Medical Insurance"
-                value={meta.medicalInsurance}
-              />
-              <InsuranceLabel
-                label="Vision Insurance"
-                value={meta.visionInsurance}
-              />
-              <InsuranceLabel
-                label="Dental Insurance"
-                value={meta.dentalInsurance}
-              />
+      {/* Row 1: Patient Details Card */}
+      <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-md dark:border-slate-800 dark:bg-card">
+        <CardContent className="flex gap-0 p-0">
+          <div className="flex w-36 shrink-0 flex-col justify-center gap-3 border-r border-slate-100 bg-slate-50/50 px-4 py-6 dark:border-slate-800 dark:bg-slate-900/30">
+            <InsuranceLabel
+              label="Medical Insurance"
+              value={meta.medicalInsurance}
+            />
+            <InsuranceLabel
+              label="Vision Insurance"
+              value={meta.visionInsurance}
+            />
+            <InsuranceLabel
+              label="Dental Insurance"
+              value={meta.dentalInsurance}
+            />
+          </div>
+
+          <div className="min-w-0 flex-1 p-6">
+            <div className="flex flex-wrap items-start gap-4">
+              <div className="relative">
+                <div className="relative size-20 overflow-hidden rounded-full ring-4 ring-teal-100 dark:ring-teal-900/40">
+                  {patient.avatar ? (
+                    <Image
+                      src={patient.avatar}
+                      alt={patient.name}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <span className="grid size-full place-items-center bg-teal-100 text-lg font-bold text-teal-700">
+                      {getInitials(patient.name)}
+                    </span>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  className="absolute bottom-0 right-0 grid size-7 place-items-center rounded-full bg-teal-500 text-white shadow-md"
+                  aria-label="Edit photo"
+                >
+                  <PencilLine className="size-3.5" />
+                </button>
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50">
+                    {patient.name}
+                  </h3>
+                  <Badge className="border-0 bg-teal-500 text-white hover:bg-teal-500">
+                    Active
+                  </Badge>
+                </div>
+                <p className="mt-1 text-sm text-slate-500">Patient</p>
+              </div>
             </div>
 
-            <div className="min-w-0 flex-1 p-6">
-              <div className="flex flex-wrap items-start gap-4">
-                <div className="relative">
-                  <div className="relative size-20 overflow-hidden rounded-full ring-4 ring-teal-100 dark:ring-teal-900/40">
-                    {patient.avatar ? (
-                      <Image
-                        src={patient.avatar}
-                        alt={patient.name}
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
-                    ) : (
-                      <span className="grid size-full place-items-center bg-teal-100 text-lg font-bold text-teal-700">
-                        {getInitials(patient.name)}
-                      </span>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    className="absolute bottom-0 right-0 grid size-7 place-items-center rounded-full bg-teal-500 text-white shadow-md"
-                    aria-label="Edit photo"
-                  >
-                    <PencilLine className="size-3.5" />
-                  </button>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50">
-                      {patient.name}
-                    </h3>
-                    <Badge className="border-0 bg-teal-500 text-white hover:bg-teal-500">
-                      Active
-                    </Badge>
-                  </div>
-                  <p className="mt-1 text-sm text-slate-500">Patient</p>
-                </div>
-              </div>
-
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <ProfileDetail label="Role" value="Patient" />
-                <ProfileDetail label="Age" value={String(summary.age)} />
-                <ProfileDetail label="E-mail" value={patient.contact.email} />
-                <ProfileDetail
-                  label="Birth Date"
-                  value={summary.birthDate}
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <ProfileDetail label="Role" value="Patient" />
+              <ProfileDetail label="Age" value={String(summary.age)} />
+              <ProfileDetail label="E-mail" value={patient.contact.email} />
+              <ProfileDetail
+                label="Birth Date"
+                value={summary.birthDate}
+              />
+              <ProfileDetail label="Phone" value={patient.contact.phone} />
+              <ProfileDetail
+                label="Status"
+                value={meta.maritalStatus}
+              />
+              <ProfileDetail label="Work for" value={meta.workFor} />
+              <ProfileDetail
+                label="Gender"
+                value={patient.medicalProfile.gender}
+              />
+              <ProfileDetail
+                label="Address"
+                value={meta.address}
                 />
-                <ProfileDetail label="Phone" value={patient.contact.phone} />
-                <ProfileDetail
-                  label="Status"
-                  value={meta.maritalStatus}
-                />
-                <ProfileDetail label="Work for" value={meta.workFor} />
-                <ProfileDetail
-                  label="Gender"
-                  value={patient.medicalProfile.gender}
-                />
-                <ProfileDetail
-                  label="Address"
-                  value={meta.address}
-                  />
-              </div>
-
-              <div className="mt-6 grid gap-3 border-t border-slate-100 pt-4 sm:grid-cols-2 dark:border-slate-800">
-                <ProfileDetail label="Chart ID" value={meta.chartId} />
-                <ProfileDetail label="Legacy ID" value={meta.legacyId} />
-                <ProfileDetail
-                  label="Patient Since"
-                  value={meta.patientSince}
-                />
-                <ProfileDetail
-                  label="Preferred Provider"
-                  value={meta.preferredProvider}
-                />
-              </div>
             </div>
-          </CardContent>
-        </Card>
 
-        <ProfileTableCard
-          title="Appointments"
-          columns={appointmentColumns}
-          data={appointmentRows}
-          onBrowseAll={() => onNavigate?.("Appointment Queue")}
-          emptyMessage="No appointments."
-        />
-      </div>
+            <div className="mt-6 grid gap-3 border-t border-slate-100 pt-4 sm:grid-cols-2 dark:border-slate-800">
+              <ProfileDetail label="Chart ID" value={meta.chartId} />
+              <ProfileDetail label="Legacy ID" value={meta.legacyId} />
+              <ProfileDetail
+                label="Patient Since"
+                value={meta.patientSince}
+              />
+              <ProfileDetail
+                label="Preferred Provider"
+                value={meta.preferredProvider}
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
+      {/* Row 2: Vitals Card + Hemoglobin & Glucose Cards */}
       <div className="grid gap-5 lg:grid-cols-2">
-        <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-md dark:border-slate-800 dark:bg-card">
-          <CardContent className="p-0">
-            <div className="grid gap-6 p-6 sm:grid-cols-3">
-              <InsuranceColumn
-                title="Primary Insurance"
-                value={insuranceInfo.primaryInsurance}
-                copay={insuranceInfo.primaryCopay}
-              />
-              <InsuranceColumn
-                title="Secondary Insurance"
-                value={insuranceInfo.secondaryInsurance}
-                copay={insuranceInfo.secondaryCopay}
-              />
-              <InsuranceColumn
-                title="Next Appointment"
-                value={insuranceInfo.nextAppointmentDate}
-                copay={insuranceInfo.nextAppointmentCopay}
-              />
-            </div>
-
-            <div className="flex flex-col gap-3 border-t border-slate-100 px-6 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800">
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Last visited pharmacy
-              </p>
-              <div className="flex items-center gap-3">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-teal-50 text-teal-500 dark:bg-teal-950/30">
-                  <Pill className="size-5" />
-                </span>
-                <div>
-                  <p className="text-sm font-bold text-teal-500">
-                    {insuranceInfo.pharmacyName}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {insuranceInfo.pharmacyAddress}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-md dark:border-slate-800 dark:bg-card">
           <CardContent className="p-0">
             <div className="grid grid-cols-3 gap-4 border-b border-slate-100 px-6 py-6 dark:border-slate-800">
@@ -541,57 +492,110 @@ export function PatientProfile({
             </div>
           </CardContent>
         </Card>
+
+        {(userRole === "patient" || userRole === "admin") && (
+          <div className="grid gap-5 grid-rows-2">
+            <Card className="rounded-xl border border-slate-100 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-card">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    Hemoglobin
+                  </p>
+                  <h3 className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
+                    {healthMetrics.hemoglobin}
+                  </h3>
+                  <p className="text-xs text-emerald-650 dark:text-emerald-400">
+                    Normal Range (13.8 - 17.2 g/dL)
+                  </p>
+                </div>
+                <div className="grid size-12 place-items-center rounded-lg bg-rose-50 text-rose-500 dark:bg-rose-950/30">
+                  <Droplet className="size-6" />
+                </div>
+              </div>
+            </Card>
+
+            <Card className="rounded-xl border border-slate-100 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-card">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    Glucose Level
+                  </p>
+                  <h3 className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
+                    {healthMetrics.glucose}
+                  </h3>
+                  <p className={cn(
+                    "text-xs font-semibold",
+                    healthMetrics.glucose?.includes("118") 
+                      ? "text-amber-600 dark:text-amber-400" 
+                      : "text-emerald-600 dark:text-emerald-400"
+                  )}>
+                    {healthMetrics.glucose?.includes("118")
+                      ? "Slightly Elevated (Target Fasting: < 100 mg/dL)"
+                      : "Normal Fasting (Target: 70 - 100 mg/dL)"}
+                  </p>
+                </div>
+                <div className="grid size-12 place-items-center rounded-lg bg-amber-50 text-amber-500 dark:bg-amber-950/30">
+                  <Activity className="size-6" />
+                </div>
+              </div>
+            </Card>
+          </div>
+        )}
       </div>
 
-      {userRole === "patient" && (
-        <div className="grid gap-5 md:grid-cols-2">
-          <Card className="rounded-xl border border-slate-100 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-card">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  Hemoglobin
-                </p>
-                <h3 className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
-                  {healthMetrics.hemoglobin}
-                </h3>
-                <p className="text-xs text-emerald-650 dark:text-emerald-400">
-                  Normal Range (13.8 - 17.2 g/dL)
-                </p>
-              </div>
-              <div className="grid size-12 place-items-center rounded-lg bg-rose-50 text-rose-500 dark:bg-rose-950/30">
-                <Droplet className="size-6" />
+      {/* Row 3: Appointments + Insurance */}
+      <div className="grid gap-5 lg:grid-cols-2">
+        <ProfileTableCard
+          title="Appointments"
+          columns={appointmentColumns}
+          data={appointmentRows}
+          onBrowseAll={() => onNavigate?.("Appointment Queue")}
+          emptyMessage="No appointments."
+        />
+
+        <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-md dark:border-slate-800 dark:bg-card">
+          <CardContent className="p-0">
+            <div className="grid gap-6 p-6 sm:grid-cols-3">
+              <InsuranceColumn
+                title="Primary Insurance"
+                value={insuranceInfo.primaryInsurance}
+                copay={insuranceInfo.primaryCopay}
+              />
+              <InsuranceColumn
+                title="Secondary Insurance"
+                value={insuranceInfo.secondaryInsurance}
+                copay={insuranceInfo.secondaryCopay}
+              />
+              <InsuranceColumn
+                title="Next Appointment"
+                value={insuranceInfo.nextAppointmentDate}
+                copay={insuranceInfo.nextAppointmentCopay}
+              />
+            </div>
+
+            <div className="flex flex-col gap-3 border-t border-slate-100 px-6 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800">
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Last visited pharmacy
+              </p>
+              <div className="flex items-center gap-3">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-teal-50 text-teal-500 dark:bg-teal-950/30">
+                  <Pill className="size-5" />
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-teal-500">
+                    {insuranceInfo.pharmacyName}
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    {insuranceInfo.pharmacyAddress}
+                  </p>
+                </div>
               </div>
             </div>
-          </Card>
+          </CardContent>
+        </Card>
+      </div>
 
-          <Card className="rounded-xl border border-slate-100 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-card">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  Glucose Level
-                </p>
-                <h3 className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
-                  {healthMetrics.glucose}
-                </h3>
-                <p className={cn(
-                  "text-xs font-semibold",
-                  healthMetrics.glucose?.includes("118") 
-                    ? "text-amber-600 dark:text-amber-400" 
-                    : "text-emerald-600 dark:text-emerald-400"
-                )}>
-                  {healthMetrics.glucose?.includes("118")
-                    ? "Slightly Elevated (Target Fasting: < 100 mg/dL)"
-                    : "Normal Fasting (Target: 70 - 100 mg/dL)"}
-                </p>
-              </div>
-              <div className="grid size-12 place-items-center rounded-lg bg-amber-50 text-amber-500 dark:bg-amber-950/30">
-                <Activity className="size-6" />
-              </div>
-            </div>
-          </Card>
-        </div>
-      )}
-
+      {/* Row 4: Records, Bills, Medications */}
       <div className="grid gap-5 lg:grid-cols-3">
         <ProfileTableCard
           title="Medical Records"

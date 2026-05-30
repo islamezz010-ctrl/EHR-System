@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState, useCallback } from "react";
+import { Suspense, useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useTheme } from "next-themes";
@@ -13,6 +13,8 @@ import {
   ChevronLeft,
   ChevronRight,
   FileText,
+  Menu,
+  X,
   CircleDollarSign,
   ClipboardList,
   Receipt,
@@ -969,10 +971,11 @@ function DashboardContent() {
     [sidebarConfig],
   );
   const [patientInfoExpanded, setPatientInfoExpanded] = useState(true);
-  const [medicalInfoExpanded, setMedicalInfoExpanded] = useState(true);
   const [profileOpen, setProfileOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
   const [activeMonth, setActiveMonth] = useState("Jun");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [messagesUnreadCount, setMessagesUnreadCount] = useState(3);
   const [appointments, setAppointments] = useState<Appointment[]>(INITIAL_APPOINTMENTS);
   const [patients, setPatients] = useState<Patient[]>(() =>
@@ -990,6 +993,25 @@ function DashboardContent() {
   );
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const syncViewport = () => {
+      if (mq.matches) {
+        setIsMobileSidebarOpen(false);
+      } else {
+        setIsSidebarCollapsed(false);
+      }
+    };
+    syncViewport();
+    mq.addEventListener("change", syncViewport);
+    return () => mq.removeEventListener("change", syncViewport);
+  }, []);
+
+  const selectTab = useCallback((tab: string) => {
+    setActiveTab(tab);
+    setIsMobileSidebarOpen(false);
+  }, []);
 
   useEffect(() => {
     const role = getStoredRole();
@@ -1052,10 +1074,16 @@ function DashboardContent() {
   }, [activeTab]);
 
   useEffect(() => {
-    if (medicalInfoTabLabels.has(activeTab)) {
-      setMedicalInfoExpanded(true);
+    function handleClickOutside(e: MouseEvent) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target as Node)) {
+        setProfileOpen(false);
+      }
     }
-  }, [activeTab]);
+    if (profileOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [profileOpen]);
 
   const handleAddPatient = useCallback((input: NewPatientInput) => {
     const id = `new_${Date.now()}`;
@@ -1120,9 +1148,19 @@ function DashboardContent() {
 
   return (
     <main className="min-h-screen bg-background text-foreground transition-colors duration-300">
+      {isMobileSidebarOpen ? (
+        <button
+          type="button"
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          aria-label="Close menu"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        />
+      ) : null}
       <div className={cn("grid min-h-screen transition-all duration-300", isSidebarCollapsed ? "lg:grid-cols-[80px_1fr]" : "lg:grid-cols-[256px_1fr]")}>
         <aside className={cn(
-          "flex border-b border-border bg-sidebar py-4 lg:min-h-screen lg:flex-col lg:border-b-0 lg:border-r transition-all duration-300 relative",
+          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-sidebar py-4 px-5 transition-transform duration-300 ease-in-out",
+          isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full",
+          "lg:relative lg:translate-x-0 lg:min-h-screen lg:border-b-0 lg:transition-all",
           isSidebarCollapsed ? "lg:px-3 lg:w-20" : "lg:px-5 lg:w-64"
         )}>
           <div className="flex w-full items-center justify-between gap-4 lg:block relative">
@@ -1140,6 +1178,15 @@ function DashboardContent() {
                 Medi EHR
               </span>
             </div>
+
+            <button
+              type="button"
+              onClick={() => setIsMobileSidebarOpen(false)}
+              className="flex size-9 items-center justify-center rounded-md text-gray-500 hover:bg-gray-50 hover:text-gray-950 dark:hover:bg-gray-800/50 dark:hover:text-gray-100 lg:hidden"
+              aria-label="Close menu"
+            >
+              <X className="size-5" />
+            </button>
 
             {/* Sidebar toggle button */}
             <button
@@ -1160,14 +1207,14 @@ function DashboardContent() {
             </button>
 
             <nav className={cn(
-              "hidden border-t border-gray-100 dark:border-gray-800 pt-8 lg:block transition-all duration-300",
+              "flex-1 overflow-y-auto border-t border-gray-100 dark:border-gray-800 pt-8 mt-8 transition-all duration-300",
               isSidebarCollapsed ? "lg:mt-16" : "lg:mt-8"
             )}>
               <div className="space-y-2">
                 {sidebarConfig?.navItems.map((item) => (
                   <button
                     key={item.label}
-                    onClick={() => setActiveTab(item.label)}
+                    onClick={() => selectTab(item.label)}
                     title={isSidebarCollapsed ? item.label : undefined}
                     className={cn(
                       "flex h-11 w-full items-center gap-3 rounded-md px-4 text-left text-sm font-medium text-gray-500 dark:text-gray-400 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-950 dark:hover:text-gray-100 relative group cursor-pointer",
@@ -1207,34 +1254,38 @@ function DashboardContent() {
                     setPatientInfoExpanded(true);
                   }}
                   activeTab={activeTab}
-                  onSelectTab={setActiveTab}
+                  onSelectTab={selectTab}
                   activeTabLabels={patientInfoTabLabels}
                 />
                 ) : null}
 
                 {sidebarConfig?.showMedicalInfoGroup ? (
-                <SidebarNavGroup
-                  label="Medical Info"
-                  icon={Pill}
-                  iconClassName="text-teal-600 dark:text-teal-400"
-                  items={sidebarConfig.medicalInfoItems}
-                  expanded={medicalInfoExpanded}
-                  onToggle={() => setMedicalInfoExpanded((open) => !open)}
-                  isCollapsed={isSidebarCollapsed}
-                  onExpandSidebar={() => {
-                    setIsSidebarCollapsed(false);
-                    setMedicalInfoExpanded(true);
-                  }}
-                  activeTab={activeTab}
-                  onSelectTab={setActiveTab}
-                  activeTabLabels={medicalInfoTabLabels}
-                />
+                  sidebarConfig.medicalInfoItems.map((item) => (
+                    <button
+                      key={item.label}
+                      onClick={() => selectTab(item.label)}
+                      title={isSidebarCollapsed ? item.label : undefined}
+                      className={cn(
+                        "flex h-11 w-full items-center gap-3 rounded-md px-4 text-left text-sm font-medium text-gray-500 dark:text-gray-400 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-950 dark:hover:text-gray-100 relative group cursor-pointer",
+                        activeTab === item.label && "bg-gray-100 dark:bg-gray-800 text-gray-950 dark:text-gray-100",
+                        isSidebarCollapsed && "lg:px-0 lg:justify-center"
+                      )}
+                    >
+                      <item.icon className="size-4 shrink-0" />
+                      <span className={cn(
+                        "min-w-0 flex-1 truncate transition-all duration-300",
+                        isSidebarCollapsed ? "lg:hidden opacity-0 w-0" : "opacity-100"
+                      )}>
+                        {item.label}
+                      </span>
+                    </button>
+                  ))
                 ) : null}
               </div>
             </nav>
           </div>
 
-          <div className="mt-auto hidden space-y-2 lg:block">
+          <div className="mt-auto space-y-2">
             <ThemeToggle collapsed={isSidebarCollapsed} />
 
             <button 
@@ -1257,9 +1308,20 @@ function DashboardContent() {
 
         <section className="min-w-0">
           <header className="flex h-20 items-center justify-between bg-white dark:bg-gray-900 px-5 shadow-sm lg:px-8 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
-            <h1 className="text-2xl font-semibold tracking-normal text-gray-950 dark:text-gray-50">
-              {activeTab}
-            </h1>
+            <div className="flex min-w-0 items-center gap-3">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="shrink-0 text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-gray-100 lg:hidden"
+                aria-label="Open menu"
+                onClick={() => setIsMobileSidebarOpen(true)}
+              >
+                <Menu className="size-5" />
+              </Button>
+              <h1 className="truncate text-2xl font-semibold tracking-normal text-gray-950 dark:text-gray-50">
+                {activeTab}
+              </h1>
+            </div>
             <div className="flex items-center gap-2 sm:gap-4">
               <Button variant="ghost" size="icon" aria-label="Search" className="text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-gray-100">
                 <Search className="size-5" />
@@ -1273,7 +1335,7 @@ function DashboardContent() {
                 <Bell className="size-5" />
                 <span className="absolute right-2 top-2 size-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-gray-900" />
               </Button>
-              <div className="relative">
+              <div className="relative" ref={profileMenuRef}>
                 <button
                   onClick={() => setProfileOpen((open) => !open)}
                   className="flex h-10 items-center gap-2 rounded-md px-2 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-gray-200 transition-colors cursor-pointer"
