@@ -37,6 +37,7 @@ const ALL_PATIENT_INFO_ITEMS: SidebarNavItem[] = [
   { label: "Profile", icon: UserRound },
   { label: "Patient Records", icon: UsersRound },
   { label: "Add Patient", icon: UserPlus },
+  { label: "Add Doctor", icon: UserPlus },
 ];
 
 const ALL_MEDICAL_INFO_ITEMS: SidebarNavItem[] = [
@@ -89,14 +90,14 @@ export function getSidebarConfig(role: UserRole): SidebarConfig {
         navItems: [
           { label: "My Profile", icon: UserRound },
           { label: "Schedule", icon: CalendarDays },
+          { label: "Book a Doctor", icon: Stethoscope },
           { label: "Bills", icon: Receipt },
         ],
         patientInfoItems: [],
         medicalInfoItems: [
           ...ALL_MEDICAL_INFO_ITEMS.filter(
             (item) =>
-              item.label !== "Medical Bills" &&
-              item.label !== "Add Medication",
+              item.label !== "Medical Bills" && item.label !== "Add Medication",
           ),
           { label: "Prescriptions", icon: Pill },
           { label: "Treatment Plans", icon: ClipboardList },

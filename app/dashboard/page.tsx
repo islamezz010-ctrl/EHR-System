@@ -1,6 +1,13 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState, useCallback, useRef } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useTheme } from "next-themes";
@@ -64,6 +71,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AddPatientForm } from "@/components/add-patient-form";
 import { AddMedicationForm } from "@/components/add-medication-form";
+import { AddDoctorForm } from "@/components/add-doctor-form";
+import { BookDoctor, type BookingInput } from "@/components/book-doctor";
 import { PatientBillsPanel } from "@/components/patient-bills-panel";
 import { ScheduleAppointmentForm } from "@/components/schedule-appointment-form";
 import { PatientAnalytics } from "@/components/patient-analytics";
@@ -125,11 +134,9 @@ import {
   markBillsPaid,
   type PatientBill,
 } from "@/lib/patient-bills";
-import {
-  getAllowedTabs,
-  getSidebarConfig,
-} from "@/lib/sidebar-config";
+import { getAllowedTabs, getSidebarConfig } from "@/lib/sidebar-config";
 import patientsData from "@/data/patients.json";
+import doctorsData from "@/data/doctors.json";
 
 const stats = [
   {
@@ -137,32 +144,40 @@ const stats = [
     value: "12 Today",
     detail: "3 Completed, 9 Remaining",
     icon: CalendarDays,
-    className: "bg-emerald-50 dark:bg-emerald-950/20 text-gray-900 dark:text-gray-100",
-    iconClassName: "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-450",
+    className:
+      "bg-emerald-50 dark:bg-emerald-950/20 text-gray-900 dark:text-gray-100",
+    iconClassName:
+      "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-450",
   },
   {
     title: "AI Insights",
     value: "5 Critical Patient",
     detail: "Requires immediate attention",
     icon: UsersRound,
-    className: "bg-cyan-50 dark:bg-cyan-950/20 text-gray-900 dark:text-gray-100",
-    iconClassName: "bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-450",
+    className:
+      "bg-cyan-50 dark:bg-cyan-950/20 text-gray-900 dark:text-gray-100",
+    iconClassName:
+      "bg-sky-100 dark:bg-sky-900/40 text-sky-600 dark:text-sky-450",
   },
   {
     title: "Average Wait Time",
     value: "14 mins",
     detail: "2 mins faster than average",
     icon: AlarmClock,
-    className: "bg-violet-50 dark:bg-violet-950/20 text-gray-900 dark:text-gray-100",
-    iconClassName: "bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-450",
+    className:
+      "bg-violet-50 dark:bg-violet-950/20 text-gray-900 dark:text-gray-100",
+    iconClassName:
+      "bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-450",
   },
   {
     title: "Revenue Status",
     value: "$4,250",
     detail: "Pending Claims",
     icon: CircleDollarSign,
-    className: "bg-rose-50 dark:bg-rose-950/20 text-gray-900 dark:text-gray-100",
-    iconClassName: "bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-450",
+    className:
+      "bg-rose-50 dark:bg-rose-950/20 text-gray-900 dark:text-gray-100",
+    iconClassName:
+      "bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-450",
   },
 ];
 
@@ -385,7 +400,8 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
                     }}
                     className={cn(
                       "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
-                      statusFilter === null && "bg-gray-100 dark:bg-gray-700 font-medium",
+                      statusFilter === null &&
+                        "bg-gray-100 dark:bg-gray-700 font-medium",
                     )}
                   >
                     All Statuses
@@ -399,7 +415,8 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
                       }}
                       className={cn(
                         "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
-                        statusFilter === s && "bg-gray-100 dark:bg-gray-700 font-medium",
+                        statusFilter === s &&
+                          "bg-gray-100 dark:bg-gray-700 font-medium",
                       )}
                     >
                       <span
@@ -468,14 +485,12 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
                     className={cn(
                       "grid size-14 shrink-0 place-items-center rounded-full text-lg font-bold",
                       avatarColors[
-                        patients.findIndex(
-                          (p) => p.id === selectedPatient.id,
-                        ) % avatarColors.length
+                        patients.findIndex((p) => p.id === selectedPatient.id) %
+                          avatarColors.length
                       ].bg,
                       avatarColors[
-                        patients.findIndex(
-                          (p) => p.id === selectedPatient.id,
-                        ) % avatarColors.length
+                        patients.findIndex((p) => p.id === selectedPatient.id) %
+                          avatarColors.length
                       ].text,
                     )}
                   >
@@ -487,8 +502,10 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
                     </DialogTitle>
                     <DialogDescription className="mt-1">
                       {selectedPatient.medicalProfile.gender} •{" "}
-                      {getAgeFromDob(selectedPatient.medicalProfile.dateOfBirth)} years
-                      old • Blood Type:{" "}
+                      {getAgeFromDob(
+                        selectedPatient.medicalProfile.dateOfBirth,
+                      )}{" "}
+                      years old • Blood Type:{" "}
                       {selectedPatient.medicalProfile.bloodType}
                     </DialogDescription>
                   </div>
@@ -656,9 +673,7 @@ function AppointmentQueue({
 
   const selectedPatient = useMemo(() => {
     if (!selectedAppointment) return null;
-    return (
-      patients.find((p) => p.name === selectedAppointment.patient) ?? null
-    );
+    return patients.find((p) => p.name === selectedAppointment.patient) ?? null;
   }, [selectedAppointment, patients]);
 
   const filteredAppointments = useMemo(() => {
@@ -756,171 +771,178 @@ function AppointmentQueue({
 
   return (
     <>
-    <Card className="rounded-xl border-0 py-5 shadow-sm">
-      <CardHeader className="gap-4 px-5 md:grid-cols-[1fr_auto]">
-        <CardTitle className="text-lg font-semibold">
-          Appointment Queue
-        </CardTitle>
-        <CardAction className="flex w-full flex-col gap-2 md:w-auto md:flex-row">
-          <div className="relative md:w-56">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-gray-500" />
-            <Input
-              placeholder="Search"
-              className="bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 pl-9 text-sm"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div className="relative">
-            <Button
-              variant="outline"
-              className="bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
-              onClick={() => setFilterOpen(!filterOpen)}
-            >
-              <Filter className="size-4" />
-              Filter
-            </Button>
-            {filterOpen && (
-              <div className="absolute right-0 top-10 z-10 w-48 overflow-hidden rounded-md bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 py-1 shadow-lg ring-1 ring-gray-200 dark:ring-transparent">
-                <button
-                  onClick={() => {
-                    setStatusFilter(null);
-                    setFilterOpen(false);
-                  }}
-                  className={cn(
-                    "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
-                    statusFilter === null && "bg-gray-100 dark:bg-gray-700 font-medium",
-                  )}
-                >
-                  All Statuses
-                </button>
-                <button
-                  onClick={() => {
-                    setStatusFilter("In-Room");
-                    setFilterOpen(false);
-                  }}
-                  className={cn(
-                    "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
-                    statusFilter === "In-Room" && "bg-gray-100 dark:bg-gray-700 font-medium",
-                  )}
-                >
-                  <span className="size-2 rounded-full bg-emerald-500" />
-                  In-Room
-                </button>
-                <button
-                  onClick={() => {
-                    setStatusFilter("Waiting");
-                    setFilterOpen(false);
-                  }}
-                  className={cn(
-                    "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
-                    statusFilter === "Waiting" && "bg-gray-100 dark:bg-gray-700 font-medium",
-                  )}
-                >
-                  <span className="size-2 rounded-full bg-rose-500" />
-                  Waiting
-                </button>
-                <button
-                  onClick={() => {
-                    setStatusFilter("Scheduled");
-                    setFilterOpen(false);
-                  }}
-                  className={cn(
-                    "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
-                    statusFilter === "Scheduled" && "bg-gray-100 dark:bg-gray-700 font-medium",
-                  )}
-                >
-                  <span className="size-2 rounded-full bg-blue-500" />
-                  Scheduled
-                </button>
-              </div>
-            )}
-          </div>
-        </CardAction>
-      </CardHeader>
-      <CardContent className="px-5">
-        <DataTable
-          columns={columns}
-          data={filteredAppointments}
-          searchValue={searchQuery}
-          emptyMessage="No appointments found matching your search."
-        />
-      </CardContent>
-    </Card>
+      <Card className="rounded-xl border-0 py-5 shadow-sm">
+        <CardHeader className="gap-4 px-5 md:grid-cols-[1fr_auto]">
+          <CardTitle className="text-lg font-semibold">
+            Appointment Queue
+          </CardTitle>
+          <CardAction className="flex w-full flex-col gap-2 md:w-auto md:flex-row">
+            <div className="relative md:w-56">
+              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-gray-500" />
+              <Input
+                placeholder="Search"
+                className="bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 pl-9 text-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="relative">
+              <Button
+                variant="outline"
+                className="bg-white dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
+                onClick={() => setFilterOpen(!filterOpen)}
+              >
+                <Filter className="size-4" />
+                Filter
+              </Button>
+              {filterOpen && (
+                <div className="absolute right-0 top-10 z-10 w-48 overflow-hidden rounded-md bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 py-1 shadow-lg ring-1 ring-gray-200 dark:ring-transparent">
+                  <button
+                    onClick={() => {
+                      setStatusFilter(null);
+                      setFilterOpen(false);
+                    }}
+                    className={cn(
+                      "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
+                      statusFilter === null &&
+                        "bg-gray-100 dark:bg-gray-700 font-medium",
+                    )}
+                  >
+                    All Statuses
+                  </button>
+                  <button
+                    onClick={() => {
+                      setStatusFilter("In-Room");
+                      setFilterOpen(false);
+                    }}
+                    className={cn(
+                      "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
+                      statusFilter === "In-Room" &&
+                        "bg-gray-100 dark:bg-gray-700 font-medium",
+                    )}
+                  >
+                    <span className="size-2 rounded-full bg-emerald-500" />
+                    In-Room
+                  </button>
+                  <button
+                    onClick={() => {
+                      setStatusFilter("Waiting");
+                      setFilterOpen(false);
+                    }}
+                    className={cn(
+                      "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
+                      statusFilter === "Waiting" &&
+                        "bg-gray-100 dark:bg-gray-700 font-medium",
+                    )}
+                  >
+                    <span className="size-2 rounded-full bg-rose-500" />
+                    Waiting
+                  </button>
+                  <button
+                    onClick={() => {
+                      setStatusFilter("Scheduled");
+                      setFilterOpen(false);
+                    }}
+                    className={cn(
+                      "flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-750 text-gray-700 dark:text-gray-200 cursor-pointer",
+                      statusFilter === "Scheduled" &&
+                        "bg-gray-100 dark:bg-gray-700 font-medium",
+                    )}
+                  >
+                    <span className="size-2 rounded-full bg-blue-500" />
+                    Scheduled
+                  </button>
+                </div>
+              )}
+            </div>
+          </CardAction>
+        </CardHeader>
+        <CardContent className="px-5">
+          <DataTable
+            columns={columns}
+            data={filteredAppointments}
+            searchValue={searchQuery}
+            emptyMessage="No appointments found matching your search."
+          />
+        </CardContent>
+      </Card>
 
-    <Dialog
-      open={!!selectedAppointment}
-      onOpenChange={(open) => !open && setSelectedAppointment(null)}
-    >
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
-        {selectedAppointment && (
-          <>
-            <DialogHeader>
-              <DialogTitle className="text-xl">
-                {selectedAppointment.patient}
-              </DialogTitle>
-              <DialogDescription>
-                {selectedAppointment.time} • {selectedAppointment.reason} •{" "}
-                <StatusBadge status={selectedAppointment.status} />
-              </DialogDescription>
-            </DialogHeader>
+      <Dialog
+        open={!!selectedAppointment}
+        onOpenChange={(open) => !open && setSelectedAppointment(null)}
+      >
+        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
+          {selectedAppointment && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-xl">
+                  {selectedAppointment.patient}
+                </DialogTitle>
+                <DialogDescription>
+                  {selectedAppointment.time} • {selectedAppointment.reason} •{" "}
+                  <StatusBadge status={selectedAppointment.status} />
+                </DialogDescription>
+              </DialogHeader>
 
-            {selectedPatient ? (
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  <div className="rounded-lg bg-rose-50 dark:bg-rose-950/20 p-3">
-                    <div className="flex items-center gap-1.5 text-xs text-rose-600">
-                      <Droplets className="size-3.5" />
-                      Blood Pressure
+              {selectedPatient ? (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    <div className="rounded-lg bg-rose-50 dark:bg-rose-950/20 p-3">
+                      <div className="flex items-center gap-1.5 text-xs text-rose-600">
+                        <Droplets className="size-3.5" />
+                        Blood Pressure
+                      </div>
+                      <p className="mt-1 text-sm font-semibold">
+                        {selectedPatient.medicalProfile.vitals.bloodPressure}
+                      </p>
                     </div>
-                    <p className="mt-1 text-sm font-semibold">
-                      {selectedPatient.medicalProfile.vitals.bloodPressure}
-                    </p>
+                    <div className="rounded-lg bg-violet-50 dark:bg-violet-950/20 p-3">
+                      <div className="flex items-center gap-1.5 text-xs text-violet-600">
+                        <Heart className="size-3.5" />
+                        Heart Rate
+                      </div>
+                      <p className="mt-1 text-sm font-semibold">
+                        {selectedPatient.medicalProfile.vitals.heartRate}
+                      </p>
+                    </div>
+                    <div className="rounded-lg bg-amber-50 dark:bg-amber-950/20 p-3">
+                      <div className="flex items-center gap-1.5 text-xs text-amber-600">
+                        <Thermometer className="size-3.5" />
+                        Temperature
+                      </div>
+                      <p className="mt-1 text-sm font-semibold">
+                        {selectedPatient.medicalProfile.vitals.temperature}
+                      </p>
+                    </div>
+                    <div className="rounded-lg bg-sky-50 dark:bg-sky-950/20 p-3">
+                      <div className="flex items-center gap-1.5 text-xs text-sky-600">
+                        <Wind className="size-3.5" />
+                        O₂ Saturation
+                      </div>
+                      <p className="mt-1 text-sm font-semibold">
+                        {selectedPatient.medicalProfile.vitals.oxygenSaturation}
+                      </p>
+                    </div>
                   </div>
-                  <div className="rounded-lg bg-violet-50 dark:bg-violet-950/20 p-3">
-                    <div className="flex items-center gap-1.5 text-xs text-violet-600">
-                      <Heart className="size-3.5" />
-                      Heart Rate
-                    </div>
-                    <p className="mt-1 text-sm font-semibold">
-                      {selectedPatient.medicalProfile.vitals.heartRate}
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-amber-50 dark:bg-amber-950/20 p-3">
-                    <div className="flex items-center gap-1.5 text-xs text-amber-600">
-                      <Thermometer className="size-3.5" />
-                      Temperature
-                    </div>
-                    <p className="mt-1 text-sm font-semibold">
-                      {selectedPatient.medicalProfile.vitals.temperature}
-                    </p>
-                  </div>
-                  <div className="rounded-lg bg-sky-50 dark:bg-sky-950/20 p-3">
-                    <div className="flex items-center gap-1.5 text-xs text-sky-600">
-                      <Wind className="size-3.5" />
-                      O₂ Saturation
-                    </div>
-                    <p className="mt-1 text-sm font-semibold">
-                      {selectedPatient.medicalProfile.vitals.oxygenSaturation}
+                  <div className="rounded-lg border border-border p-4">
+                    <h4 className="mb-2 text-sm font-semibold">
+                      Recent Clinical Notes
+                    </h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {selectedPatient.medicalProfile.recentNotes}
                     </p>
                   </div>
                 </div>
-                <div className="rounded-lg border border-border p-4">
-                  <h4 className="mb-2 text-sm font-semibold">Recent Clinical Notes</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {selectedPatient.medicalProfile.recentNotes}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-sm text-muted-foreground">
-                No linked patient record found. Appointment details are shown above.
-              </p>
-            )}
-          </>
-        )}
-      </DialogContent>
-    </Dialog>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  No linked patient record found. Appointment details are shown
+                  above.
+                </p>
+              )}
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
@@ -974,10 +996,12 @@ function DashboardContent() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [messagesUnreadCount, setMessagesUnreadCount] = useState(3);
-  const [appointments, setAppointments] = useState<Appointment[]>(INITIAL_APPOINTMENTS);
+  const [appointments, setAppointments] =
+    useState<Appointment[]>(INITIAL_APPOINTMENTS);
   const [patients, setPatients] = useState<Patient[]>(() =>
     patientsData.map((p, i) => withDefaultContact(p, i)),
   );
+  const [doctors, setDoctors] = useState(() => doctorsData as any[]);
   const [billings, setBillings] = useState<BillingRecord[]>(INITIAL_BILLINGS);
   const [medications, setMedications] =
     useState<MedicationRecord[]>(INITIAL_MEDICATIONS);
@@ -1049,7 +1073,9 @@ function DashboardContent() {
 
   const handlePatientBillsPaid = useCallback((billIds: string[]) => {
     setPatientBills((prev) => markBillsPaid(prev, billIds));
-    setPaymentNotice("Payment successful. Your outstanding bills are now paid.");
+    setPaymentNotice(
+      "Payment successful. Your outstanding bills are now paid.",
+    );
   }, []);
 
   useEffect(() => {
@@ -1073,7 +1099,10 @@ function DashboardContent() {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target as Node)) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(e.target as Node)
+      ) {
         setProfileOpen(false);
       }
     }
@@ -1110,14 +1139,9 @@ function DashboardContent() {
 
         const medicationSummary = formatMedicationSummary(medication);
         const currentMedications =
-          patient.medicalProfile.currentMedications.includes(
-            medicationSummary,
-          )
+          patient.medicalProfile.currentMedications.includes(medicationSummary)
             ? patient.medicalProfile.currentMedications
-            : [
-                ...patient.medicalProfile.currentMedications,
-                medicationSummary,
-              ];
+            : [...patient.medicalProfile.currentMedications, medicationSummary];
 
         return {
           ...patient,
@@ -1145,6 +1169,44 @@ function DashboardContent() {
     setPatients((prev) => [...prev, patient]);
     setAppointments((prev) => [...prev, appointment]);
     setBillings((prev) => [...prev, billing]);
+  }, []);
+
+  const handleAddDoctor = useCallback((input: any) => {
+    const id = `doc_${Date.now()}`;
+    const doctor = { id, ...input };
+    setDoctors((prev) => [...prev, doctor]);
+    setActiveTab("Appointment Queue");
+  }, []);
+
+  const handleBookDoctor = useCallback((booking: BookingInput) => {
+    // Create appointment from doctor booking
+    const appointmentId = `apt_${Date.now()}`;
+    const appointment: Appointment = {
+      id: appointmentId,
+      time: booking.time,
+      patient: "Current Patient", // In a real app, get from auth
+      reason: booking.visitReason,
+      priority: "Normal",
+      status: "Scheduled",
+      initials: "CP",
+    };
+
+    // Create billing record from doctor appointment
+    const billing = createBillingFromVisit(
+      appointmentId,
+      "Current Patient",
+      booking.visitReason,
+      formatBillingDate(booking.date),
+    );
+
+    setAppointments((prev) => [...prev, appointment]);
+    setBillings((prev) => [...prev, billing]);
+
+    // Show success message and navigate
+    alert(
+      `Appointment booked with ${booking.doctorName} on ${booking.date} at ${booking.time}`,
+    );
+    setActiveTab("Schedule");
   }, []);
 
   const selectedMonth = useMemo(
@@ -1185,25 +1247,42 @@ function DashboardContent() {
           onClick={() => setIsMobileSidebarOpen(false)}
         />
       ) : null}
-      <div className={cn("grid min-h-screen transition-all duration-300", isSidebarCollapsed ? "lg:grid-cols-[80px_1fr]" : "lg:grid-cols-[256px_1fr]")}>
-        <aside className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-sidebar py-4 px-5 transition-transform duration-300 ease-in-out",
-          isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full",
-          "lg:relative lg:translate-x-0 lg:min-h-screen lg:border-b-0 lg:transition-all",
-          isSidebarCollapsed ? "lg:px-3 lg:w-20" : "lg:px-5 lg:w-64"
-        )}>
+      <div
+        className={cn(
+          "grid min-h-screen transition-all duration-300",
+          isSidebarCollapsed
+            ? "lg:grid-cols-[80px_1fr]"
+            : "lg:grid-cols-[256px_1fr]",
+        )}
+      >
+        <aside
+          className={cn(
+            "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-border bg-sidebar py-4 px-5 transition-transform duration-300 ease-in-out",
+            isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full",
+            "lg:relative lg:translate-x-0 lg:min-h-screen lg:border-b-0 lg:transition-all",
+            isSidebarCollapsed ? "lg:px-3 lg:w-20" : "lg:px-5 lg:w-64",
+          )}
+        >
           <div className="flex w-full items-center justify-between gap-4 lg:block relative">
-            <div className={cn(
-              "flex items-center gap-3 px-1 transition-all duration-300",
-              isSidebarCollapsed ? "lg:flex-col lg:items-center lg:gap-2 lg:px-0" : ""
-            )}>
+            <div
+              className={cn(
+                "flex items-center gap-3 px-1 transition-all duration-300",
+                isSidebarCollapsed
+                  ? "lg:flex-col lg:items-center lg:gap-2 lg:px-0"
+                  : "",
+              )}
+            >
               <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#3d3bdc] text-white">
                 <Activity className="size-5" />
               </div>
-              <span className={cn(
-                "text-2xl font-semibold tracking-normal transition-all duration-300",
-                isSidebarCollapsed ? "lg:hidden opacity-0 w-0 overflow-hidden" : "opacity-100"
-              )}>
+              <span
+                className={cn(
+                  "text-2xl font-semibold tracking-normal transition-all duration-300",
+                  isSidebarCollapsed
+                    ? "lg:hidden opacity-0 w-0 overflow-hidden"
+                    : "opacity-100",
+                )}
+              >
                 Medi EHR
               </span>
             </div>
@@ -1222,9 +1301,9 @@ function DashboardContent() {
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
               className={cn(
                 "hidden lg:flex absolute items-center justify-center rounded-md border border-gray-150 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-500 hover:text-gray-950 dark:hover:text-gray-100 shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 z-10",
-                isSidebarCollapsed 
-                  ? "left-1/2 -translate-x-1/2 top-14 size-7" 
-                  : "right-0 top-1 size-7"
+                isSidebarCollapsed
+                  ? "left-1/2 -translate-x-1/2 top-14 size-7"
+                  : "right-0 top-1 size-7",
               )}
               title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
@@ -1235,10 +1314,12 @@ function DashboardContent() {
               )}
             </button>
 
-            <nav className={cn(
-              "flex-1 overflow-y-auto border-t border-gray-100 dark:border-gray-800 pt-8 mt-8 transition-all duration-300",
-              isSidebarCollapsed ? "lg:mt-16" : "lg:mt-8"
-            )}>
+            <nav
+              className={cn(
+                "flex-1 overflow-y-auto border-t border-gray-100 dark:border-gray-800 pt-8 mt-8 transition-all duration-300",
+                isSidebarCollapsed ? "lg:mt-16" : "lg:mt-8",
+              )}
+            >
               <div className="space-y-2">
                 {sidebarConfig?.navItems.map((item) => (
                   <button
@@ -1247,15 +1328,20 @@ function DashboardContent() {
                     title={isSidebarCollapsed ? item.label : undefined}
                     className={cn(
                       "flex h-11 w-full items-center gap-3 rounded-md px-4 text-left text-sm font-medium text-gray-500 dark:text-gray-400 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-950 dark:hover:text-gray-100 relative group cursor-pointer",
-                      activeTab === item.label && "bg-gray-100 dark:bg-gray-800 text-gray-950 dark:text-gray-100",
-                      isSidebarCollapsed && "lg:px-0 lg:justify-center"
+                      activeTab === item.label &&
+                        "bg-gray-100 dark:bg-gray-800 text-gray-950 dark:text-gray-100",
+                      isSidebarCollapsed && "lg:px-0 lg:justify-center",
                     )}
                   >
                     <item.icon className="size-4 shrink-0" />
-                    <span className={cn(
-                      "min-w-0 flex-1 truncate transition-all duration-300",
-                      isSidebarCollapsed ? "lg:hidden opacity-0 w-0" : "opacity-100"
-                    )}>
+                    <span
+                      className={cn(
+                        "min-w-0 flex-1 truncate transition-all duration-300",
+                        isSidebarCollapsed
+                          ? "lg:hidden opacity-0 w-0"
+                          : "opacity-100",
+                      )}
+                    >
                       {item.label}
                     </span>
                     {item.label === "Messages" && messagesUnreadCount > 0 ? (
@@ -1271,45 +1357,50 @@ function DashboardContent() {
                 ))}
 
                 {sidebarConfig?.showPatientInfoGroup ? (
-                <SidebarNavGroup
-                  label="Patient Info"
-                  icon={UserRound}
-                  items={sidebarConfig.patientInfoItems}
-                  expanded={patientInfoExpanded}
-                  onToggle={() => setPatientInfoExpanded((open) => !open)}
-                  isCollapsed={isSidebarCollapsed}
-                  onExpandSidebar={() => {
-                    setIsSidebarCollapsed(false);
-                    setPatientInfoExpanded(true);
-                  }}
-                  activeTab={activeTab}
-                  onSelectTab={selectTab}
-                  activeTabLabels={patientInfoTabLabels}
-                />
+                  <SidebarNavGroup
+                    label="Patient Info"
+                    icon={UserRound}
+                    items={sidebarConfig.patientInfoItems}
+                    expanded={patientInfoExpanded}
+                    onToggle={() => setPatientInfoExpanded((open) => !open)}
+                    isCollapsed={isSidebarCollapsed}
+                    onExpandSidebar={() => {
+                      setIsSidebarCollapsed(false);
+                      setPatientInfoExpanded(true);
+                    }}
+                    activeTab={activeTab}
+                    onSelectTab={selectTab}
+                    activeTabLabels={patientInfoTabLabels}
+                  />
                 ) : null}
 
-                {sidebarConfig?.showMedicalInfoGroup ? (
-                  sidebarConfig.medicalInfoItems.map((item) => (
-                    <button
-                      key={item.label}
-                      onClick={() => selectTab(item.label)}
-                      title={isSidebarCollapsed ? item.label : undefined}
-                      className={cn(
-                        "flex h-11 w-full items-center gap-3 rounded-md px-4 text-left text-sm font-medium text-gray-500 dark:text-gray-400 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-950 dark:hover:text-gray-100 relative group cursor-pointer",
-                        activeTab === item.label && "bg-gray-100 dark:bg-gray-800 text-gray-950 dark:text-gray-100",
-                        isSidebarCollapsed && "lg:px-0 lg:justify-center"
-                      )}
-                    >
-                      <item.icon className="size-4 shrink-0" />
-                      <span className={cn(
-                        "min-w-0 flex-1 truncate transition-all duration-300",
-                        isSidebarCollapsed ? "lg:hidden opacity-0 w-0" : "opacity-100"
-                      )}>
-                        {item.label}
-                      </span>
-                    </button>
-                  ))
-                ) : null}
+                {sidebarConfig?.showMedicalInfoGroup
+                  ? sidebarConfig.medicalInfoItems.map((item) => (
+                      <button
+                        key={item.label}
+                        onClick={() => selectTab(item.label)}
+                        title={isSidebarCollapsed ? item.label : undefined}
+                        className={cn(
+                          "flex h-11 w-full items-center gap-3 rounded-md px-4 text-left text-sm font-medium text-gray-500 dark:text-gray-400 transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-950 dark:hover:text-gray-100 relative group cursor-pointer",
+                          activeTab === item.label &&
+                            "bg-gray-100 dark:bg-gray-800 text-gray-950 dark:text-gray-100",
+                          isSidebarCollapsed && "lg:px-0 lg:justify-center",
+                        )}
+                      >
+                        <item.icon className="size-4 shrink-0" />
+                        <span
+                          className={cn(
+                            "min-w-0 flex-1 truncate transition-all duration-300",
+                            isSidebarCollapsed
+                              ? "lg:hidden opacity-0 w-0"
+                              : "opacity-100",
+                          )}
+                        >
+                          {item.label}
+                        </span>
+                      </button>
+                    ))
+                  : null}
               </div>
             </nav>
           </div>
@@ -1317,18 +1408,22 @@ function DashboardContent() {
           <div className="mt-auto space-y-2">
             <ThemeToggle collapsed={isSidebarCollapsed} />
 
-            <button 
+            <button
               className={cn(
                 "flex h-11 w-full items-center gap-3 rounded-md px-4 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-950 dark:hover:text-gray-100 transition-all cursor-pointer",
-                isSidebarCollapsed && "lg:px-0 lg:justify-center"
+                isSidebarCollapsed && "lg:px-0 lg:justify-center",
               )}
               title={isSidebarCollapsed ? "Settings" : undefined}
             >
               <Settings className="size-4 shrink-0" />
-              <span className={cn(
-                "transition-all duration-300",
-                isSidebarCollapsed ? "lg:hidden opacity-0 w-0" : "opacity-100"
-              )}>
+              <span
+                className={cn(
+                  "transition-all duration-300",
+                  isSidebarCollapsed
+                    ? "lg:hidden opacity-0 w-0"
+                    : "opacity-100",
+                )}
+              >
                 Settings
               </span>
             </button>
@@ -1352,7 +1447,12 @@ function DashboardContent() {
               </h1>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
-              <Button variant="ghost" size="icon" aria-label="Search" className="text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-gray-100">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Search"
+                className="text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-gray-100"
+              >
                 <Search className="size-5" />
               </Button>
               <Button
@@ -1372,7 +1472,11 @@ function DashboardContent() {
                   aria-haspopup="menu"
                 >
                   <span className="grid size-8 place-items-center rounded-full bg-orange-100 dark:bg-orange-950/40 text-xs text-orange-700 dark:text-orange-400 font-bold">
-                    {userRole === "admin" ? "AD" : userRole === "staff" ? "ND" : "PT"}
+                    {userRole === "admin"
+                      ? "AD"
+                      : userRole === "staff"
+                        ? "ND"
+                        : "PT"}
                   </span>
                   <span className="hidden sm:inline">{roleLabel}</span>
                 </button>
@@ -1398,7 +1502,10 @@ function DashboardContent() {
 
           <div className="space-y-6 p-5 lg:p-8">
             {activeTab === "Appointment Queue" ? (
-              <AppointmentQueue appointments={appointments} patients={patients} />
+              <AppointmentQueue
+                appointments={appointments}
+                patients={patients}
+              />
             ) : activeTab === "Profile" || activeTab === "My Profile" ? (
               <PatientProfile
                 patients={patients}
@@ -1410,10 +1517,7 @@ function DashboardContent() {
                 userRole={userRole ?? undefined}
               />
             ) : activeTab === "Lab Reports" ? (
-              <PatientLabReports
-                patients={patients}
-                records={medicalRecords}
-              />
+              <PatientLabReports patients={patients} records={medicalRecords} />
             ) : activeTab === "Insurance" ? (
               <PatientInsurance
                 patients={patients}
@@ -1425,14 +1529,9 @@ function DashboardContent() {
                 medications={medications}
               />
             ) : activeTab === "Treatment Plans" ? (
-              <PatientTreatmentPlans
-                patients={patients}
-              />
+              <PatientTreatmentPlans patients={patients} />
             ) : activeTab === "Diagnoses" ? (
-              <PatientDiagnoses
-                patients={patients}
-                records={medicalRecords}
-              />
+              <PatientDiagnoses patients={patients} records={medicalRecords} />
             ) : activeTab === "Patient Records" ? (
               <PatientRecords patients={patients} />
             ) : activeTab === "Medications" ? (
@@ -1440,6 +1539,8 @@ function DashboardContent() {
                 patients={patients}
                 medications={medications}
               />
+            ) : activeTab === "Book a Doctor" ? (
+              <BookDoctor doctors={doctors} onBook={handleBookDoctor} />
             ) : activeTab === "Add Medication" ? (
               <AddMedicationForm
                 patients={patients}
@@ -1451,12 +1552,11 @@ function DashboardContent() {
                 records={medicalRecords}
               />
             ) : activeTab === "Medical Bills" ? (
-              <PatientMedicalBills
-                patients={patients}
-                bills={medicalBills}
-              />
+              <PatientMedicalBills patients={patients} bills={medicalBills} />
             ) : activeTab === "Add Patient" ? (
               <AddPatientForm onAdd={handleAddPatient} />
+            ) : activeTab === "Add Doctor" ? (
+              <AddDoctorForm onAdd={handleAddDoctor} />
             ) : activeTab === "Schedule" ? (
               <ScheduleAppointmentForm onSchedule={handleScheduleAppointment} />
             ) : activeTab === "Bills" ? (
@@ -1616,12 +1716,16 @@ function DashboardContent() {
                           </p>
                           <div className="grid grid-cols-[auto_1fr_auto] gap-x-3 gap-y-1">
                             <span className="h-6 w-1 rounded-full bg-[#3d3bdc]" />
-                            <span className="text-gray-600 dark:text-gray-355">With AI</span>
+                            <span className="text-gray-600 dark:text-gray-355">
+                              With AI
+                            </span>
                             <span className="font-bold text-gray-950 dark:text-gray-100">
                               {selectedMonth.withAi}
                             </span>
                             <span className="h-6 w-1 rounded-full bg-gray-900 dark:bg-gray-200" />
-                            <span className="text-gray-600 dark:text-gray-355">Without AI</span>
+                            <span className="text-gray-600 dark:text-gray-355">
+                              Without AI
+                            </span>
                             <span className="font-bold text-gray-950 dark:text-gray-100">
                               {selectedMonth.withoutAi}
                             </span>

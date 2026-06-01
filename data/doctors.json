@@ -1,0 +1,50 @@
+[
+  {
+    "id": "doc_1",
+    "name": "Dr. Aisha Rahman",
+    "specialization": "Cardiology",
+    "photo": "/doctor-1.svg",
+    "fee": 120,
+    "available": "Mon, Wed, Fri • 09:00-13:00"
+  },
+  {
+    "id": "doc_2",
+    "name": "Dr. Miguel Santos",
+    "specialization": "Dermatology",
+    "photo": "/doctor-2.svg",
+    "fee": 80,
+    "available": "Tue, Thu • 11:00-16:00"
+  },
+  {
+    "id": "doc_3",
+    "name": "Dr. Priya Sharma",
+    "specialization": "Pediatrics",
+    "photo": "/doctor-3.svg",
+    "fee": 70,
+    "available": "Mon-Fri • 08:30-12:30"
+  },
+  {
+    "id": "doc_4",
+    "name": "Dr. John Miller",
+    "specialization": "Orthopedics",
+    "photo": "/doctor-4.svg",
+    "fee": 100,
+    "available": "Mon, Tue, Thu • 10:00-15:00"
+  },
+  {
+    "id": "doc_5",
+    "name": "Dr. Lina Kovac",
+    "specialization": "Neurology",
+    "photo": "/doctor-5.svg",
+    "fee": 150,
+    "available": "Wed, Fri • 13:00-17:00"
+  },
+  {
+    "id": "doc_6",
+    "name": "Dr. Omar Farouk",
+    "specialization": "General",
+    "photo": "/doctor-6.svg",
+    "fee": 60,
+    "available": "Daily • 09:00-18:00"
+  }
+]
