@@ -1206,7 +1206,7 @@ function DashboardContent() {
     alert(
       `Appointment booked with ${booking.doctorName} on ${booking.date} at ${booking.time}`,
     );
-    setActiveTab("Schedule");
+    setActiveTab("Appointments/Schedule");
   }, []);
 
   const selectedMonth = useMemo(
@@ -1509,11 +1509,6 @@ function DashboardContent() {
             ) : activeTab === "Profile" || activeTab === "My Profile" ? (
               <PatientProfile
                 patients={patients}
-                appointments={appointments}
-                medications={medications}
-                medicalBills={medicalBills}
-                medicalRecords={medicalRecords}
-                onNavigate={setActiveTab}
                 userRole={userRole ?? undefined}
               />
             ) : activeTab === "Lab Reports" ? (
@@ -1557,8 +1552,11 @@ function DashboardContent() {
               <AddPatientForm onAdd={handleAddPatient} />
             ) : activeTab === "Add Doctor" ? (
               <AddDoctorForm onAdd={handleAddDoctor} />
-            ) : activeTab === "Schedule" ? (
-              <ScheduleAppointmentForm onSchedule={handleScheduleAppointment} />
+            ) : activeTab === "Appointments/Schedule" ? (
+              <ScheduleAppointmentForm
+                onSchedule={handleScheduleAppointment}
+                appointments={appointments}
+              />
             ) : activeTab === "Bills" ? (
               <>
                 {paymentNotice ? (

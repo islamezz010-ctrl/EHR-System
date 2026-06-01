@@ -1,47 +1,27 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ComponentType } from "react";
-import type { ColumnDef } from "@tanstack/react-table";
 import {
   Activity,
-  CheckCircle2,
   Droplet,
-  Eye,
   FileBarChart,
   Pencil,
   PencilLine,
   Pill,
   Ruler,
   Scale,
-  Trash2,
 } from "lucide-react";
 import Image from "next/image";
 
-import { ProfileTableCard } from "@/components/profile-table-card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Appointment, Patient } from "@/lib/clinical-types";
+import type { Patient } from "@/lib/clinical-types";
 import { getInitials } from "@/lib/clinical-types";
-import type { MedicalBillRecord } from "@/lib/medical-bills";
-import { getMedicalBillsForPatient } from "@/lib/medical-bills";
-import type { MedicalRecordEntry } from "@/lib/medical-records";
-import { getMedicalRecordsForPatient } from "@/lib/medical-records";
-import type { MedicationRecord } from "@/lib/medications";
-import { getMedicationsForPatient } from "@/lib/medications";
 import {
-  buildProfileAppointments,
-  buildProfileBillRows,
-  buildProfileLabRows,
-  buildProfileMedicationRows,
   getPatientHealthMetrics,
   getPatientInsuranceInfo,
   getPatientProfileMeta,
   getProfileSummary,
-  type ProfileAppointmentRow,
-  type ProfileBillRow,
-  type ProfileLabRow,
-  type ProfileMedicationRow,
 } from "@/lib/patient-profile";
 import { cn } from "@/lib/utils";
 
@@ -50,11 +30,6 @@ const selectClassName =
 
 type PatientProfileProps = {
   patients: Patient[];
-  appointments: Appointment[];
-  medications: MedicationRecord[];
-  medicalBills: MedicalBillRecord[];
-  medicalRecords: MedicalRecordEntry[];
-  onNavigate?: (tab: string) => void;
   userRole?: string;
 };
 
@@ -77,13 +52,7 @@ function InsuranceLabel({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ProfileDetail({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function ProfileDetail({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
@@ -159,15 +128,7 @@ function BpReading({
   );
 }
 
-export function PatientProfile({
-  patients,
-  appointments,
-  medications,
-  medicalBills,
-  medicalRecords,
-  onNavigate,
-  userRole,
-}: PatientProfileProps) {
+export function PatientProfile({ patients, userRole }: PatientProfileProps) {
   const [selectedPatientId, setSelectedPatientId] = useState(
     patients[0]?.id ?? "",
   );
@@ -196,125 +157,13 @@ export function PatientProfile({
   );
 
   const insuranceInfo = useMemo(
-    () =>
-      patient
-        ? getPatientInsuranceInfo(patient, patientIndex, appointments)
-        : null,
-    [patient, patientIndex, appointments],
+    () => (patient ? getPatientInsuranceInfo(patient, patientIndex, []) : null),
+    [patient, patientIndex],
   );
 
   const healthMetrics = useMemo(
     () => (patient ? getPatientHealthMetrics(patient, patientIndex) : null),
     [patient, patientIndex],
-  );
-
-  const appointmentRows = useMemo(
-    () =>
-      patient
-        ? buildProfileAppointments(patient, appointments, medicalBills)
-        : [],
-    [patient, appointments, medicalBills],
-  );
-
-  const labRows = useMemo(() => {
-    if (!patient) return [];
-    return buildProfileLabRows(
-      getMedicalRecordsForPatient(medicalRecords, patient.id),
-    );
-  }, [patient, medicalRecords]);
-
-  const billRows = useMemo(() => {
-    if (!patient) return [];
-    return buildProfileBillRows(
-      getMedicalBillsForPatient(medicalBills, patient.id),
-    );
-  }, [patient, medicalBills]);
-
-  const medicationRows = useMemo(() => {
-    if (!patient) return [];
-    return buildProfileMedicationRows(
-      getMedicationsForPatient(medications, patient.id),
-    );
-  }, [patient, medications]);
-
-  const appointmentColumns = useMemo<ColumnDef<ProfileAppointmentRow>[]>(
-    () => [
-      { accessorKey: "visitType", header: "Visit Type" },
-      { accessorKey: "date", header: "Date" },
-      { accessorKey: "provider", header: "Provider" },
-      {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) => (
-          <Badge
-            variant="outline"
-            className="border-0 bg-teal-100 text-teal-700 dark:bg-teal-950/30 dark:text-teal-400"
-          >
-            {row.original.status}
-          </Badge>
-        ),
-      },
-      {
-        id: "actions",
-        header: "Actions",
-        cell: () => (
-          <div className="flex justify-end gap-1">
-            <Button variant="ghost" size="icon-sm" aria-label="View">
-              <Eye className="size-4 text-slate-500" />
-            </Button>
-            <Button variant="ghost" size="icon-sm" aria-label="Edit">
-              <Pencil className="size-4 text-slate-500" />
-            </Button>
-            <Button variant="ghost" size="icon-sm" aria-label="Delete">
-              <Trash2 className="size-4 text-slate-500" />
-            </Button>
-          </div>
-        ),
-      },
-    ],
-    [],
-  );
-
-  const labColumns = useMemo<ColumnDef<ProfileLabRow>[]>(
-    () => [
-      { accessorKey: "date", header: "Date" },
-      { accessorKey: "name", header: "Name" },
-      { accessorKey: "result", header: "Result" },
-    ],
-    [],
-  );
-
-  const billColumns = useMemo<ColumnDef<ProfileBillRow>[]>(
-    () => [
-      { accessorKey: "date", header: "Date" },
-      { accessorKey: "amount", header: "Amount" },
-      {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) =>
-          row.original.status === "Paid" ? (
-            <span className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-600 dark:text-teal-400">
-              <CheckCircle2 className="size-4" />
-              Paid
-            </span>
-          ) : (
-            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
-              {row.original.status}
-            </span>
-          ),
-      },
-    ],
-    [],
-  );
-
-  const medicationColumns = useMemo<ColumnDef<ProfileMedicationRow>[]>(
-    () => [
-      { accessorKey: "medicationName", header: "Medication Name" },
-      { accessorKey: "dose", header: "Dose" },
-      { accessorKey: "frequency", header: "Frequency" },
-      { accessorKey: "condition", header: "Condition" },
-    ],
-    [],
   );
 
   if (!patient || !meta || !summary || !insuranceInfo || !healthMetrics) {
@@ -331,7 +180,7 @@ export function PatientProfile({
             {userRole === "patient" ? "My Profile" : "Patient profile"}
           </h2>
           <p className="text-sm text-muted-foreground">
-            Overview, visits, records, bills, and medications
+            Overview and vital information
           </p>
         </div>
         {userRole !== "patient" && (
@@ -411,33 +260,21 @@ export function PatientProfile({
               <ProfileDetail label="Role" value="Patient" />
               <ProfileDetail label="Age" value={String(summary.age)} />
               <ProfileDetail label="E-mail" value={patient.contact.email} />
-              <ProfileDetail
-                label="Birth Date"
-                value={summary.birthDate}
-              />
+              <ProfileDetail label="Birth Date" value={summary.birthDate} />
               <ProfileDetail label="Phone" value={patient.contact.phone} />
-              <ProfileDetail
-                label="Status"
-                value={meta.maritalStatus}
-              />
+              <ProfileDetail label="Status" value={meta.maritalStatus} />
               <ProfileDetail label="Work for" value={meta.workFor} />
               <ProfileDetail
                 label="Gender"
                 value={patient.medicalProfile.gender}
               />
-              <ProfileDetail
-                label="Address"
-                value={meta.address}
-                />
+              <ProfileDetail label="Address" value={meta.address} />
             </div>
 
             <div className="mt-6 grid gap-3 border-t border-slate-100 pt-4 sm:grid-cols-2 dark:border-slate-800">
               <ProfileDetail label="Chart ID" value={meta.chartId} />
               <ProfileDetail label="Legacy ID" value={meta.legacyId} />
-              <ProfileDetail
-                label="Patient Since"
-                value={meta.patientSince}
-              />
+              <ProfileDetail label="Patient Since" value={meta.patientSince} />
               <ProfileDetail
                 label="Preferred Provider"
                 value={meta.preferredProvider}
@@ -523,12 +360,14 @@ export function PatientProfile({
                   <h3 className="text-3xl font-extrabold text-slate-900 dark:text-slate-50">
                     {healthMetrics.glucose}
                   </h3>
-                  <p className={cn(
-                    "text-xs font-semibold",
-                    healthMetrics.glucose?.includes("118") 
-                      ? "text-amber-600 dark:text-amber-400" 
-                      : "text-emerald-600 dark:text-emerald-400"
-                  )}>
+                  <p
+                    className={cn(
+                      "text-xs font-semibold",
+                      healthMetrics.glucose?.includes("118")
+                        ? "text-amber-600 dark:text-amber-400"
+                        : "text-emerald-600 dark:text-emerald-400",
+                    )}
+                  >
                     {healthMetrics.glucose?.includes("118")
                       ? "Slightly Elevated (Target Fasting: < 100 mg/dL)"
                       : "Normal Fasting (Target: 70 - 100 mg/dL)"}
@@ -543,82 +382,47 @@ export function PatientProfile({
         )}
       </div>
 
-      {/* Row 3: Appointments + Insurance */}
-      <div className="grid gap-5 lg:grid-cols-2">
-        <ProfileTableCard
-          title="Appointments"
-          columns={appointmentColumns}
-          data={appointmentRows}
-          onBrowseAll={() => onNavigate?.("Appointment Queue")}
-          emptyMessage="No appointments."
-        />
+      {/* Row 3: Insurance */}
+      <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-md dark:border-slate-800 dark:bg-card">
+        <CardContent className="p-0">
+          <div className="grid gap-6 p-6 sm:grid-cols-3">
+            <InsuranceColumn
+              title="Primary Insurance"
+              value={insuranceInfo.primaryInsurance}
+              copay={insuranceInfo.primaryCopay}
+            />
+            <InsuranceColumn
+              title="Secondary Insurance"
+              value={insuranceInfo.secondaryInsurance}
+              copay={insuranceInfo.secondaryCopay}
+            />
+            <InsuranceColumn
+              title="Next Appointment"
+              value={insuranceInfo.nextAppointmentDate}
+              copay={insuranceInfo.nextAppointmentCopay}
+            />
+          </div>
 
-        <Card className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-md dark:border-slate-800 dark:bg-card">
-          <CardContent className="p-0">
-            <div className="grid gap-6 p-6 sm:grid-cols-3">
-              <InsuranceColumn
-                title="Primary Insurance"
-                value={insuranceInfo.primaryInsurance}
-                copay={insuranceInfo.primaryCopay}
-              />
-              <InsuranceColumn
-                title="Secondary Insurance"
-                value={insuranceInfo.secondaryInsurance}
-                copay={insuranceInfo.secondaryCopay}
-              />
-              <InsuranceColumn
-                title="Next Appointment"
-                value={insuranceInfo.nextAppointmentDate}
-                copay={insuranceInfo.nextAppointmentCopay}
-              />
-            </div>
-
-            <div className="flex flex-col gap-3 border-t border-slate-100 px-6 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800">
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                Last visited pharmacy
-              </p>
-              <div className="flex items-center gap-3">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-teal-50 text-teal-500 dark:bg-teal-950/30">
-                  <Pill className="size-5" />
-                </span>
-                <div>
-                  <p className="text-sm font-bold text-teal-500">
-                    {insuranceInfo.pharmacyName}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {insuranceInfo.pharmacyAddress}
-                  </p>
-                </div>
+          <div className="flex flex-col gap-3 border-t border-slate-100 px-6 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Last visited pharmacy
+            </p>
+            <div className="flex items-center gap-3">
+              <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-teal-50 text-teal-500 dark:bg-teal-950/30">
+                <Pill className="size-5" />
+              </span>
+              <div>
+                <p className="text-sm font-bold text-teal-500">
+                  {insuranceInfo.pharmacyName}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  {insuranceInfo.pharmacyAddress}
+                </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Row 4: Records, Bills, Medications */}
-      <div className="grid gap-5 lg:grid-cols-3">
-        <ProfileTableCard
-          title="Medical Records"
-          columns={labColumns}
-          data={labRows}
-          onBrowseAll={() => onNavigate?.("Medical Records")}
-          emptyMessage="No lab results."
-        />
-        <ProfileTableCard
-          title="Medical Bills"
-          columns={billColumns}
-          data={billRows}
-          onBrowseAll={() => onNavigate?.("Medical Bills")}
-          emptyMessage="No bills."
-        />
-        <ProfileTableCard
-          title="Medications"
-          columns={medicationColumns}
-          data={medicationRows}
-          onBrowseAll={() => onNavigate?.("Medications")}
-          emptyMessage="No medications."
-        />
-      </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -89,7 +89,7 @@ export function getSidebarConfig(role: UserRole): SidebarConfig {
       return {
         navItems: [
           { label: "My Profile", icon: UserRound },
-          { label: "Schedule", icon: CalendarDays },
+          { label: "Appointments/Schedule", icon: CalendarDays },
           { label: "Book a Doctor", icon: Stethoscope },
           { label: "Bills", icon: Receipt },
         ],
@@ -105,7 +105,7 @@ export function getSidebarConfig(role: UserRole): SidebarConfig {
         ],
         showPatientInfoGroup: false,
         showMedicalInfoGroup: true,
-        defaultTab: "Schedule",
+        defaultTab: "Appointments/Schedule",
       };
   }
 }
