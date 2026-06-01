@@ -63,6 +63,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AddPatientForm } from "@/components/add-patient-form";
+import { AddMedicationForm } from "@/components/add-medication-form";
 import { PatientBillsPanel } from "@/components/patient-bills-panel";
 import { ScheduleAppointmentForm } from "@/components/schedule-appointment-form";
 import { PatientAnalytics } from "@/components/patient-analytics";
@@ -95,6 +96,9 @@ import {
 } from "@/lib/medical-records";
 import {
   INITIAL_MEDICATIONS,
+  createMedicationFromInput,
+  formatMedicationSummary,
+  type NewMedicationInput,
   type MedicationRecord,
 } from "@/lib/medications";
 import {
@@ -175,13 +179,6 @@ const consultationMonths = [
   { month: "Oct", withAi: 22, withoutAi: 16 },
   { month: "Nov", withAi: 19, withoutAi: 26 },
   { month: "Dec", withAi: 23, withoutAi: 27 },
-];
-
-const diagnosisItems = [
-  { label: "Diabetes", value: "40%", color: "bg-[#3432d9]" },
-  { label: "Hypertension", value: "25%", color: "bg-[#4d22d8]" },
-  { label: "Respiratory", value: "20%", color: "bg-[#315cf6]" },
-  { label: "Fever/Infection", value: "15%", color: "bg-[#5574f2]" },
 ];
 
 function PriorityDot({ priority }: { priority: string }) {
@@ -982,7 +979,8 @@ function DashboardContent() {
     patientsData.map((p, i) => withDefaultContact(p, i)),
   );
   const [billings, setBillings] = useState<BillingRecord[]>(INITIAL_BILLINGS);
-  const [medications] = useState<MedicationRecord[]>(INITIAL_MEDICATIONS);
+  const [medications, setMedications] =
+    useState<MedicationRecord[]>(INITIAL_MEDICATIONS);
   const [medicalBills] = useState<MedicalBillRecord[]>(INITIAL_MEDICAL_BILLS);
   const [patientBills, setPatientBills] = useState<PatientBill[]>(
     INITIAL_PATIENT_BILLS,
@@ -1100,6 +1098,37 @@ function DashboardContent() {
     setAppointments((prev) => [...prev, appointment]);
     setBillings((prev) => [...prev, billing]);
     setActiveTab("Appointment Queue");
+  }, []);
+
+  const handleAddMedication = useCallback((input: NewMedicationInput) => {
+    const medication = createMedicationFromInput(input, `med_${Date.now()}`);
+
+    setMedications((prev) => [...prev, medication]);
+    setPatients((prev) =>
+      prev.map((patient) => {
+        if (patient.id !== input.patientId) return patient;
+
+        const medicationSummary = formatMedicationSummary(medication);
+        const currentMedications =
+          patient.medicalProfile.currentMedications.includes(
+            medicationSummary,
+          )
+            ? patient.medicalProfile.currentMedications
+            : [
+                ...patient.medicalProfile.currentMedications,
+                medicationSummary,
+              ];
+
+        return {
+          ...patient,
+          medicalProfile: {
+            ...patient.medicalProfile,
+            currentMedications,
+          },
+        };
+      }),
+    );
+    setActiveTab("Medications");
   }, []);
 
   const handleScheduleAppointment = useCallback((input: NewPatientInput) => {
@@ -1411,6 +1440,11 @@ function DashboardContent() {
                 patients={patients}
                 medications={medications}
               />
+            ) : activeTab === "Add Medication" ? (
+              <AddMedicationForm
+                patients={patients}
+                onAdd={handleAddMedication}
+              />
             ) : activeTab === "Medical Records" ? (
               <PatientMedicalRecords
                 patients={patients}
@@ -1490,7 +1524,7 @@ function DashboardContent() {
                   ))}
                 </section>
 
-                <section className="grid gap-5 xl:grid-cols-[1fr_316px]">
+                <section className="grid gap-5">
                   <Card className="rounded-xl border-0 py-5 shadow-sm">
                     <CardHeader className="gap-3 px-5 sm:grid-cols-[1fr_auto]">
                       <CardTitle className="text-lg font-semibold">
@@ -1593,56 +1627,6 @@ function DashboardContent() {
                             </span>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="rounded-xl border-0 py-5 shadow-sm">
-                    <CardHeader className="px-5">
-                      <CardTitle className="text-lg font-semibold">
-                        Diagnosis Distribution
-                      </CardTitle>
-                      <CardAction>
-                        <Button
-                          variant="outline"
-                          size="icon-sm"
-                          className="bg-white dark:bg-gray-800 dark:text-gray-150 dark:border-gray-700"
-                          aria-label="Diagnosis options"
-                        >
-                          <MoreVertical className="size-4" />
-                        </Button>
-                      </CardAction>
-                    </CardHeader>
-                    <CardContent className="px-5">
-                      <div className="relative h-44">
-                        <div className="absolute left-1 top-2 grid size-32 place-items-center rounded-full bg-[#3432d9] text-2xl font-semibold text-white">
-                          40%
-                        </div>
-                        <div className="absolute right-8 top-0 grid size-16 place-items-center rounded-full bg-[#315cf6] text-sm font-semibold text-white">
-                          20%
-                        </div>
-                        <div className="absolute bottom-0 right-12 grid size-24 place-items-center rounded-full bg-[#4d22d8] text-lg font-semibold text-white">
-                          25%
-                        </div>
-                        <div className="absolute right-0 top-11 grid size-12 place-items-center rounded-full bg-[#5574f2] text-xs font-semibold text-white">
-                          15%
-                        </div>
-                      </div>
-                      <div className="space-y-2 pt-1">
-                        {diagnosisItems.map((item) => (
-                          <div
-                            key={item.label}
-                            className="flex items-center gap-2 text-sm"
-                          >
-                            <span
-                              className={cn("size-3 rounded-sm", item.color)}
-                            />
-                            <span className="min-w-0 flex-1 truncate text-gray-600 dark:text-gray-400">
-                              {item.label}
-                            </span>
-                            <span className="font-semibold text-gray-950 dark:text-gray-250">{item.value}</span>
-                          </div>
-                        ))}
                       </div>
                     </CardContent>
                   </Card>

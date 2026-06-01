@@ -41,6 +41,7 @@ const ALL_PATIENT_INFO_ITEMS: SidebarNavItem[] = [
 
 const ALL_MEDICAL_INFO_ITEMS: SidebarNavItem[] = [
   { label: "Medications", icon: Pill },
+  { label: "Add Medication", icon: Pill },
   { label: "Medical Records", icon: FileText },
   { label: "Lab Reports", icon: FlaskConical },
   { label: "Insurance", icon: Shield },
@@ -93,7 +94,9 @@ export function getSidebarConfig(role: UserRole): SidebarConfig {
         patientInfoItems: [],
         medicalInfoItems: [
           ...ALL_MEDICAL_INFO_ITEMS.filter(
-            (item) => item.label !== "Medical Bills",
+            (item) =>
+              item.label !== "Medical Bills" &&
+              item.label !== "Add Medication",
           ),
           { label: "Prescriptions", icon: Pill },
           { label: "Treatment Plans", icon: ClipboardList },
