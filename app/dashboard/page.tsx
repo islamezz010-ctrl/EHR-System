@@ -121,6 +121,7 @@ import {
   getAgeFromDob,
   getInitials,
   withDefaultContact,
+  buildAppointmentDateIso,
 } from "@/lib/clinical-types";
 import { cn } from "@/lib/utils";
 import {
@@ -392,7 +393,11 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
                 Filter
               </Button>
               {filterOpen && (
-                <div className="absolute right-0 top-10 z-10 w-48 overflow-hidden rounded-md bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 py-1 shadow-lg ring-1 ring-gray-200 dark:ring-transparent">
+                <div
+                  className="absolute right-0 top-10 z-30 w-48 overflow-hidden rounded-xl border border-border/60 bg-background/80 shadow-2xl shadow-black/10 ring-1 ring-black/[0.03] backdrop-blur-xl py-1"
+                  style={{ animation: "dropdownFadeIn 0.18s ease-out" }}
+                >
+                  <style>{`@keyframes dropdownFadeIn { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }`}</style>
                   <button
                     onClick={() => {
                       setStatusFilter(null);
@@ -557,7 +562,7 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
                 {/* Current Appointment */}
                 <div className="rounded-lg border border-gray-100 dark:border-gray-800 p-4">
                   <h4 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
-                    <CalendarDays className="size-4 text-[#3d3bdc] dark:text-indigo-400" />
+                    <CalendarDays className="size-4 text-[var(--color-primary)] dark:text-indigo-400" />
                     Current Appointment
                   </h4>
                   <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-350">
@@ -621,7 +626,7 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
                 {/* Current Medications */}
                 <div className="rounded-lg border border-gray-100 dark:border-gray-800 p-4">
                   <h4 className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
-                    <Pill className="size-4 text-[#3d3bdc] dark:text-indigo-400" />
+                    <Pill className="size-4 text-[var(--color-primary)] dark:text-indigo-400" />
                     Current Medications
                   </h4>
                   <ul className="space-y-1.5">
@@ -631,7 +636,7 @@ function PatientRecords({ patients }: { patients: Patient[] }) {
                           key={med}
                           className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-350"
                         >
-                          <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[#3d3bdc] dark:bg-indigo-400" />
+                          <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[var(--color-primary)] dark:bg-indigo-400" />
                           {med}
                         </li>
                       ),
@@ -796,7 +801,11 @@ function AppointmentQueue({
                 Filter
               </Button>
               {filterOpen && (
-                <div className="absolute right-0 top-10 z-10 w-48 overflow-hidden rounded-md bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 py-1 shadow-lg ring-1 ring-gray-200 dark:ring-transparent">
+                <div
+                  className="absolute right-0 top-10 z-30 w-48 overflow-hidden rounded-xl border border-border/60 bg-background/80 shadow-2xl shadow-black/10 ring-1 ring-black/[0.03] backdrop-blur-xl py-1"
+                  style={{ animation: "dropdownFadeIn 0.18s ease-out" }}
+                >
+                  <style>{`@keyframes dropdownFadeIn { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }`}</style>
                   <button
                     onClick={() => {
                       setStatusFilter(null);
@@ -1184,6 +1193,7 @@ function DashboardContent() {
     const appointment: Appointment = {
       id: appointmentId,
       time: booking.time,
+      appointmentDateIso: buildAppointmentDateIso(booking.date, booking.time),
       patient: "Current Patient", // In a real app, get from auth
       reason: booking.visitReason,
       priority: "Normal",
@@ -1272,7 +1282,7 @@ function DashboardContent() {
                   : "",
               )}
             >
-              <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#3d3bdc] text-white">
+              <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[var(--color-primary)] text-primary-foreground">
                 <Activity className="size-5" />
               </div>
               <span
@@ -1481,7 +1491,11 @@ function DashboardContent() {
                   <span className="hidden sm:inline">{roleLabel}</span>
                 </button>
                 {profileOpen ? (
-                  <div className="absolute right-0 top-12 z-20 w-48 overflow-hidden rounded-md bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 py-1 text-sm shadow-xl ring-1 ring-gray-200 dark:ring-transparent">
+                  <div
+                    className="absolute right-0 top-12 z-30 w-48 overflow-hidden rounded-xl border border-border/60 bg-background/80 shadow-2xl shadow-black/10 ring-1 ring-black/[0.03] backdrop-blur-xl py-1 text-sm"
+                    style={{ animation: "dropdownFadeIn 0.18s ease-out" }}
+                  >
+                    <style>{`@keyframes dropdownFadeIn { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }`}</style>
                     <button className="flex w-full items-center gap-2 px-3 py-2 text-left font-medium hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-250 cursor-pointer">
                       <UserRound className="size-4" />
                       Account
@@ -1679,9 +1693,9 @@ function DashboardContent() {
                               <div className="flex h-[224px] w-full max-w-12 flex-col justify-center">
                                 <div
                                   className={cn(
-                                    "rounded-t-full bg-gradient-to-b from-indigo-200 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-950/20 transition-all group-hover:from-[#3d3bdc] group-hover:to-[#4f46e5]",
+                                    "rounded-t-full bg-gradient-to-b from-indigo-200 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-950/20 transition-all group-hover:from-[var(--color-primary)] group-hover:to-[#4f46e5]",
                                     selectedMonth.month === item.month &&
-                                      "from-[#3d3bdc] to-[#4f46e5]",
+                                      "from-[var(--color-primary)] to-[#4f46e5]",
                                   )}
                                   style={{ height: `${item.withAi * 3}px` }}
                                 />

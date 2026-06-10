@@ -5,6 +5,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Pill, Search } from "lucide-react";
 
 import { DataTable } from "@/components/data-table";
+import { CustomSelect } from "@/components/ui/custom-select";
 import {
   Card,
   CardContent,
@@ -24,9 +25,6 @@ type PatientMedicationsProps = {
   medications: MedicationRecord[];
 };
 
-const selectClassName =
-  "flex h-9 w-full max-w-md rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
-
 export function PatientMedications({
   patients,
   medications,
@@ -45,6 +43,13 @@ export function PatientMedications({
       setSelectedPatientId(patients[0].id);
     }
   }, [patients, selectedPatientId]);
+
+  const patientOptions = useMemo(() => {
+    return patients.map((p) => ({
+      value: p.id,
+      label: p.name,
+    }));
+  }, [patients]);
 
   const selectedPatient = useMemo(
     () => patients.find((p) => p.id === selectedPatientId) ?? null,
@@ -112,22 +117,19 @@ export function PatientMedications({
               >
                 Patient
               </label>
-              <select
-                id="med-patient"
+              <CustomSelect
+                options={patientOptions}
                 value={selectedPatientId}
-                onChange={(e) => {
-                  setSelectedPatientId(e.target.value);
+                onChange={(val) => {
+                  setSelectedPatientId(val);
                   setSearchQuery("");
                 }}
-                className={selectClassName}
+                placeholder="Select patient"
                 disabled={patients.length === 0}
-              >
-                {patients.map((patient) => (
-                  <option key={patient.id} value={patient.id}>
-                    {patient.name}
-                  </option>
-                ))}
-              </select>
+                className="max-w-md w-full"
+                showSearch
+                showAvatars
+              />
             </div>
             <div className="relative w-full sm:max-w-xs">
               <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />

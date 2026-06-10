@@ -4,6 +4,7 @@ import { useState } from "react";
 import { UserPlus, Stethoscope } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { CustomSelect } from "@/components/ui/custom-select";
 import {
   Card,
   CardContent,
@@ -21,6 +22,15 @@ type FormState = {
   photo: string;
   contact: string;
 };
+
+const specializationOptions = [
+  { value: "Cardiology", label: "Cardiology" },
+  { value: "Dermatology", label: "Dermatology" },
+  { value: "Pediatrics", label: "Pediatrics" },
+  { value: "Orthopedics", label: "Orthopedics" },
+  { value: "Neurology", label: "Neurology" },
+  { value: "General", label: "General" },
+];
 
 function createEmpty(): FormState {
   return {
@@ -100,19 +110,12 @@ export function AddDoctorForm({ onAdd }: Props) {
               <label className="text-sm font-medium text-foreground">
                 Specialization
               </label>
-              <select
+              <CustomSelect
+                options={specializationOptions}
                 value={form.specialization}
-                onChange={(e) => update("specialization", e.target.value)}
-                className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
-              >
-                <option value="">Select specialization</option>
-                <option>Cardiology</option>
-                <option>Dermatology</option>
-                <option>Pediatrics</option>
-                <option>Orthopedics</option>
-                <option>Neurology</option>
-                <option>General</option>
-              </select>
+                onChange={(val) => update("specialization", val)}
+                placeholder="Select specialization"
+              />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">

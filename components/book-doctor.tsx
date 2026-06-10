@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { CustomSelect } from "@/components/ui/custom-select";
 import {
   Dialog,
   DialogContent,
@@ -54,6 +55,14 @@ export function BookDoctor({
     return Array.from(new Set(doctors.map((d) => d.specialization)));
   }, [doctors]);
 
+  const specializationOptions = useMemo(() => {
+    const opts = [{ value: "", label: "All specializations" }];
+    specializations.forEach((s) => {
+      opts.push({ value: s, label: s });
+    });
+    return opts;
+  }, [specializations]);
+
   const filtered = useMemo(() => {
     return doctors.filter((d) => {
       if (specialization && d.specialization !== specialization) return false;
@@ -101,18 +110,13 @@ export function BookDoctor({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <select
+            <CustomSelect
+              options={specializationOptions}
               value={specialization}
-              onChange={(e) => setSpecialization(e.target.value)}
-              className="flex h-9 rounded-md border border-input bg-background px-3 py-1 text-sm"
-            >
-              <option value="">All specializations</option>
-              {specializations.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
+              onChange={setSpecialization}
+              placeholder="All specializations"
+              className="sm:w-56 min-w-[200px]"
+            />
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import {
   Activity,
+  Check,
   ClipboardList,
   Eye,
   FileText,
@@ -11,6 +12,7 @@ import {
   Pill,
   Search,
   Stethoscope,
+  User,
 } from "lucide-react";
 
 import { DataTable } from "@/components/data-table";
@@ -43,9 +45,6 @@ type PatientMedicalRecordsProps = {
   records: MedicalRecordEntry[];
 };
 
-const selectClassName =
-  "flex h-9 w-full max-w-md rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
-
 export function PatientMedicalRecords({
   patients,
   records,
@@ -57,6 +56,11 @@ export function PatientMedicalRecords({
   const [selectedRecord, setSelectedRecord] =
     useState<MedicalRecordEntry | null>(null);
 
+  // Patient search state
+  const [patientSearchQuery, setPatientSearchQuery] = useState("");
+  const [isPatientDropdownOpen, setIsPatientDropdownOpen] = useState(false);
+  const patientSearchRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (patients.length === 0) {
       setSelectedPatientId("");
@@ -67,9 +71,41 @@ export function PatientMedicalRecords({
     }
   }, [patients, selectedPatientId]);
 
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        patientSearchRef.current &&
+        !patientSearchRef.current.contains(e.target as Node)
+      ) {
+        setIsPatientDropdownOpen(false);
+      }
+    }
+    if (isPatientDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isPatientDropdownOpen]);
+
   const selectedPatient = useMemo(
     () => patients.find((p) => p.id === selectedPatientId) ?? null,
     [patients, selectedPatientId],
+  );
+
+  const filteredPatients = useMemo(() => {
+    if (!patientSearchQuery.trim()) return patients;
+    const q = patientSearchQuery.toLowerCase();
+    return patients.filter((p) => p.name.toLowerCase().includes(q));
+  }, [patients, patientSearchQuery]);
+
+  const handleSelectPatient = useCallback(
+    (patient: Patient) => {
+      setSelectedPatientId(patient.id);
+      setPatientSearchQuery("");
+      setIsPatientDropdownOpen(false);
+      setSearchQuery("");
+    },
+    [],
   );
 
   const patientRecords = useMemo(() => {
@@ -150,29 +186,105 @@ export function PatientMedicalRecords({
             </CardDescription>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="space-y-1.5">
+            <div className="relative space-y-1.5" ref={patientSearchRef}>
               <label
-                htmlFor="record-patient"
+                htmlFor="record-patient-search"
                 className="text-xs font-medium text-muted-foreground"
               >
                 Patient
               </label>
-              <select
-                id="record-patient"
-                value={selectedPatientId}
-                onChange={(e) => {
-                  setSelectedPatientId(e.target.value);
-                  setSearchQuery("");
-                }}
-                className={selectClassName}
-                disabled={patients.length === 0}
-              >
-                {patients.map((patient) => (
-                  <option key={patient.id} value={patient.id}>
-                    {patient.name}
-                  </option>
-                ))}
-              </select>
+              <div className="relative w-full max-w-md">
+                <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="record-patient-search"
+                  placeholder="Search patients"
+                  className="pl-9"
+                  value={isPatientDropdownOpen ? patientSearchQuery : (selectedPatient?.name ?? "")}
+                  onChange={(e) => {
+                    setPatientSearchQuery(e.target.value);
+                    if (!isPatientDropdownOpen) setIsPatientDropdownOpen(true);
+                  }}
+                  onFocus={() => {
+                    setIsPatientDropdownOpen(true);
+                    setPatientSearchQuery("");
+                  }}
+                  disabled={patients.length === 0}
+                />
+              </div>
+              {isPatientDropdownOpen && (
+                <div
+                  className="absolute z-30 mt-1.5 w-full max-w-md overflow-hidden rounded-xl border border-border/60 bg-background/80 shadow-2xl shadow-black/10 ring-1 ring-black/[0.03] backdrop-blur-xl dark:border-border/40 dark:bg-background/70 dark:shadow-black/30 dark:ring-white/[0.04]"
+                  style={{ animation: "dropdownFadeIn 0.18s ease-out" }}
+                >
+                  <style>{`
+                    @keyframes dropdownFadeIn {
+                      from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+                      to   { opacity: 1; transform: translateY(0) scale(1); }
+                    }
+                  `}</style>
+                  {filteredPatients.length > 0 && (
+                    <div className="px-3 pt-2.5 pb-1.5">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                        {patientSearchQuery ? `${filteredPatients.length} result${filteredPatients.length === 1 ? "" : "s"}` : "All patients"}
+                      </p>
+                    </div>
+                  )}
+                  <ul className="max-h-64 overflow-y-auto px-1.5 pb-1.5 scrollbar-thin">
+                    {filteredPatients.length > 0 ? (
+                      filteredPatients.map((patient) => {
+                        const isSelected = patient.id === selectedPatientId;
+                        const initials = patient.name
+                          .split(" ")
+                          .map((w) => w[0])
+                          .join("")
+                          .toUpperCase()
+                          .slice(0, 2);
+                        return (
+                          <li key={patient.id}>
+                            <button
+                              type="button"
+                              className={cn(
+                                "group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-all duration-150 cursor-pointer",
+                                isSelected
+                                  ? "bg-primary/10 text-primary dark:bg-primary/15"
+                                  : "text-foreground hover:bg-muted/70 dark:hover:bg-muted/40",
+                              )}
+                              onClick={() => handleSelectPatient(patient)}
+                            >
+                              <span
+                                className={cn(
+                                  "grid size-8 shrink-0 place-items-center rounded-full text-xs font-bold transition-colors duration-150",
+                                  isSelected
+                                    ? "bg-primary text-primary-foreground shadow-sm shadow-primary/25"
+                                    : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary dark:group-hover:bg-primary/20",
+                                )}
+                              >
+                                {initials}
+                              </span>
+                              <span className="min-w-0 flex-1 truncate font-medium">
+                                {patient.name}
+                              </span>
+                              {isSelected && (
+                                <Check className="size-4 shrink-0 text-primary" />
+                              )}
+                            </button>
+                          </li>
+                        );
+                      })
+                    ) : (
+                      <li className="flex flex-col items-center gap-1.5 px-3 py-6 text-center">
+                        <User className="size-5 text-muted-foreground/40" />
+                        <p className="text-sm font-medium text-muted-foreground/70">
+                          No patients found
+                        </p>
+                        <p className="text-xs text-muted-foreground/50">
+                          Try a different search term
+                        </p>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
             <div className="relative w-full sm:max-w-xs">
               <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />

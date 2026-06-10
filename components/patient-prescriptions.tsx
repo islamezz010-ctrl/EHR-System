@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CustomSelect } from "@/components/ui/custom-select";
 import type { Patient, Appointment } from "@/lib/clinical-types";
 import { getMedicationsForPatient, type MedicationRecord } from "@/lib/medications";
 import { getPatientInsuranceInfo } from "@/lib/patient-profile";
@@ -15,9 +16,6 @@ type PatientPrescriptionsProps = {
   patients: Patient[];
   medications: MedicationRecord[];
 };
-
-const selectClassName =
-  "flex h-9 w-full max-w-md rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
 
 export function PatientPrescriptions({ patients, medications }: PatientPrescriptionsProps) {
   const [selectedPatientId, setSelectedPatientId] = useState(
@@ -35,6 +33,13 @@ export function PatientPrescriptions({ patients, medications }: PatientPrescript
       setSelectedPatientId(patients[0].id);
     }
   }, [patients, selectedPatientId]);
+
+  const patientOptions = useMemo(() => {
+    return patients.map((p) => ({
+      value: p.id,
+      label: p.name,
+    }));
+  }, [patients]);
 
   const patientIndex = patients.findIndex((p) => p.id === selectedPatientId);
   const selectedPatient = patients[patientIndex] ?? null;
@@ -85,18 +90,16 @@ export function PatientPrescriptions({ patients, medications }: PatientPrescript
           <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">Prescription Center</h2>
           <p className="text-sm text-muted-foreground">Active prescriptions, order refills, and view preferred pharmacy details</p>
         </div>
-        <select
+        <CustomSelect
+          options={patientOptions}
           value={selectedPatientId}
-          onChange={(e) => setSelectedPatientId(e.target.value)}
-          className={selectClassName}
+          onChange={setSelectedPatientId}
+          placeholder="Select patient"
           disabled={patients.length === 0}
-        >
-          {patients.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-        </select>
+          className="max-w-md w-full"
+          showSearch
+          showAvatars
+        />
       </div>
 
       {/* Stats Cards */}

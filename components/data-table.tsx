@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({
     <div className={cn("space-y-3", className)}>
       <div
         className={cn(
-          "overflow-hidden rounded-lg bg-card",
+          "overflow-clip rounded-lg bg-card",
           !compact && "border border-border shadow-sm",
         )}
       >

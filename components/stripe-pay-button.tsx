@@ -116,7 +116,7 @@ export function StripePayButton({
       <div className={cn("space-y-2", className)}>
         <Button
           size="lg"
-          className="w-full bg-[#635bff] hover:bg-[#5851ea] text-white"
+          className="w-full bg-primary hover:bg-primary/80 text-primary-foreground"
           disabled={loading || totalDue <= 0 || payableBills.length === 0}
           onClick={handlePay}
         >
@@ -138,7 +138,7 @@ export function StripePayButton({
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <span className="rounded bg-[#635bff] px-2 py-0.5 text-xs font-bold text-white">
+              <span className="rounded bg-primary px-2 py-0.5 text-xs font-bold text-primary-foreground">
                 stripe
               </span>
               Secure checkout
@@ -171,7 +171,7 @@ export function StripePayButton({
 
           <DialogFooter>
             <Button
-              className="w-full bg-[#635bff] hover:bg-[#5851ea] text-white"
+              className="w-full bg-primary hover:bg-primary/80 text-primary-foreground"
               disabled={mockProcessing}
               onClick={handleMockPay}
             >

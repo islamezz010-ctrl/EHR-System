@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CalendarDays, UserPlus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { CustomSelect } from "@/components/ui/custom-select";
 import {
   Card,
   CardContent,
@@ -33,6 +34,20 @@ type FormState = {
   temperature: string;
   oxygenSaturation: string;
 };
+
+const genderOptions = [
+  { value: "Male", label: "Male" },
+  { value: "Female", label: "Female" },
+  { value: "Non-binary", label: "Non-binary" },
+  { value: "Other", label: "Other" },
+  { value: "Prefer not to say", label: "Prefer not to say" },
+];
+
+const statusOptions = [
+  { value: "Scheduled", label: "Scheduled" },
+  { value: "Waiting", label: "Waiting" },
+  { value: "In-Room", label: "In-Room" },
+];
 
 function createEmptyForm(): FormState {
   return {
@@ -186,34 +201,21 @@ export function AddPatientForm({ onAdd }: AddPatientFormProps) {
               </div>
               <div className="space-y-2">
                 <FieldLabel htmlFor="gender">Gender</FieldLabel>
-                <select
-                  id="gender"
+                <CustomSelect
+                  options={genderOptions}
                   value={form.gender}
-                  onChange={(e) => update("gender", e.target.value)}
-                  className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                >
-                  <option value="">Select gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Non-binary">Non-binary</option>
-                  <option value="Other">Other</option>
-                  <option value="Prefer not to say">Prefer not to say</option>
-                </select>
+                  onChange={(val) => update("gender", val)}
+                  placeholder="Select gender"
+                />
               </div>
               <div className="space-y-2">
                 <FieldLabel htmlFor="status">Status</FieldLabel>
-                <select
-                  id="status"
+                <CustomSelect
+                  options={statusOptions}
                   value={form.status}
-                  onChange={(e) =>
-                    update("status", e.target.value as AppointmentStatus)
-                  }
-                  className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                >
-                  <option value="Scheduled">Scheduled</option>
-                  <option value="Waiting">Waiting</option>
-                  <option value="In-Room">In-Room</option>
-                </select>
+                  onChange={(val) => update("status", val as AppointmentStatus)}
+                  placeholder="Select status"
+                />
               </div>
               <div className="space-y-2">
                 <FieldLabel htmlFor="appointment-date">Appointment date</FieldLabel>

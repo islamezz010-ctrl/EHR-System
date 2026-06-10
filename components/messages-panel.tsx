@@ -330,7 +330,7 @@ export function MessagesPanel({ onUnreadTotalChange }: MessagesPanelProps) {
   };
 
   return (
-    <div className="flex h-[calc(100vh-10rem)] min-h-[560px] overflow-hidden rounded-2xl bg-[#F8F9FB] shadow-[0_4px_24px_rgba(15,23,42,0.08)] dark:bg-card dark:shadow-none">
+    <div className="flex h-[calc(100vh-10rem)] min-h-[560px] overflow-clip rounded-2xl bg-[#F8F9FB] shadow-[0_4px_24px_rgba(15,23,42,0.08)] dark:bg-card dark:shadow-none">
       {/* Left sidebar */}
       <aside className="flex w-full max-w-[340px] shrink-0 flex-col border-r border-[#E8ECF0] bg-[#F8F9FB] dark:border-border dark:bg-muted/20">
         <div className="px-5 pt-5 pb-4">

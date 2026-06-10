@@ -15,6 +15,7 @@ import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { CustomSelect } from "@/components/ui/custom-select";
 import type { Patient } from "@/lib/clinical-types";
 import { getInitials } from "@/lib/clinical-types";
 import {
@@ -24,9 +25,6 @@ import {
   getProfileSummary,
 } from "@/lib/patient-profile";
 import { cn } from "@/lib/utils";
-
-const selectClassName =
-  "flex h-9 w-full max-w-xs rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
 
 type PatientProfileProps = {
   patients: Patient[];
@@ -143,6 +141,13 @@ export function PatientProfile({ patients, userRole }: PatientProfileProps) {
     }
   }, [patients, selectedPatientId]);
 
+  const patientOptions = useMemo(() => {
+    return patients.map((p) => ({
+      value: p.id,
+      label: p.name,
+    }));
+  }, [patients]);
+
   const patientIndex = patients.findIndex((p) => p.id === selectedPatientId);
   const patient = patients[patientIndex] ?? null;
 
@@ -184,18 +189,16 @@ export function PatientProfile({ patients, userRole }: PatientProfileProps) {
           </p>
         </div>
         {userRole !== "patient" && (
-          <select
+          <CustomSelect
+            options={patientOptions}
             value={selectedPatientId}
-            onChange={(e) => setSelectedPatientId(e.target.value)}
-            className={selectClassName}
+            onChange={setSelectedPatientId}
+            placeholder="Select patient"
             disabled={patients.length === 0}
-          >
-            {patients.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
+            className="max-w-xs w-full"
+            showSearch
+            showAvatars
+          />
         )}
       </div>
 

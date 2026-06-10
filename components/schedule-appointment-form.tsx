@@ -6,6 +6,7 @@ import { CalendarDays, Eye, Pencil, Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CustomSelect } from "@/components/ui/custom-select";
 import {
   Card,
   CardContent,
@@ -37,6 +38,14 @@ type FormState = {
   temperature: string;
   oxygenSaturation: string;
 };
+
+const genderOptions = [
+  { value: "Male", label: "Male" },
+  { value: "Female", label: "Female" },
+  { value: "Non-binary", label: "Non-binary" },
+  { value: "Other", label: "Other" },
+  { value: "Prefer not to say", label: "Prefer not to say" },
+];
 
 function createEmptyForm(): FormState {
   return {
@@ -285,19 +294,12 @@ export function ScheduleAppointmentForm({
                 </div>
                 <div className="space-y-2">
                   <FieldLabel htmlFor="schedule-gender">Gender</FieldLabel>
-                  <select
-                    id="schedule-gender"
+                  <CustomSelect
+                    options={genderOptions}
                     value={form.gender}
-                    onChange={(e) => update("gender", e.target.value)}
-                    className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                  >
-                    <option value="">Select gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Non-binary">Non-binary</option>
-                    <option value="Other">Other</option>
-                    <option value="Prefer not to say">Prefer not to say</option>
-                  </select>
+                    onChange={(val) => update("gender", val)}
+                    placeholder="Select gender"
+                  />
                 </div>
                 <div className="space-y-2">
                   <FieldLabel htmlFor="schedule-phone">Phone number</FieldLabel>

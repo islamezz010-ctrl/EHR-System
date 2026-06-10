@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ClipboardPlus, Pill } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { CustomSelect } from "@/components/ui/custom-select";
 import {
   Card,
   CardContent,
@@ -32,9 +33,6 @@ type AddMedicationFormProps = {
   patients: Patient[];
   onAdd: (input: NewMedicationInput) => void;
 };
-
-const selectClassName =
-  "flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
 
 function createEmptyForm(patientId = ""): FormState {
   return {
@@ -111,6 +109,13 @@ export function AddMedicationForm({
     [patients, selectedPatientId],
   );
 
+  const patientOptions = useMemo(() => {
+    return patients.map((p) => ({
+      value: p.id,
+      label: p.name,
+    }));
+  }, [patients]);
+
   const update = <K extends keyof FormState>(field: K, value: FormState[K]) => {
     setError(null);
     setNotice(null);
@@ -163,24 +168,17 @@ export function AddMedicationForm({
               Patient &amp; medication
             </h3>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2 sm:col-span-2">
+              <div className="space-y-2 sm:col-span-1">
                 <FieldLabel htmlFor="medication-patient">Patient</FieldLabel>
-                <select
-                  id="medication-patient"
+                <CustomSelect
+                  options={patientOptions}
                   value={selectedPatientId}
-                  onChange={(e) => update("patientId", e.target.value)}
-                  className={selectClassName}
+                  onChange={(val) => update("patientId", val)}
+                  placeholder="Select a patient"
                   disabled={patients.length === 0}
-                >
-                  {patients.length === 0 ? (
-                    <option value="">No patients available</option>
-                  ) : null}
-                  {patients.map((patient) => (
-                    <option key={patient.id} value={patient.id}>
-                      {patient.name}
-                    </option>
-                  ))}
-                </select>
+                  showSearch
+                  showAvatars
+                />
               </div>
               <div className="space-y-2">
                 <FieldLabel htmlFor="medication-name">Medication name</FieldLabel>

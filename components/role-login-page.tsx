@@ -1,19 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import {
-  Activity,
-  ShieldCheck,
-  Stethoscope,
-  UserRound,
-} from "lucide-react";
+import { Activity, ShieldCheck, Stethoscope, UserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import {
-  ROLE_OPTIONS,
-  setStoredRole,
-  type UserRole,
-} from "@/lib/user-role";
+import { ROLE_OPTIONS, setStoredRole, type UserRole } from "@/lib/user-role";
 
 const TEAL = "#26C6DA";
 
@@ -47,7 +38,7 @@ export function RoleLoginPage() {
 
       <div className="relative z-10 w-full max-w-4xl">
         <div className="mb-10 text-center">
-          <div className="mx-auto mb-5 grid size-14 place-items-center rounded-2xl bg-[#3d3bdc] text-white shadow-lg">
+          <div className="mx-auto mb-5 grid size-14 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
             <Activity className="size-7" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-[#1A202C] dark:text-slate-50 sm:text-4xl">

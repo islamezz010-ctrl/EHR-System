@@ -1,11 +1,26 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ClipboardList, Search, Activity, Calendar, ShieldCheck, HeartPulse, User } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  ClipboardList,
+  Search,
+  Activity,
+  Calendar,
+  ShieldCheck,
+  HeartPulse,
+  User,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CustomSelect } from "@/components/ui/custom-select";
 import type { Patient } from "@/lib/clinical-types";
 import type { MedicalRecordEntry } from "@/lib/medical-records";
 import { cn } from "@/lib/utils";
@@ -26,14 +41,13 @@ type DiagnosisItem = {
   notes: string;
 };
 
-const selectClassName =
-  "flex h-9 w-full max-w-md rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50";
-
 export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
   const [selectedPatientId, setSelectedPatientId] = useState(
     patients[0]?.id ?? "",
   );
-  const [statusFilter, setStatusFilter] = useState<"All" | "Active" | "Resolved">("All");
+  const [statusFilter, setStatusFilter] = useState<
+    "All" | "Active" | "Resolved"
+  >("All");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -51,23 +65,32 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
     [patients, selectedPatientId],
   );
 
+  const patientOptions = useMemo(() => {
+    return patients.map((p) => ({
+      value: p.id,
+      label: p.name,
+    }));
+  }, [patients]);
+
   // Build diagnoses list based on patient data & medical records
   const diagnoses = useMemo((): DiagnosisItem[] => {
     if (!selectedPatient) return [];
 
     const items: DiagnosisItem[] = [];
     const chronic = selectedPatient.medicalProfile.chronicConditions;
-    
+
     // Add chronic conditions
     chronic.forEach((cond, index) => {
       let icd = "I10"; // Default Essential Hypertension
       let severity: "Chronic" | "Acute" | "Mild" = "Chronic";
-      let notes = "Ongoing management of chronic condition. Patient on active pharmaceutical therapy.";
+      let notes =
+        "Ongoing management of chronic condition. Patient on active pharmaceutical therapy.";
       let date = "Jan 12, 2019";
 
       if (cond.includes("Diabetes")) {
         icd = "E11.9";
-        notes = "Type 2 Diabetes Mellitus without complications. Monitoring HbA1c and glycemic values.";
+        notes =
+          "Type 2 Diabetes Mellitus without complications. Monitoring HbA1c and glycemic values.";
         date = "Oct 22, 2021";
       } else if (cond.includes("Asthma")) {
         icd = "J45.909";
@@ -83,11 +106,13 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
         date = "Nov 19, 2024";
       } else if (cond.includes("Osteoarthritis")) {
         icd = "M19.90";
-        notes = "Osteoarthritis, unspecified site. Conservative management with OTC pain relievers.";
+        notes =
+          "Osteoarthritis, unspecified site. Conservative management with OTC pain relievers.";
         date = "Feb 28, 2020";
       } else if (cond.includes("GERD")) {
         icd = "K21.9";
-        notes = "Gastro-esophageal reflux disease without esophagitis. Lifestyle measures reinforced.";
+        notes =
+          "Gastro-esophageal reflux disease without esophagitis. Lifestyle measures reinforced.";
         date = "Jun 11, 2023";
       }
 
@@ -104,19 +129,26 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
     });
 
     // Extract acute visit diagnoses from their medical records
-    const patientRecords = records.filter((r) => r.patientId === selectedPatientId);
+    const patientRecords = records.filter(
+      (r) => r.patientId === selectedPatientId,
+    );
     patientRecords.forEach((record, index) => {
-      if (record.visitType.includes("Urgent") || record.visitType.includes("Symptom")) {
+      if (
+        record.visitType.includes("Urgent") ||
+        record.visitType.includes("Symptom")
+      ) {
         let condition = "Acute Pharyngitis";
         let icd = "J02.9";
-        let notes = "Acute onset throat pain, positive rapid antigen strep screen. Finished full course antibiotics.";
+        let notes =
+          "Acute onset throat pain, positive rapid antigen strep screen. Finished full course antibiotics.";
         let status: "Active" | "Resolved" = "Resolved"; // Past acute visits are usually resolved
         let severity: "Chronic" | "Acute" | "Mild" = "Acute";
 
         if (record.clinicalFindings.includes("Migraine")) {
           condition = "Acute Migraine Headache";
           icd = "G43.909";
-          notes = "Acute migraine exacerbation. Handled and resolved with clinic Sumatriptan dose.";
+          notes =
+            "Acute migraine exacerbation. Handled and resolved with clinic Sumatriptan dose.";
         }
 
         items.push({
@@ -137,7 +169,7 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
 
   const filtered = useMemo(() => {
     let result = diagnoses;
-    
+
     // Apply Status Filter
     if (statusFilter !== "All") {
       result = result.filter((d) => d.status === statusFilter);
@@ -150,19 +182,27 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
         (d) =>
           d.condition.toLowerCase().includes(q) ||
           d.icdCode.toLowerCase().includes(q) ||
-          d.notes.toLowerCase().includes(q)
+          d.notes.toLowerCase().includes(q),
       );
     }
 
     return result;
   }, [diagnoses, statusFilter, searchQuery]);
 
-  const activeCount = useMemo(() => diagnoses.filter((d) => d.status === "Active").length, [diagnoses]);
-  const resolvedCount = useMemo(() => diagnoses.filter((d) => d.status === "Resolved").length, [diagnoses]);
+  const activeCount = useMemo(
+    () => diagnoses.filter((d) => d.status === "Active").length,
+    [diagnoses],
+  );
+  const resolvedCount = useMemo(
+    () => diagnoses.filter((d) => d.status === "Resolved").length,
+    [diagnoses],
+  );
 
   if (!selectedPatient) {
     return (
-      <div className="p-5 text-center text-muted-foreground">No patient selected.</div>
+      <div className="p-5 text-center text-muted-foreground">
+        No patient selected.
+      </div>
     );
   }
 
@@ -170,21 +210,24 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">Clinical Diagnoses</h2>
-          <p className="text-sm text-muted-foreground">Active health conditions, resolved diagnoses, and ICD-10 medical records</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">
+            Clinical Diagnoses
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Active health conditions, resolved diagnoses, and ICD-10 medical
+            records
+          </p>
         </div>
-        <select
+        <CustomSelect
+          options={patientOptions}
           value={selectedPatientId}
-          onChange={(e) => setSelectedPatientId(e.target.value)}
-          className={selectClassName}
+          onChange={setSelectedPatientId}
+          placeholder="Select patient"
           disabled={patients.length === 0}
-        >
-          {patients.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-        </select>
+          className="max-w-md w-full"
+          showSearch
+          showAvatars
+        />
       </div>
 
       {/* Stats Section */}
@@ -196,7 +239,9 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Active Conditions</p>
-              <h3 className="text-2xl font-bold text-red-600 dark:text-red-400">{activeCount}</h3>
+              <h3 className="text-2xl font-bold text-red-600 dark:text-red-400">
+                {activeCount}
+              </h3>
             </div>
           </div>
         </Card>
@@ -206,8 +251,12 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
               <ShieldCheck className="size-6" />
             </div>
             <div>
-              <p className="text-xs text-muted-foreground">Resolved Conditions</p>
-              <h3 className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{resolvedCount}</h3>
+              <p className="text-xs text-muted-foreground">
+                Resolved Conditions
+              </p>
+              <h3 className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                {resolvedCount}
+              </h3>
             </div>
           </div>
         </Card>
@@ -223,7 +272,11 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
                 variant={statusFilter === "All" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setStatusFilter("All")}
-                className={statusFilter === "All" ? "bg-[#3d3bdc] text-white hover:bg-[#3230b7]" : "bg-white dark:bg-gray-800"}
+                className={
+                  statusFilter === "All"
+                    ? "bg-primary text-primary-foreground hover:bg-primary/80"
+                    : "bg-white dark:bg-gray-800"
+                }
               >
                 All ({diagnoses.length})
               </Button>
@@ -231,7 +284,11 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
                 variant={statusFilter === "Active" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setStatusFilter("Active")}
-                className={statusFilter === "Active" ? "bg-[#3d3bdc] text-white hover:bg-[#3230b7]" : "bg-white dark:bg-gray-800"}
+                className={
+                  statusFilter === "Active"
+                    ? "bg-primary text-primary-foreground hover:bg-primary/80"
+                    : "bg-white dark:bg-gray-800"
+                }
               >
                 Active ({activeCount})
               </Button>
@@ -239,7 +296,11 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
                 variant={statusFilter === "Resolved" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setStatusFilter("Resolved")}
-                className={statusFilter === "Resolved" ? "bg-[#3d3bdc] text-white hover:bg-[#3230b7]" : "bg-white dark:bg-gray-800"}
+                className={
+                  statusFilter === "Resolved"
+                    ? "bg-primary text-primary-foreground hover:bg-primary/80"
+                    : "bg-white dark:bg-gray-800"
+                }
               >
                 Resolved ({resolvedCount})
               </Button>
@@ -271,8 +332,13 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
                 >
                   <div className="space-y-2">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h4 className="text-md font-bold text-slate-850 dark:text-slate-50">{diag.condition}</h4>
-                      <Badge variant="outline" className="font-mono text-xs border-slate-200">
+                      <h4 className="text-md font-bold text-slate-850 dark:text-slate-50">
+                        {diag.condition}
+                      </h4>
+                      <Badge
+                        variant="outline"
+                        className="font-mono text-xs border-slate-200"
+                      >
                         {diag.icdCode}
                       </Badge>
                       <Badge
@@ -281,7 +347,7 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
                           "border-0 text-[10px] uppercase font-bold tracking-wider",
                           diag.status === "Active"
                             ? "bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400"
-                            : "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400"
+                            : "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400",
                         )}
                       >
                         {diag.status}
@@ -290,9 +356,12 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
                         variant="outline"
                         className={cn(
                           "border-0 text-[10px] uppercase font-bold tracking-wider",
-                          diag.severity === "Chronic" && "bg-orange-100 text-orange-700 dark:bg-orange-950/30 dark:text-orange-400",
-                          diag.severity === "Acute" && "bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400",
-                          diag.severity === "Mild" && "bg-slate-100 text-slate-700 dark:bg-slate-950/30 dark:text-slate-400"
+                          diag.severity === "Chronic" &&
+                            "bg-orange-100 text-orange-700 dark:bg-orange-950/30 dark:text-orange-400",
+                          diag.severity === "Acute" &&
+                            "bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400",
+                          diag.severity === "Mild" &&
+                            "bg-slate-100 text-slate-700 dark:bg-slate-950/30 dark:text-slate-400",
                         )}
                       >
                         {diag.severity}
@@ -306,11 +375,15 @@ export function PatientDiagnoses({ patients, records }: PatientDiagnosesProps) {
                   <div className="shrink-0 flex flex-col gap-1.5 text-xs text-muted-foreground sm:text-right border-t border-slate-50 pt-3 sm:border-t-0 sm:pt-0">
                     <div className="flex items-center gap-1.5 sm:justify-end">
                       <Calendar className="size-3.5" />
-                      <span>Diagnosed: <strong>{diag.dateDiagnosed}</strong></span>
+                      <span>
+                        Diagnosed: <strong>{diag.dateDiagnosed}</strong>
+                      </span>
                     </div>
                     <div className="flex items-center gap-1.5 sm:justify-end">
                       <User className="size-3.5" />
-                      <span>Physician: <strong>{diag.provider}</strong></span>
+                      <span>
+                        Physician: <strong>{diag.provider}</strong>
+                      </span>
                     </div>
                   </div>
                 </div>
